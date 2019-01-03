@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../MavPPM-mavlink/MPMavlink/MPMavlink.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../MavPPM-iOS-CommLayer/MPCommLayer/MPCommLayer.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:MavPPM/MavPPM.xcodeproj">
+   </FileRef>
+</Workspace>
