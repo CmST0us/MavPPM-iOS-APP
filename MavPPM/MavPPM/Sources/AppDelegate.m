@@ -7,9 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import "MPConnectViewController.h"
 
 @interface AppDelegate ()
-
+@property (nonatomic, strong) MPConnectViewController *connectVC;
 @end
 
 @implementation AppDelegate
@@ -17,6 +18,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    _connectVC = [[MPConnectViewController alloc] init];
+    _window.rootViewController = _connectVC;
+    [_window makeKeyAndVisible];
     return YES;
 }
 
