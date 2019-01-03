@@ -11,11 +11,13 @@
 @implementation NSObject (ClassDomain)
 
 - (NSString *)classDomainWithName:(NSString *)name {
-    return @"";
+    NSString *str = [[NSString alloc] initWithFormat:@"com.MavPPM.%@.%@", NSStringFromClass([self class]), name];
+    return str;
 }
 
 - (NSString *)classDomain {
-    return @"";
+    NSString *str = [[NSString alloc] initWithFormat:@"com.MavPPM.%@", NSStringFromClass([self class])];
+    return str;
 }
 
 @end

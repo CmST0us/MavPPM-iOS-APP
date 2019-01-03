@@ -9,6 +9,7 @@
 #import <Masonry/Masonry.h>
 
 #import "MPDebugViewController.h"
+#import "NSObject+ClassDomain.h"
 
 @interface MPDebugViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *debugListTableView;
@@ -30,7 +31,7 @@
     self.debugListTableView = [[UITableView alloc] init];
     self.debugListTableView.delegate = self;
     self.debugListTableView.dataSource = self;
-    [self.debugListTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    [self.debugListTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:[self classDomainWithName:@"cell"]];
     [self.view addSubview:self.debugListTableView];
     
 }
@@ -66,7 +67,7 @@
 
 #pragma mark - Table View Data Source & Delegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[self classDomainWithName:@"cell"] forIndexPath:indexPath];
     NSArray *debugContent = [self debugList][indexPath.row];
     cell.textLabel.text = debugContent[0];
     return cell;
