@@ -118,7 +118,7 @@
             }
         } else {
             weakSelf.lastHeartbeatCount = weakSelf.heartbeatCount;
-            weakSelf.heartbeatLostCount = 0;	
+            weakSelf.heartbeatLostCount = 0;
         }
     }];
 }
