@@ -131,7 +131,7 @@
     [self.checkConnectionTimer invalidate];
     self.checkConnectionTimer = nil;
     
-    self.heartbeatCount = 0;
+    self.heartbeatLostCount = 0;
     self.isConnected = NO;
 }
 
