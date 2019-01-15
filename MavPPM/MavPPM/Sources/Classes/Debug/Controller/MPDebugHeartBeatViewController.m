@@ -12,10 +12,10 @@
 
 #import "MPDebugHeartBeatViewController.h"
 
-@interface MPDebugHeartBeatViewController () <MPCommunicatorServiceDelegate, MVMavlinkDelegate>
+@interface MPDebugHeartBeatViewController () <MPCommDelegate, MVMavlinkDelegate>
 
 @property (nonatomic, strong) MVMavlink *mavlink;
-@property (nonatomic, strong) MPUDPServer *udpLink;
+@property (nonatomic, strong) MPUDPSocket *udpLink;
 
 @property (nonatomic, strong) NSTimer *heartbeatTimer;
 @property (nonatomic, strong) NSTimer *checkConnectionTimer;
@@ -98,10 +98,8 @@
     NSString *remoteIP = [self.targetAddressTextField.text componentsSeparatedByString:@":"][0];
     short remotePort = (short)[[self.targetAddressTextField.text componentsSeparatedByString:@":"][1] intValue];
     
-    self.udpLink = [[MPUDPServer alloc] initWithListenPort:14560];
-    self.udpLink.delegate = self;
-    [self.udpLink setRemoteClientAddress:remoteIP port:remotePort];
-    [self.udpLink start];
+    self.udpLink = [[MPUDPSocket alloc] initWithLocalPort:14560 delegate:self];
+    [self.udpLink connect:remoteIP port:remotePort];
     
     __weak typeof(self) weakSelf = self;
     self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
@@ -151,7 +149,6 @@
     _mavlink = [[MVMavlink alloc] init];
     _mavlink.delegate = self;
     
-    __weak typeof(self) weakSelf = self;
 }
 
 
@@ -181,8 +178,14 @@
 }
 
 #pragma mark - Delegate
-- (void)service:(id)service didReadData:(NSData *)data fromRemote:(NSURL *)remote {
+- (void)communicator:(id)aCommunicator didReadData:(NSData *)data {
     [self.mavlink parseData:data];
+}
+
+- (void)communicator:(id)aCommunicator handleEvent:(MPCommEvent)event {
+    if (event == MPCommEventHasBytesAvailable) {
+        [aCommunicator read];
+    }
 }
 
 - (void)mavlink:(MVMavlink *)mavlink didGetMessage:(id<MVMessage>)message {
@@ -203,7 +206,8 @@
 
 - (BOOL)mavlink:(MVMavlink *)mavlink shouldWriteData:(NSData *)data {
     if (self.udpLink) {
-        return [self.udpLink writeData:data];
+        [self.udpLink write:data];
+        return YES;
     }
     return NO;
 }
