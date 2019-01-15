@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4F5CBCED21DE41840007976C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5CBCEC21DE41840007976C /* AppDelegate.m */; };
 		4F5CBCF021DE41840007976C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5CBCEF21DE41840007976C /* ViewController.m */; };
-		4F5CBCF321DE41840007976C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F5CBCF121DE41840007976C /* Main.storyboard */; };
 		4F5CBCF521DE41850007976C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F5CBCF421DE41850007976C /* Assets.xcassets */; };
 		4F5CBCF821DE41850007976C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F5CBCF621DE41850007976C /* LaunchScreen.storyboard */; };
 		4F5CBCFB21DE41850007976C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5CBCFA21DE41850007976C /* main.m */; };
@@ -17,6 +16,15 @@
 		4F5CBD0421DE420F0007976C /* MPMavlink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5CBD0221DE420F0007976C /* MPMavlink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F5CBD0721DE42120007976C /* MPCommLayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5CBD0621DE42120007976C /* MPCommLayer.framework */; };
 		4F5CBD0821DE42120007976C /* MPCommLayer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5CBD0621DE42120007976C /* MPCommLayer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F5CBD1721DE4E600007976C /* MPNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5CBD1621DE4E600007976C /* MPNavigationController.m */; };
+		4F5CBD1A21DE4E6F0007976C /* MPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5CBD1921DE4E6F0007976C /* MPViewController.m */; };
+		4F5CBD1D21DE4E7C0007976C /* MPView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5CBD1C21DE4E7C0007976C /* MPView.m */; };
+		4F5CBD2121DE4FA40007976C /* MPConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5CBD2021DE4FA40007976C /* MPConnectViewController.m */; };
+		4F5CBD2621DE506A0007976C /* MPDebugHeartBeatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5CBD2521DE506A0007976C /* MPDebugHeartBeatViewController.m */; };
+		4F5CBD2921DE51780007976C /* MPDebugViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5CBD2821DE51780007976C /* MPDebugViewController.m */; };
+		4F5CBD2B21DE53A40007976C /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5CBD2A21DE53A40007976C /* Masonry.framework */; };
+		4F5CBD2C21DE53A40007976C /* Masonry.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5CBD2A21DE53A40007976C /* Masonry.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F5CBD3021DE571F0007976C /* NSObject+ClassDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5CBD2F21DE571F0007976C /* NSObject+ClassDomain.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +36,7 @@
 			files = (
 				4F5CBD0421DE420F0007976C /* MPMavlink.framework in Embed Frameworks */,
 				4F5CBD0821DE42120007976C /* MPCommLayer.framework in Embed Frameworks */,
+				4F5CBD2C21DE53A40007976C /* Masonry.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -40,13 +49,27 @@
 		4F5CBCEC21DE41840007976C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		4F5CBCEE21DE41840007976C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		4F5CBCEF21DE41840007976C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		4F5CBCF221DE41840007976C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4F5CBCF421DE41850007976C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F5CBCF721DE41850007976C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F5CBCF921DE41850007976C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F5CBCFA21DE41850007976C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4F5CBD0221DE420F0007976C /* MPMavlink.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MPMavlink.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F5CBD0621DE42120007976C /* MPCommLayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MPCommLayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F5CBD1521DE4E600007976C /* MPNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPNavigationController.h; sourceTree = "<group>"; };
+		4F5CBD1621DE4E600007976C /* MPNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPNavigationController.m; sourceTree = "<group>"; };
+		4F5CBD1821DE4E6F0007976C /* MPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPViewController.h; sourceTree = "<group>"; };
+		4F5CBD1921DE4E6F0007976C /* MPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPViewController.m; sourceTree = "<group>"; };
+		4F5CBD1B21DE4E7C0007976C /* MPView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPView.h; sourceTree = "<group>"; };
+		4F5CBD1C21DE4E7C0007976C /* MPView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPView.m; sourceTree = "<group>"; };
+		4F5CBD1F21DE4FA40007976C /* MPConnectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPConnectViewController.h; sourceTree = "<group>"; };
+		4F5CBD2021DE4FA40007976C /* MPConnectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPConnectViewController.m; sourceTree = "<group>"; };
+		4F5CBD2421DE506A0007976C /* MPDebugHeartBeatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugHeartBeatViewController.h; sourceTree = "<group>"; };
+		4F5CBD2521DE506A0007976C /* MPDebugHeartBeatViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugHeartBeatViewController.m; sourceTree = "<group>"; };
+		4F5CBD2721DE51780007976C /* MPDebugViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugViewController.h; sourceTree = "<group>"; };
+		4F5CBD2821DE51780007976C /* MPDebugViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugViewController.m; sourceTree = "<group>"; };
+		4F5CBD2A21DE53A40007976C /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = ../../Vendor/Masonry.framework; sourceTree = "<group>"; };
+		4F5CBD2E21DE571F0007976C /* NSObject+ClassDomain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+ClassDomain.h"; sourceTree = "<group>"; };
+		4F5CBD2F21DE571F0007976C /* NSObject+ClassDomain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ClassDomain.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +79,7 @@
 			files = (
 				4F5CBD0321DE420F0007976C /* MPMavlink.framework in Frameworks */,
 				4F5CBD0721DE42120007976C /* MPCommLayer.framework in Frameworks */,
+				4F5CBD2B21DE53A40007976C /* Masonry.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +89,7 @@
 		4F5CBCDF21DE41840007976C = {
 			isa = PBXGroup;
 			children = (
+				4F5CBD2A21DE53A40007976C /* Masonry.framework */,
 				4F5CBD0621DE42120007976C /* MPCommLayer.framework */,
 				4F5CBD0221DE420F0007976C /* MPMavlink.framework */,
 				4F5CBCEA21DE41840007976C /* MavPPM */,
@@ -83,17 +108,134 @@
 		4F5CBCEA21DE41840007976C /* MavPPM */ = {
 			isa = PBXGroup;
 			children = (
-				4F5CBCEB21DE41840007976C /* AppDelegate.h */,
-				4F5CBCEC21DE41840007976C /* AppDelegate.m */,
-				4F5CBCEE21DE41840007976C /* ViewController.h */,
-				4F5CBCEF21DE41840007976C /* ViewController.m */,
-				4F5CBCF121DE41840007976C /* Main.storyboard */,
-				4F5CBCF421DE41850007976C /* Assets.xcassets */,
-				4F5CBCF621DE41850007976C /* LaunchScreen.storyboard */,
+				4F5CBD0B21DE487D0007976C /* Sources */,
+				4F5CBD0A21DE48680007976C /* Resources */,
 				4F5CBCF921DE41850007976C /* Info.plist */,
-				4F5CBCFA21DE41850007976C /* main.m */,
 			);
 			path = MavPPM;
+			sourceTree = "<group>";
+		};
+		4F5CBD0A21DE48680007976C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4F5CBCFA21DE41850007976C /* main.m */,
+				4F5CBCF421DE41850007976C /* Assets.xcassets */,
+				4F5CBCF621DE41850007976C /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		4F5CBD0B21DE487D0007976C /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				4F5CBCEB21DE41840007976C /* AppDelegate.h */,
+				4F5CBCEC21DE41840007976C /* AppDelegate.m */,
+				4F5CBD1421DE499D0007976C /* Base */,
+				4F5CBD0C21DE488A0007976C /* Classes */,
+				4F5CBCEE21DE41840007976C /* ViewController.h */,
+				4F5CBCEF21DE41840007976C /* ViewController.m */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		4F5CBD0C21DE488A0007976C /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4F5CBD2221DE4FB30007976C /* Debug */,
+				4F5CBD0F21DE49390007976C /* Setting */,
+				4F5CBD0E21DE49280007976C /* Control */,
+				4F5CBD0D21DE48E50007976C /* Connect */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		4F5CBD0D21DE48E50007976C /* Connect */ = {
+			isa = PBXGroup;
+			children = (
+				4F5CBD1E21DE4F780007976C /* Controller */,
+			);
+			path = Connect;
+			sourceTree = "<group>";
+		};
+		4F5CBD0E21DE49280007976C /* Control */ = {
+			isa = PBXGroup;
+			children = (
+				4F5CBD1221DE49580007976C /* Controller */,
+				4F5CBD1121DE49530007976C /* Model */,
+				4F5CBD1021DE49430007976C /* View */,
+			);
+			path = Control;
+			sourceTree = "<group>";
+		};
+		4F5CBD0F21DE49390007976C /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		4F5CBD1021DE49430007976C /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4F5CBD1121DE49530007976C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4F5CBD1221DE49580007976C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4F5CBD1421DE499D0007976C /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				4F5CBD1521DE4E600007976C /* MPNavigationController.h */,
+				4F5CBD1621DE4E600007976C /* MPNavigationController.m */,
+				4F5CBD1821DE4E6F0007976C /* MPViewController.h */,
+				4F5CBD1921DE4E6F0007976C /* MPViewController.m */,
+				4F5CBD1B21DE4E7C0007976C /* MPView.h */,
+				4F5CBD1C21DE4E7C0007976C /* MPView.m */,
+				4F5CBD2E21DE571F0007976C /* NSObject+ClassDomain.h */,
+				4F5CBD2F21DE571F0007976C /* NSObject+ClassDomain.m */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		4F5CBD1E21DE4F780007976C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4F5CBD1F21DE4FA40007976C /* MPConnectViewController.h */,
+				4F5CBD2021DE4FA40007976C /* MPConnectViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4F5CBD2221DE4FB30007976C /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				4F5CBD2321DE50470007976C /* Controller */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
+		4F5CBD2321DE50470007976C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4F5CBD2421DE506A0007976C /* MPDebugHeartBeatViewController.h */,
+				4F5CBD2521DE506A0007976C /* MPDebugHeartBeatViewController.m */,
+				4F5CBD2721DE51780007976C /* MPDebugViewController.h */,
+				4F5CBD2821DE51780007976C /* MPDebugViewController.m */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,7 +298,6 @@
 			files = (
 				4F5CBCF821DE41850007976C /* LaunchScreen.storyboard in Resources */,
 				4F5CBCF521DE41850007976C /* Assets.xcassets in Resources */,
-				4F5CBCF321DE41840007976C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,23 +308,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F5CBD1A21DE4E6F0007976C /* MPViewController.m in Sources */,
+				4F5CBD1721DE4E600007976C /* MPNavigationController.m in Sources */,
+				4F5CBD3021DE571F0007976C /* NSObject+ClassDomain.m in Sources */,
+				4F5CBD2121DE4FA40007976C /* MPConnectViewController.m in Sources */,
+				4F5CBD2921DE51780007976C /* MPDebugViewController.m in Sources */,
 				4F5CBCF021DE41840007976C /* ViewController.m in Sources */,
+				4F5CBD2621DE506A0007976C /* MPDebugHeartBeatViewController.m in Sources */,
 				4F5CBCFB21DE41850007976C /* main.m in Sources */,
 				4F5CBCED21DE41840007976C /* AppDelegate.m in Sources */,
+				4F5CBD1D21DE4E7C0007976C /* MPView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		4F5CBCF121DE41840007976C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4F5CBCF221DE41840007976C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		4F5CBCF621DE41850007976C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -246,7 +386,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -299,7 +439,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -313,6 +453,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2VQ94C2355;
+				FRAMEWORK_SEARCH_PATHS = "${PROJECT_DIR}/../../Vendor/";
 				INFOPLIST_FILE = MavPPM/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -331,6 +472,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2VQ94C2355;
+				FRAMEWORK_SEARCH_PATHS = "${PROJECT_DIR}/../../Vendor/";
 				INFOPLIST_FILE = MavPPM/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
