@@ -124,7 +124,7 @@
 - (void)stopHeartBeat {
     [self.udpLink close];
     self.udpLink = nil;
-    self.heartbeatTimer = nil;
+    
     [self.heartbeatTimer invalidate];
     self.heartbeatTimer = nil;
     
