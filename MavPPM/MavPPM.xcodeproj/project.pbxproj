@@ -25,6 +25,8 @@
 		4F5CBD2B21DE53A40007976C /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5CBD2A21DE53A40007976C /* Masonry.framework */; };
 		4F5CBD2C21DE53A40007976C /* Masonry.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5CBD2A21DE53A40007976C /* Masonry.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F5CBD3021DE571F0007976C /* NSObject+ClassDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5CBD2F21DE571F0007976C /* NSObject+ClassDomain.m */; };
+		4FBCCDE921EF7F9700E7BF3C /* MPPackageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */; };
+		4FBCCDF121EF904500E7BF3C /* MPDebugHeartbeatDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDF021EF904500E7BF3C /* MPDebugHeartbeatDevice.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -70,6 +72,10 @@
 		4F5CBD2A21DE53A40007976C /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = ../../Vendor/Masonry.framework; sourceTree = "<group>"; };
 		4F5CBD2E21DE571F0007976C /* NSObject+ClassDomain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+ClassDomain.h"; sourceTree = "<group>"; };
 		4F5CBD2F21DE571F0007976C /* NSObject+ClassDomain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ClassDomain.m"; sourceTree = "<group>"; };
+		4FBCCDE721EF7F9700E7BF3C /* MPPackageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPPackageManager.h; sourceTree = "<group>"; };
+		4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPPackageManager.m; sourceTree = "<group>"; };
+		4FBCCDEF21EF904500E7BF3C /* MPDebugHeartbeatDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugHeartbeatDevice.h; sourceTree = "<group>"; };
+		4FBCCDF021EF904500E7BF3C /* MPDebugHeartbeatDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugHeartbeatDevice.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +228,7 @@
 		4F5CBD2221DE4FB30007976C /* Debug */ = {
 			isa = PBXGroup;
 			children = (
+				4FBCCDE621EF7E7E00E7BF3C /* Model */,
 				4F5CBD2321DE50470007976C /* Controller */,
 			);
 			path = Debug;
@@ -236,6 +243,17 @@
 				4F5CBD2821DE51780007976C /* MPDebugViewController.m */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		4FBCCDE621EF7E7E00E7BF3C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4FBCCDE721EF7F9700E7BF3C /* MPPackageManager.h */,
+				4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */,
+				4FBCCDEF21EF904500E7BF3C /* MPDebugHeartbeatDevice.h */,
+				4FBCCDF021EF904500E7BF3C /* MPDebugHeartbeatDevice.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,7 +333,9 @@
 				4F5CBD2921DE51780007976C /* MPDebugViewController.m in Sources */,
 				4F5CBCF021DE41840007976C /* ViewController.m in Sources */,
 				4F5CBD2621DE506A0007976C /* MPDebugHeartBeatViewController.m in Sources */,
+				4FBCCDF121EF904500E7BF3C /* MPDebugHeartbeatDevice.m in Sources */,
 				4F5CBCFB21DE41850007976C /* main.m in Sources */,
+				4FBCCDE921EF7F9700E7BF3C /* MPPackageManager.m in Sources */,
 				4F5CBCED21DE41840007976C /* AppDelegate.m in Sources */,
 				4F5CBD1D21DE4E7C0007976C /* MPView.m in Sources */,
 			);
