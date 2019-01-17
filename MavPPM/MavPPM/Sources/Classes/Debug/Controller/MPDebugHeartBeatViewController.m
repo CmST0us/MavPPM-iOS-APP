@@ -10,18 +10,22 @@
 #import <MPCommLayer/MPCommLayer.h>
 #import <MPMavlink/MPMavlink.h>
 
+#import "MPDebugHeartbeatDevice.h"
 #import "MPDebugHeartBeatViewController.h"
 
 @interface MPDebugHeartBeatViewController () <MPCommDelegate, MVMavlinkDelegate>
 
 @property (nonatomic, strong) MVMavlink *mavlink;
 @property (nonatomic, strong) MPUDPSocket *udpLink;
+@property (nonatomic, strong) MPDebugHeartbeatDevice *heartbeatDevice;
 
 @property (nonatomic, strong) NSTimer *heartbeatTimer;
 @property (nonatomic, strong) NSTimer *checkConnectionTimer;
+@property (nonatomic, strong) NSTimer *throttleUpTimer;
 
 @property (nonatomic, strong) UIButton *toggleHeartBeatButton;
 @property (nonatomic, strong) UIButton *takeOffButton;
+@property (nonatomic, strong) UIButton *throttleUpButton;
 
 @property (nonatomic, strong) UITextField *targetAddressTextField;
 @property (nonatomic, strong) UITextView *debugOutputTextView;
@@ -37,6 +41,12 @@
 @property (nonatomic, assign) NSUInteger heartbeatCount;
 @property (nonatomic, assign) NSUInteger lastHeartbeatCount;
 @property (nonatomic, assign) NSUInteger heartbeatLostCount;
+
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSMutableArray *> *pushingMessages;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber *, NSMutableArray *> *settingMessages;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber *, NSMutableArray *> *gettingMessages;
+
+@property (nonatomic, assign) MAV_MODE mode;
 
 @end
 
@@ -62,8 +72,14 @@
     self.takeOffButton = [[UIButton alloc] init];
     [self.takeOffButton setTitle:@"起飞" forState:UIControlStateNormal];
     [self.takeOffButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
-    [self.takeOffButton addTarget:self action:@selector(takeOffAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.takeOffButton addTarget:self action:@selector(disarmAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.takeOffButton];
+    
+    self.throttleUpButton = [[UIButton alloc] init];
+    [self.throttleUpButton setTitle:@"开始输出油门信号" forState:UIControlStateNormal];
+    [self.throttleUpButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+    [self.throttleUpButton addTarget:self action:@selector(throttleUpAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.throttleUpButton];
 }
 
 - (void)createConstraints {
@@ -88,7 +104,16 @@
     }];
     
     [self.takeOffButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.throttleUpButton.mas_left);
+        make.height.mas_equalTo(36);
+        make.width.equalTo(self.view).dividedBy(2);
+        make.bottom.equalTo(self.view).offset(-44);
+    }];
+    
+    [self.throttleUpButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view);
+        make.left.equalTo(self.takeOffButton.mas_right);
         make.height.mas_equalTo(36);
         make.bottom.equalTo(self.view).offset(-44);
     }];
@@ -98,7 +123,10 @@
     NSString *remoteIP = [self.targetAddressTextField.text componentsSeparatedByString:@":"][0];
     short remotePort = (short)[[self.targetAddressTextField.text componentsSeparatedByString:@":"][1] intValue];
     
-    self.udpLink = [[MPUDPSocket alloc] initWithLocalPort:14560 delegate:self];
+    // sleep 1s for close socket
+    [NSThread sleepForTimeInterval:2];
+    self.udpLink = [[MPUDPSocket alloc] initWithLocalPort:14550 delegate:self];
+    
     [self.udpLink connect:remoteIP port:remotePort];
     
     __weak typeof(self) weakSelf = self;
@@ -135,11 +163,26 @@
     self.isConnected = NO;
 }
 
+#pragma mark - Setter Getter
+
+- (void)setMode:(MAV_MODE)mode {
+    MVMessageCommandLong *message = [[MVMessageCommandLong alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP targetSystem:self.targetSystem targetComponent:self.targetComponent command:MAV_CMD_DO_SET_MODE confirmation:1 param1:mode param2:NAN param3:NAN param4:NAN param5:NAN param6:NAN param7:NAN];
+    [self.mavlink sendMessage:message];
+    _mode = mode;
+}
+
+#pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self createView];
     [self createConstraints];
+    
+    _pushingMessages = [NSMutableDictionary dictionary];
+    _gettingMessages = [NSMutableDictionary dictionary];
+    _settingMessages = [NSMutableDictionary dictionary];
+//    _heartbeatDevice = [[MPDebugHeartbeatDevice alloc] initWithLocalPort:14550 RemotePort:14560];
+//    [_heartbeatDevice start];
     
     _heartbeatCount = 0;
     _lastHeartbeatCount = 0;
@@ -167,15 +210,38 @@
     }
 }
 
+- (void)sendThrottleMessage {
+    MVMessageManualControl *message = [[MVMessageManualControl alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP target:self.targetSystem x:0 y:0 z:800 r:20 buttons:0];
+    [self.mavlink sendMessage:message];
+}
 - (void)takeOffAction {
-    MVMessageCommandLong *message = [[MVMessageCommandLong alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP targetSystem:self.targetSystem targetComponent:self.targetComponent command:MAV_CMD_COMPONENT_ARM_DISARM confirmation:29 param1:1 param2:NAN param3:NAN param4:NAN param5:NAN param6:NAN param7:NAN];
+    MVMessageCommandLong *message = [[MVMessageCommandLong alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP targetSystem:self.targetSystem targetComponent:self.targetComponent command:MAV_CMD_COMPONENT_ARM_DISARM confirmation:2 param1:1 param2:NAN param3:NAN param4:NAN param5:NAN param6:NAN param7:NAN];
     
     [self.mavlink sendMessage:message];
     
-    message = [[MVMessageCommandLong alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP targetSystem:self.targetSystem targetComponent:self.targetComponent command:MAV_CMD_NAV_TAKEOFF confirmation:30 param1:NAN param2:NAN param3:NAN param4:NAN param5:NAN param6:NAN param7:NAN];
+    message = [[MVMessageCommandLong alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP targetSystem:self.targetSystem targetComponent:self.targetComponent command:MAV_CMD_NAV_TAKEOFF confirmation:3 param1:NAN param2:NAN param3:NAN param4:NAN param5:NAN param6:NAN param7:NAN];
     
     [self.mavlink sendMessage:message];
 }
+
+- (void)useManualMode {
+    [self takeOffAction];
+}
+
+- (void)throttleUpAction {
+    self.mode = MAV_MODE_MANUAL_DISARMED;
+    __weak typeof(self) weakSelf = self;
+    self.throttleUpTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        [weakSelf sendThrottleMessage];
+    }];
+}
+
+- (void)disarmAction {
+    MVMessageCommandLong *message = [[MVMessageCommandLong alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP targetSystem:self.targetSystem targetComponent:self.targetComponent command:MAV_CMD_COMPONENT_ARM_DISARM confirmation:1 param1:1 param2:NAN param3:NAN param4:NAN param5:NAN param6:NAN param7:NAN];
+    
+    [self.mavlink sendMessage:message];
+}
+
 
 #pragma mark - Delegate
 - (void)communicator:(id)aCommunicator didReadData:(NSData *)data {
@@ -194,11 +260,34 @@
         MVMessageHeartbeat *heartBeat = (MVMessageHeartbeat *)message;
         _targetSystem = [heartBeat systemId];
         _targetComponent = [heartBeat componentId];
+        
+        MAV_MODE_FLAG modeFlag = [heartBeat baseMode];
+        MAV_MODE_FLAG mask = 1;
+        
+        BOOL isArmed = modeFlag & MAV_MODE_FLAG_SAFETY_ARMED;;
+        
+        for (int i = 0; i < 8; ++i) {
+            int bit = modeFlag & (mask << i);
+            if (bit == MAV_MODE_FLAG_AUTO_ENABLED) {
+                _mode = isArmed ? MAV_MODE_AUTO_ARMED : MAV_MODE_AUTO_DISARMED;
+            } else if (bit == MAV_MODE_FLAG_STABILIZE_ENABLED) {
+                _mode = isArmed ? MAV_MODE_STABILIZE_ARMED : MAV_MODE_STABILIZE_DISARMED;
+            } else if (bit == MAV_MODE_FLAG_MANUAL_INPUT_ENABLED) {
+                _mode = isArmed ? MAV_MODE_MANUAL_ARMED : MAV_MODE_MANUAL_DISARMED;
+            } else if (bit == MAV_MODE_FLAG_GUIDED_ENABLED) {
+                _mode = isArmed ? MAV_MODE_MANUAL_ARMED : MAV_MODE_MANUAL_DISARMED;
+            }
+        }
+        
         _heartbeatCount++;
         _isConnected = YES;
     }
     
-
+    if ([message isKindOfClass:[MVMessageCommandAck class]]) {
+        
+    }
+    
+    
     NSString *recvMessage = [message description];
     self.currentRecvMessageDescription = recvMessage;
     NSLog(@"%@", message);
@@ -212,4 +301,27 @@
     return NO;
 }
 
+#pragma mark - Listener
+/* [TODO] 确认 mavlink ack 方式后实现！
+- (void)listenMavlinkMessageClass:(Class)messageClass
+                          handler:(MPPackageManagerPushingResultHandler)handler {
+    NSString *classString = NSStringFromClass(messageClass);
+    NSMutableArray *handlers = [self.pushingMessages objectForKey:classString];
+    if (handlers == NULL) {
+        handlers = [NSMutableArray array];
+    }
+    [handlers addObject:handler];
+    [self.pushingMessages setValue:handlers forKey:classString];
+}
+
+- (void)setValueWithMavlinkMessage:(id<MVMessage>)message
+                           handler:(MPPackageManagerSettingResultHandler)handler {
+    NSMutableArray *handlers = [self.settingMessages objectForKey];
+    if (handlers = NULL) {
+        handlers = [NSMutableArray array];
+    }
+    [handlers addObject:handler];
+    
+}
+*/
 @end
