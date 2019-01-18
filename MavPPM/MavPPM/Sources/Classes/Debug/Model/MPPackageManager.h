@@ -16,23 +16,26 @@ typedef NS_ENUM(NSUInteger, MPPackageManagerResultHandingType) {
     MPPackageManagerResultHandingTypeContinue,  // 继续/重试， 继续放入下一次事件处理
 };
 
-typedef void(^MPPackageManagerAckableMessageResultHandler)(MVMessage *ackMessage,
+typedef void(^MPPackageManagerAckableMessageResultHandler)( MVMessage * _Nullable ackMessage,
                                                            BOOL timeout,
                                                            MPPackageManagerResultHandingType *handingType); // handingType 默认 Stop
 
-typedef void(^MPPackageManagerCommandMessageResultHandler)(MVMessageCommandAck *ack,
+typedef void(^MPPackageManagerCommandMessageResultHandler)( MVMessageCommandAck * _Nullable ack,
                                                            BOOL timeout,
                                                            MPPackageManagerResultHandingType *handingType); // handingType 默认 Stop
 
-typedef void(^MPPackageManagerMessageListeningHandler)(MVMessage *message,
+typedef void(^MPPackageManagerMessageListeningHandler)( MVMessage * _Nullable message,
                                                        MPPackageManagerResultHandingType *handingType); // handingType 默认为Continue
 
 
 @interface MPPackageManager : NSObject
 
+@property (nonatomic, assign) NSTimeInterval timeoutInterval; //超时时间
+
 @property (nonatomic, readonly) unsigned short localPort;
 @property (nonatomic, readonly) unsigned short remotePort;
 @property (nonatomic, readonly) NSString *remoteDomain;
+
 
 + (instancetype)sharedInstance;
 
@@ -48,9 +51,6 @@ typedef void(^MPPackageManagerMessageListeningHandler)(MVMessage *message,
 
 - (void)sendMessageWithoutAck:(MVMessage *)message;
 
-- (void)sendMessageWithAck:(MVMessage *)message
-           ackMessageClass:(Class)ackClass
-                   handler:(MPPackageManagerAckableMessageResultHandler)handler;
 @end
 
 NS_ASSUME_NONNULL_END

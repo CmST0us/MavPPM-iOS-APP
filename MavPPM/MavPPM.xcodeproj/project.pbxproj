@@ -27,6 +27,7 @@
 		4F5CBD3021DE571F0007976C /* NSObject+ClassDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5CBD2F21DE571F0007976C /* NSObject+ClassDomain.m */; };
 		4FBCCDE921EF7F9700E7BF3C /* MPPackageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */; };
 		4FBCCDF121EF904500E7BF3C /* MPDebugHeartbeatDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDF021EF904500E7BF3C /* MPDebugHeartbeatDevice.m */; };
+		4FBCCE0E21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCE0D21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -76,6 +77,8 @@
 		4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPPackageManager.m; sourceTree = "<group>"; };
 		4FBCCDEF21EF904500E7BF3C /* MPDebugHeartbeatDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugHeartbeatDevice.h; sourceTree = "<group>"; };
 		4FBCCDF021EF904500E7BF3C /* MPDebugHeartbeatDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugHeartbeatDevice.m; sourceTree = "<group>"; };
+		4FBCCE0C21F2220F00E7BF3C /* MPDebugPackageManagerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugPackageManagerViewController.h; sourceTree = "<group>"; };
+		4FBCCE0D21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugPackageManagerViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +242,8 @@
 			children = (
 				4F5CBD2421DE506A0007976C /* MPDebugHeartBeatViewController.h */,
 				4F5CBD2521DE506A0007976C /* MPDebugHeartBeatViewController.m */,
+				4FBCCE0C21F2220F00E7BF3C /* MPDebugPackageManagerViewController.h */,
+				4FBCCE0D21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m */,
 				4F5CBD2721DE51780007976C /* MPDebugViewController.h */,
 				4F5CBD2821DE51780007976C /* MPDebugViewController.m */,
 			);
@@ -334,6 +339,7 @@
 				4F5CBCF021DE41840007976C /* ViewController.m in Sources */,
 				4F5CBD2621DE506A0007976C /* MPDebugHeartBeatViewController.m in Sources */,
 				4FBCCDF121EF904500E7BF3C /* MPDebugHeartbeatDevice.m in Sources */,
+				4FBCCE0E21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m in Sources */,
 				4F5CBCFB21DE41850007976C /* main.m in Sources */,
 				4FBCCDE921EF7F9700E7BF3C /* MPPackageManager.m in Sources */,
 				4F5CBCED21DE41840007976C /* AppDelegate.m in Sources */,
