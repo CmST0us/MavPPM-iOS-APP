@@ -11,6 +11,8 @@
 
 #pragma mark - MPPackageManagerTask
 @interface MPPackageManagerCancelableTask : NSObject
+@property (nonatomic, weak) NSObject *observer;
+
 @property (nonatomic, strong) MVMessage *message;
 @property (nonatomic, copy) NSString *messageClassString;
 
@@ -23,6 +25,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        _observer = nil;
         _message = nil;
         _handler = nil;
         _messageClassString = @"";
@@ -67,6 +70,7 @@
         _localPort = 0;
         _remotePort = 0;
         _remoteDomain = @"127.0.0.1";
+        _timeoutInterval = 3;
         
         _mavlink = [[MVMavlink alloc] init];
         _mavlink.delegate = self;
@@ -101,9 +105,9 @@ static MPPackageManager *instance = nil;
 }
 
 - (void)work {
-    @autoreleasepool {
-        // 100Hz Runloop
-        while (![[NSThread currentThread] isCancelled]) {
+    // 100Hz Runloop
+    while (![[NSThread currentThread] isCancelled]) {
+        @autoreleasepool {
             dispatch_sync(_workQueue, ^{
                 NSTimeInterval workQueueStartTime = [[NSDate date] timeIntervalSince1970];
                 //// 遍历发送sendMessageQueue
@@ -120,17 +124,19 @@ static MPPackageManager *instance = nil;
                     NSString *recvMesssageClassString = NSStringFromClass([recvMessage class]);
                     NSMutableArray *listeningTasks = [self.listeningMessageTasks objectForKey:recvMesssageClassString];
                     NSMutableArray *removeTasks = [NSMutableArray array];
-                    for (MPPackageManagerCancelableTask *tasks in listeningTasks) {
-                        if (tasks.handler != nil) {
-                            MPPackageManagerMessageListeningHandler h = (MPPackageManagerMessageListeningHandler)tasks.handler;
-                            MPPackageManagerResultHandingType handingType = tasks.resultHandingType;
-                            h(recvMessage, &handingType);
-                            tasks.resultHandingType = handingType;
-                            if (handingType == MPPackageManagerResultHandingTypeCancel) {
-                                [removeTasks addObject:tasks];
+                    for (MPPackageManagerCancelableTask *task in listeningTasks) {
+                        if (task) {
+                            if (task.observer != nil && task.handler != nil) {
+                                MPPackageManagerMessageListeningHandler h = (MPPackageManagerMessageListeningHandler)task.handler;
+                                MPPackageManagerResultHandingType handingType = task.resultHandingType;
+                                h(recvMessage, &handingType);
+                                task.resultHandingType = handingType;
+                                if (handingType == MPPackageManagerResultHandingTypeCancel) {
+                                    [removeTasks addObject:task];
+                                }
+                            } else {
+                                [removeTasks addObject:task];
                             }
-                        } else {
-                            [removeTasks addObject:tasks];
                         }
                     }
                     [listeningTasks removeObjectsInArray:removeTasks];
@@ -142,7 +148,7 @@ static MPPackageManager *instance = nil;
                         NSNumber *commandNumber = [NSNumber numberWithInt:ackMessage.command];
                         MPPackageManagerCancelableTask *task = [self.commandMessageTasks objectForKey:commandNumber];
                         if (task) {
-                            if (task.handler) {
+                            if (task.observer && task.handler) {
                                 MPPackageManagerCommandMessageResultHandler h = (MPPackageManagerCommandMessageResultHandler)task.handler;
                                 MPPackageManagerResultHandingType type = MPPackageManagerResultHandingTypeCancel;
                                 h(ackMessage, NO, &type);
@@ -186,7 +192,7 @@ static MPPackageManager *instance = nil;
                         if (task) {
                             if (ABS(task.lastSendTime - currentTimeInterval) > self.timeoutInterval) {
                                 // timeout
-                                if (task.handler) {
+                                if (task.observer && task.handler) {
                                     MPPackageManagerCommandMessageResultHandler h = (MPPackageManagerCommandMessageResultHandler)task.handler;
                                     MPPackageManagerResultHandingType type = task.resultHandingType;
                                     h(nil, YES, &type);
@@ -195,6 +201,10 @@ static MPPackageManager *instance = nil;
                                         [self.commandMessageTasks removeObjectForKey:commandNumber];
                                     } else {
                                         task.lastSendTime = currentTimeInterval;
+                                        MVMessageCommandLong *msg = (MVMessageCommandLong *)task.message;
+                                        MVMessageCommandLong *resendMsg = [[MVMessageCommandLong alloc] initWithSystemId:msg.systemId componentId:msg.componentId targetSystem:msg.targetSystem targetComponent:msg.targetComponent command:msg.command confirmation:msg.confirmation+1 param1:msg.param1 param2:msg.param2 param3:msg.param3  param4:msg.param4 param5:msg.param5 param6:msg.param6 param7:msg.param7];
+                                        task.message = resendMsg;
+                                        
                                         [self.sendMesssageQueue addObject:task];
                                     }
                                 } else {
@@ -252,7 +262,7 @@ static MPPackageManager *instance = nil;
 
 #pragma mark - Package Manager Method
 - (void)sendMessageWithoutAck:(MVMessage *)message {
-    dispatch_sync(_workQueue, ^{
+    dispatch_async(_workQueue, ^{
         MPPackageManagerCancelableTask *task = [[MPPackageManagerCancelableTask alloc] init];
         task.message = message;
         [self.sendMesssageQueue addObject:task];
@@ -260,14 +270,16 @@ static MPPackageManager *instance = nil;
 }
 
 - (void)sendCommandMessage:(MVMessage *)aCommandMessage
-               withHandler:(MPPackageManagerCommandMessageResultHandler)handler {
-    dispatch_sync(_workQueue, ^{
+              withObserver:(NSObject *)observer
+                   handler:(MPPackageManagerCommandMessageResultHandler)handler {
+    dispatch_async(_workQueue, ^{
         if ([aCommandMessage isKindOfClass:[MVMessageCommandLong class]]) {
             MVMessageCommandLong *commandMesssage = (MVMessageCommandLong *)aCommandMessage;
             NSNumber *commandNumber = [NSNumber numberWithInt:commandMesssage.command];
             MPPackageManagerCancelableTask *task = [[MPPackageManagerCancelableTask alloc] init];
             task.message = commandMesssage;
             task.handler = handler;
+            task.observer = observer;
             [self.sendMesssageQueue addObject:task];
             [self.commandMessageTasks setObject:task forKey:commandNumber];
         }
@@ -276,6 +288,7 @@ static MPPackageManager *instance = nil;
 
 - (void)sendMessageWithAck:(MVMessage *)message
            ackMessageClass:(Class)ackClass
+              withObserver:(NSObject *)observer
                    handler:(MPPackageManagerAckableMessageResultHandler)handler {
     // [TODO]
     /*
@@ -298,10 +311,12 @@ static MPPackageManager *instance = nil;
 }
 
 - (void)listenMessage:(Class)messageClass
-          withHandler:(MPPackageManagerMessageListeningHandler)handler {
-    dispatch_sync(_workQueue, ^{
+         withObserver:(NSObject *)observer
+          handler:(MPPackageManagerMessageListeningHandler)handler {
+    dispatch_async(_workQueue, ^{
         MPPackageManagerCancelableTask *task = [[MPPackageManagerCancelableTask alloc] init];
         task.handler = handler;
+        task.observer = observer;
         task.messageClassString = NSStringFromClass(messageClass);
         NSMutableArray *tasks = [self.listeningMessageTasks objectForKey:NSStringFromClass(messageClass)];
         if (tasks == nil) {
@@ -327,7 +342,7 @@ static MPPackageManager *instance = nil;
 }
 
 - (void)mavlink:(MVMavlink *)mavlink didGetMessage:(id<MVMessage>)message {
-    dispatch_sync(_workQueue, ^{
+    dispatch_async(_workQueue, ^{
         [self.receiveMessageQueue addObject:message];
     });
 }

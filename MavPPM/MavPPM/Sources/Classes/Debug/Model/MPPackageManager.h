@@ -44,10 +44,12 @@ typedef void(^MPPackageManagerMessageListeningHandler)( MVMessage * _Nullable me
                               remotePort:(unsigned short)remotePort;
 
 - (void)sendCommandMessage:(MVMessage *)aCommandMessage
-               withHandler:(MPPackageManagerCommandMessageResultHandler)handler;
+              withObserver:(NSObject *)observer
+                   handler:(MPPackageManagerCommandMessageResultHandler)handler;
 
 - (void)listenMessage:(Class)messageClass
-          withHandler:(MPPackageManagerMessageListeningHandler)handler;
+         withObserver:(NSObject *)observer
+              handler:(MPPackageManagerMessageListeningHandler)handler;
 
 - (void)sendMessageWithoutAck:(MVMessage *)message;
 
