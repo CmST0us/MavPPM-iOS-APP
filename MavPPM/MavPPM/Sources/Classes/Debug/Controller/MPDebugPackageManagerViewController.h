@@ -1,8 +1,8 @@
 //
-//  MPDebugHeartBeatViewController.h
+//  MPDebugPackageManagerViewController.h
 //  MavPPM
 //
-//  Created by CmST0us on 2019/1/3.
+//  Created by CmST0us on 2019/1/18.
 //  Copyright © 2019 eric3u. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MPDebugHeartBeatViewController : MPViewController
+@interface MPDebugPackageManagerViewController : MPViewController
 
 @end
 

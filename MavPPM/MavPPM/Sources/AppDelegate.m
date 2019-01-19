@@ -8,13 +8,11 @@
 
 #import "AppDelegate.h"
 #import "MPConnectViewController.h"
-
 @interface AppDelegate ()
 @property (nonatomic, strong) MPConnectViewController *connectVC;
 @end
 
 @implementation AppDelegate
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -22,6 +20,10 @@
     _connectVC = [[MPConnectViewController alloc] init];
     _window.rootViewController = _connectVC;
     [_window makeKeyAndVisible];
+    
+    NSString *s = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:@"https://www.baidu.com"] encoding:NSUTF8StringEncoding error:nil];
+    s;
+    
     return YES;
 }
 

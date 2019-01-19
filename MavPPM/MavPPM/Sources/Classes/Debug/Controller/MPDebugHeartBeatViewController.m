@@ -42,10 +42,6 @@
 @property (nonatomic, assign) NSUInteger lastHeartbeatCount;
 @property (nonatomic, assign) NSUInteger heartbeatLostCount;
 
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSMutableArray *> *pushingMessages;
-@property (nonatomic, strong) NSMutableDictionary<NSNumber *, NSMutableArray *> *settingMessages;
-@property (nonatomic, strong) NSMutableDictionary<NSNumber *, NSMutableArray *> *gettingMessages;
-
 @property (nonatomic, assign) MAV_MODE mode;
 
 @end
@@ -177,10 +173,7 @@
     
     [self createView];
     [self createConstraints];
-    
-    _pushingMessages = [NSMutableDictionary dictionary];
-    _gettingMessages = [NSMutableDictionary dictionary];
-    _settingMessages = [NSMutableDictionary dictionary];
+
 //    _heartbeatDevice = [[MPDebugHeartbeatDevice alloc] initWithLocalPort:14550 RemotePort:14560];
 //    [_heartbeatDevice start];
     
@@ -301,27 +294,4 @@
     return NO;
 }
 
-#pragma mark - Listener
-/* [TODO] 确认 mavlink ack 方式后实现！
-- (void)listenMavlinkMessageClass:(Class)messageClass
-                          handler:(MPPackageManagerPushingResultHandler)handler {
-    NSString *classString = NSStringFromClass(messageClass);
-    NSMutableArray *handlers = [self.pushingMessages objectForKey:classString];
-    if (handlers == NULL) {
-        handlers = [NSMutableArray array];
-    }
-    [handlers addObject:handler];
-    [self.pushingMessages setValue:handlers forKey:classString];
-}
-
-- (void)setValueWithMavlinkMessage:(id<MVMessage>)message
-                           handler:(MPPackageManagerSettingResultHandler)handler {
-    NSMutableArray *handlers = [self.settingMessages objectForKey];
-    if (handlers = NULL) {
-        handlers = [NSMutableArray array];
-    }
-    [handlers addObject:handler];
-    
-}
-*/
 @end

@@ -22,6 +22,7 @@
     if (debugList != NULL) return debugList;
     debugList = @[
                   @[@"HeatBeat", @"MPDebugHeartBeatViewController"],
+                  @[@"PackageManager", @"MPDebugPackageManagerViewController"],
                   ];
     
     return debugList;
