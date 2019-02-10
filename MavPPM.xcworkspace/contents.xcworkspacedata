@@ -8,6 +8,9 @@
       location = "group:../MavPPM-iOS-CommLayer/MPCommLayer/MPCommLayer.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:../MavPPM-iOS-GravityControlLogic/MPGravityControlLogic/MPGravityControlLogic.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:MavPPM/MavPPM.xcodeproj">
    </FileRef>
 </Workspace>
