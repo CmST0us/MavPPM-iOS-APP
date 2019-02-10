@@ -119,7 +119,7 @@
     self.throttleSlide = [[UISlider alloc] init];
     self.throttleSlide.minimumValue = 0;
     self.throttleSlide.maximumValue = 1000;
-    self.throttleSlide.value = 0;
+    self.throttleSlide.value = 1000;
     [self.view addSubview:self.throttleSlide];
     
     self.debugOutputTextView = [[UITextView alloc] init];
