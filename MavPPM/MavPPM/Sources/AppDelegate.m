@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "MPConnectViewController.h"
+#import "MPCMMotionManager.h"
+
 @interface AppDelegate ()
 @property (nonatomic, strong) MPConnectViewController *connectVC;
 @end
