@@ -28,6 +28,10 @@
 		4FBCCDE921EF7F9700E7BF3C /* MPPackageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */; };
 		4FBCCDF121EF904500E7BF3C /* MPDebugHeartbeatDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDF021EF904500E7BF3C /* MPDebugHeartbeatDevice.m */; };
 		4FBCCE0E21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCE0D21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m */; };
+		4FD32B0922100CB100C391E8 /* MPGravityControlLogic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FD32B0822100CB100C391E8 /* MPGravityControlLogic.framework */; };
+		4FD32B0A22100CB100C391E8 /* MPGravityControlLogic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4FD32B0822100CB100C391E8 /* MPGravityControlLogic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4FD32B222210339C00C391E8 /* MPDebugGravityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD32B212210339C00C391E8 /* MPDebugGravityViewController.m */; };
+		4FE68043221035620048C7D9 /* MPCMMotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE68042221035620048C7D9 /* MPCMMotionManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,6 +42,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				4F5CBD0421DE420F0007976C /* MPMavlink.framework in Embed Frameworks */,
+				4FD32B0A22100CB100C391E8 /* MPGravityControlLogic.framework in Embed Frameworks */,
 				4F5CBD0821DE42120007976C /* MPCommLayer.framework in Embed Frameworks */,
 				4F5CBD2C21DE53A40007976C /* Masonry.framework in Embed Frameworks */,
 			);
@@ -79,6 +84,11 @@
 		4FBCCDF021EF904500E7BF3C /* MPDebugHeartbeatDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugHeartbeatDevice.m; sourceTree = "<group>"; };
 		4FBCCE0C21F2220F00E7BF3C /* MPDebugPackageManagerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugPackageManagerViewController.h; sourceTree = "<group>"; };
 		4FBCCE0D21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugPackageManagerViewController.m; sourceTree = "<group>"; };
+		4FD32B0822100CB100C391E8 /* MPGravityControlLogic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MPGravityControlLogic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FD32B202210339C00C391E8 /* MPDebugGravityViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugGravityViewController.h; sourceTree = "<group>"; };
+		4FD32B212210339C00C391E8 /* MPDebugGravityViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugGravityViewController.m; sourceTree = "<group>"; };
+		4FE68041221035620048C7D9 /* MPCMMotionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPCMMotionManager.h; sourceTree = "<group>"; };
+		4FE68042221035620048C7D9 /* MPCMMotionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPCMMotionManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +97,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F5CBD0321DE420F0007976C /* MPMavlink.framework in Frameworks */,
+				4FD32B0922100CB100C391E8 /* MPGravityControlLogic.framework in Frameworks */,
 				4F5CBD0721DE42120007976C /* MPCommLayer.framework in Frameworks */,
 				4F5CBD2B21DE53A40007976C /* Masonry.framework in Frameworks */,
 			);
@@ -98,6 +109,7 @@
 		4F5CBCDF21DE41840007976C = {
 			isa = PBXGroup;
 			children = (
+				4FD32B0822100CB100C391E8 /* MPGravityControlLogic.framework */,
 				4F5CBD2A21DE53A40007976C /* Masonry.framework */,
 				4F5CBD0621DE42120007976C /* MPCommLayer.framework */,
 				4F5CBD0221DE420F0007976C /* MPMavlink.framework */,
@@ -215,6 +227,8 @@
 				4F5CBD1C21DE4E7C0007976C /* MPView.m */,
 				4F5CBD2E21DE571F0007976C /* NSObject+ClassDomain.h */,
 				4F5CBD2F21DE571F0007976C /* NSObject+ClassDomain.m */,
+				4FE68041221035620048C7D9 /* MPCMMotionManager.h */,
+				4FE68042221035620048C7D9 /* MPCMMotionManager.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -244,6 +258,8 @@
 				4F5CBD2521DE506A0007976C /* MPDebugHeartBeatViewController.m */,
 				4FBCCE0C21F2220F00E7BF3C /* MPDebugPackageManagerViewController.h */,
 				4FBCCE0D21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m */,
+				4FD32B202210339C00C391E8 /* MPDebugGravityViewController.h */,
+				4FD32B212210339C00C391E8 /* MPDebugGravityViewController.m */,
 				4F5CBD2721DE51780007976C /* MPDebugViewController.h */,
 				4F5CBD2821DE51780007976C /* MPDebugViewController.m */,
 			);
@@ -337,6 +353,7 @@
 				4F5CBD2121DE4FA40007976C /* MPConnectViewController.m in Sources */,
 				4F5CBD2921DE51780007976C /* MPDebugViewController.m in Sources */,
 				4F5CBCF021DE41840007976C /* ViewController.m in Sources */,
+				4FD32B222210339C00C391E8 /* MPDebugGravityViewController.m in Sources */,
 				4F5CBD2621DE506A0007976C /* MPDebugHeartBeatViewController.m in Sources */,
 				4FBCCDF121EF904500E7BF3C /* MPDebugHeartbeatDevice.m in Sources */,
 				4FBCCE0E21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m in Sources */,
@@ -344,6 +361,7 @@
 				4FBCCDE921EF7F9700E7BF3C /* MPPackageManager.m in Sources */,
 				4F5CBCED21DE41840007976C /* AppDelegate.m in Sources */,
 				4F5CBD1D21DE4E7C0007976C /* MPView.m in Sources */,
+				4FE68043221035620048C7D9 /* MPCMMotionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

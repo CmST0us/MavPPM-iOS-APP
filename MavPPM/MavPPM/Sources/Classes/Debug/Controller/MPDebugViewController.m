@@ -23,6 +23,7 @@
     debugList = @[
                   @[@"HeatBeat", @"MPDebugHeartBeatViewController"],
                   @[@"PackageManager", @"MPDebugPackageManagerViewController"],
+                  @[@"GravityControl", @"MPDebugGravityViewController"],
                   ];
     
     return debugList;
