@@ -279,7 +279,7 @@
     NSLog(@"x: %f", ceil(self.deviceMotionControl.xControlValue));
     NSLog(@"y: %f", ceil(self.deviceMotionControl.yControlValue));
     NSLog(@"z: %f", ceil(self.throttleSlide.value));
-    MVMessageManualControl *message = [[MVMessageManualControl alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP target:self.targetSystem x:ceil(self.deviceMotionControl.xControlValue) y:ceil(-self.deviceMotionControl.yControlValue) z:ceil(self.throttleSlide.value) r:0 buttons:0];
+    MVMessageManualControl *message = [[MVMessageManualControl alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP target:self.targetSystem x:ceil(self.deviceMotionControl.xControlValue) y:ceil(-self.deviceMotionControl.yControlValue) z:ceil(1000 - self.throttleSlide.value) r:0 buttons:0];
     [self.mavlink sendMessage:message];
 }
 - (void)takeOffAction {
