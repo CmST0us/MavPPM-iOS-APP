@@ -31,6 +31,7 @@
 		4FD32B0922100CB100C391E8 /* MPGravityControlLogic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FD32B0822100CB100C391E8 /* MPGravityControlLogic.framework */; };
 		4FD32B0A22100CB100C391E8 /* MPGravityControlLogic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4FD32B0822100CB100C391E8 /* MPGravityControlLogic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4FD32B222210339C00C391E8 /* MPDebugGravityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD32B212210339C00C391E8 /* MPDebugGravityViewController.m */; };
+		4FE07D2A22112F7C009DCF25 /* MPDebugTCPServerTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE07D2922112F7C009DCF25 /* MPDebugTCPServerTestViewController.m */; };
 		4FE68043221035620048C7D9 /* MPCMMotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE68042221035620048C7D9 /* MPCMMotionManager.m */; };
 /* End PBXBuildFile section */
 
@@ -87,6 +88,8 @@
 		4FD32B0822100CB100C391E8 /* MPGravityControlLogic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MPGravityControlLogic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FD32B202210339C00C391E8 /* MPDebugGravityViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugGravityViewController.h; sourceTree = "<group>"; };
 		4FD32B212210339C00C391E8 /* MPDebugGravityViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugGravityViewController.m; sourceTree = "<group>"; };
+		4FE07D2822112F7C009DCF25 /* MPDebugTCPServerTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugTCPServerTestViewController.h; sourceTree = "<group>"; };
+		4FE07D2922112F7C009DCF25 /* MPDebugTCPServerTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugTCPServerTestViewController.m; sourceTree = "<group>"; };
 		4FE68041221035620048C7D9 /* MPCMMotionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPCMMotionManager.h; sourceTree = "<group>"; };
 		4FE68042221035620048C7D9 /* MPCMMotionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPCMMotionManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -260,6 +263,8 @@
 				4FBCCE0D21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m */,
 				4FD32B202210339C00C391E8 /* MPDebugGravityViewController.h */,
 				4FD32B212210339C00C391E8 /* MPDebugGravityViewController.m */,
+				4FE07D2822112F7C009DCF25 /* MPDebugTCPServerTestViewController.h */,
+				4FE07D2922112F7C009DCF25 /* MPDebugTCPServerTestViewController.m */,
 				4F5CBD2721DE51780007976C /* MPDebugViewController.h */,
 				4F5CBD2821DE51780007976C /* MPDebugViewController.m */,
 			);
@@ -347,6 +352,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FE07D2A22112F7C009DCF25 /* MPDebugTCPServerTestViewController.m in Sources */,
 				4F5CBD1A21DE4E6F0007976C /* MPViewController.m in Sources */,
 				4F5CBD1721DE4E600007976C /* MPNavigationController.m in Sources */,
 				4F5CBD3021DE571F0007976C /* NSObject+ClassDomain.m in Sources */,
