@@ -56,7 +56,6 @@
     [self.socket open];
     [self.socket continueFinished];
     self.socket.delegate = self;
-    [self.socket write:[@"Hello\n" dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 - (void)communicator:(id)aCommunicator didReadData:(NSData *)data {
