@@ -36,7 +36,12 @@
         make.left.right.bottom.equalTo(self.view);
     }];
     
+    typeof(self) weakSelf = self;
     [[MPPackageManager sharedInstance] setupPackageManagerWithLocalPort:kDefaultUsbmuxdPort];
+    [[MPPackageManager sharedInstance] listenMessage:[MVMessageHeartbeat class] withObserver:self handler:^(MVMessage * _Nullable message, MPPackageManagerResultHandingType * _Nonnull handingType) {
+        [weakSelf appendDebugString:[NSString stringWithFormat:@"[MAVLINK]: %@\n", message.description]];
+        *handingType = MPPackageManagerResultHandingTypeContinue;
+    }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDisconnected) name:MPPackageManagerDisconnectedNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onConnected) name:MPPackageManagerDidConnectedNotificationName object:nil];

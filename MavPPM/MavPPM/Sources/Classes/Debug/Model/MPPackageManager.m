@@ -294,7 +294,10 @@ static MPPackageManager *instance = nil;
 
 - (void)makeDisconnected {
     _isConnected = NO;
+    [self.receiveMessageQueue removeAllObjects];
+    [self.sendMesssageQueue removeAllObjects];
     [[NSNotificationCenter defaultCenter] postNotificationName:MPPackageManagerDisconnectedNotificationName object:nil];
+    
 }
 
 #pragma mark - Package Manager Method
