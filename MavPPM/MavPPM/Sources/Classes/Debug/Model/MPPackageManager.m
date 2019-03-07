@@ -38,8 +38,11 @@
 
 @end
 
+NSNotificationName MPPackageManagerDidConnectedNotificationName = @"MPPackageManagerDidConnectedNotificationName";
+NSNotificationName MPPackageManagerDisconnectedNotificationName = @"MPPackageManagerDisconnectedNotificationName";
+
 #pragma mark - MPPackageManager
-@interface MPPackageManager ()<MPCommDelegate, MVMavlinkDelegate> {
+@interface MPPackageManager ()<MPCommTCPAcceptorDelegate, MPCommDelegate, MVMavlinkDelegate> {
     dispatch_queue_t _workQueue;
 }
 
@@ -57,7 +60,12 @@
 @property (nonatomic, strong) NSMutableDictionary<NSString *, MPPackageManagerCancelableTask *> *ackableMessageTasks;
 
 // Comm
-@property (nonatomic, strong) MPUDPSocket *communicationLink;
+@property (nonatomic, readonly) BOOL isTCP;
+@property (nonatomic, strong) MPUDPSocket *communicationLinkUDP;
+
+@property (nonatomic, strong) MPTCPAcceptor *acceptor;
+@property (nonatomic, strong) MPTCPSocket *communicationLink;
+
 @property (nonatomic, strong) MVMavlink *mavlink;
 @end
 
@@ -82,6 +90,8 @@
         _listeningMessageTasks = [NSMutableDictionary dictionary];
         _commandMessageTasks = [NSMutableDictionary dictionary];
         _ackableMessageTasks = [NSMutableDictionary dictionary];
+        _isTCP = YES;
+        _isConnected = NO;
     }
     return self;
 }
@@ -232,22 +242,32 @@ static MPPackageManager *instance = nil;
 }
 
 #pragma mark - Setter Getter Method
-- (MPUDPSocket *)communicationLink {
-    if (_communicationLink == nil) {
-        _communicationLink = [[MPUDPSocket alloc] initWithLocalPort:_localPort delegate:self];
-    }
-    return _communicationLink;
-}
+
 
 #pragma mark - Setup Method
 - (void)setupPackageManagerWithLocalPort:(unsigned short)localPort
                             remoteDomain:(NSString *)remoteDomain
                               remotePort:(unsigned short)remotePort {
+    [self setupPackageManagerWithLocalPort:localPort remoteDomain:remoteDomain remotePort:remotePort tcpLink:NO];
+}
+
+- (void)setupPackageManagerWithLocalPort:(unsigned short)localPort {
+    [self setupPackageManagerWithLocalPort:localPort remoteDomain:@"" remotePort:0 tcpLink:YES];
+}
+
+- (void)setupPackageManagerWithLocalPort:(unsigned short)localPort remoteDomain:(NSString *)remoteDomain remotePort:(unsigned short)remotePort tcpLink:(BOOL)isTCP {
+    _isTCP = isTCP;
+    [self makeDisconnected];
     if (_communicationLink != nil) {
         [_communicationLink close];
         _communicationLink = nil;
     }
-
+    
+    if (_communicationLinkUDP != nil) {
+        [_communicationLinkUDP close];
+        _communicationLinkUDP = nil;
+    }
+    
     [self.workThread cancel];
     self.workThread = [[NSThread alloc] initWithTarget:self selector:@selector(work) object:nil];
     [self.workThread start];
@@ -256,8 +276,25 @@ static MPPackageManager *instance = nil;
     _remoteDomain = [remoteDomain copy];
     _remotePort = remotePort;
     
-    _communicationLink = [[MPUDPSocket alloc] initWithLocalPort:localPort delegate:self];
-    [_communicationLink connect:[remoteDomain copy] port:remotePort];
+    if (isTCP) {
+        _acceptor = [[MPTCPAcceptor alloc] initWithDelegate:self];
+        [_acceptor bindToPort:localPort];
+        [_acceptor listen:1];
+    } else {
+        _communicationLinkUDP = [[MPUDPSocket alloc] initWithLocalPort:localPort delegate:self];
+        [_communicationLinkUDP connect:[remoteDomain copy] port:remotePort];
+        [self makeConnected];
+    }
+}
+
+- (void)makeConnected {
+    _isConnected = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:MPPackageManagerDidConnectedNotificationName object:nil];
+}
+
+- (void)makeDisconnected {
+    _isConnected = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:MPPackageManagerDisconnectedNotificationName object:nil];
 }
 
 #pragma mark - Package Manager Method
@@ -338,7 +375,25 @@ static MPPackageManager *instance = nil;
         [aCommunicator read];
     } else if (event == MPCommEventErrorOccurred) {
         [aCommunicator close];
+        [self makeDisconnected];
+    } else if (event == MPCommEventEndEncountered) {
+        [aCommunicator close];
+        [self makeDisconnected];
     }
+}
+
+- (void)acceptor:(MPTCPAcceptor *)aAcceptor handleEvent:(MPCommTCPAcceptorEvent)aEvent {
+    if (aEvent == MPCommTCPAcceptorEventCanAccept) {
+        [aAcceptor accept];
+    }
+}
+
+- (void)acceptor:(MPTCPAcceptor *)aAcceptor didAcceptSocket:(MPTCPSocket *)aSocket {
+    self.communicationLink = aSocket;
+    [self.communicationLink open];
+    [self.communicationLink continueFinished];
+    self.communicationLink.delegate = self;
+    [self makeConnected];
 }
 
 - (void)mavlink:(MVMavlink *)mavlink didGetMessage:(id<MVMessage>)message {
@@ -348,7 +403,11 @@ static MPPackageManager *instance = nil;
 }
 
 - (BOOL)mavlink:(MVMavlink *)mavlink shouldWriteData:(NSData *)data {
-    [self.communicationLink write:data];
+    if (self.isTCP) {
+        [self.communicationLink write:data];
+    } else {
+        [self.communicationLinkUDP write:data];
+    }
     return YES;
 }
 

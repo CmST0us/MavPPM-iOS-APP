@@ -33,6 +33,7 @@
 		4FD32B222210339C00C391E8 /* MPDebugGravityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD32B212210339C00C391E8 /* MPDebugGravityViewController.m */; };
 		4FE07D2A22112F7C009DCF25 /* MPDebugTCPServerTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE07D2922112F7C009DCF25 /* MPDebugTCPServerTestViewController.m */; };
 		4FE68043221035620048C7D9 /* MPCMMotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE68042221035620048C7D9 /* MPCMMotionManager.m */; };
+		4FF764392230D87600D259CA /* MPDebugCubeHeartbeatTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF764382230D87600D259CA /* MPDebugCubeHeartbeatTestViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -92,6 +93,8 @@
 		4FE07D2922112F7C009DCF25 /* MPDebugTCPServerTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugTCPServerTestViewController.m; sourceTree = "<group>"; };
 		4FE68041221035620048C7D9 /* MPCMMotionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPCMMotionManager.h; sourceTree = "<group>"; };
 		4FE68042221035620048C7D9 /* MPCMMotionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPCMMotionManager.m; sourceTree = "<group>"; };
+		4FF764372230D87600D259CA /* MPDebugCubeHeartbeatTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugCubeHeartbeatTestViewController.h; sourceTree = "<group>"; };
+		4FF764382230D87600D259CA /* MPDebugCubeHeartbeatTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugCubeHeartbeatTestViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,6 +268,8 @@
 				4FD32B212210339C00C391E8 /* MPDebugGravityViewController.m */,
 				4FE07D2822112F7C009DCF25 /* MPDebugTCPServerTestViewController.h */,
 				4FE07D2922112F7C009DCF25 /* MPDebugTCPServerTestViewController.m */,
+				4FF764372230D87600D259CA /* MPDebugCubeHeartbeatTestViewController.h */,
+				4FF764382230D87600D259CA /* MPDebugCubeHeartbeatTestViewController.m */,
 				4F5CBD2721DE51780007976C /* MPDebugViewController.h */,
 				4F5CBD2821DE51780007976C /* MPDebugViewController.m */,
 			);
@@ -366,6 +371,7 @@
 				4F5CBCFB21DE41850007976C /* main.m in Sources */,
 				4FBCCDE921EF7F9700E7BF3C /* MPPackageManager.m in Sources */,
 				4F5CBCED21DE41840007976C /* AppDelegate.m in Sources */,
+				4FF764392230D87600D259CA /* MPDebugCubeHeartbeatTestViewController.m in Sources */,
 				4F5CBD1D21DE4E7C0007976C /* MPView.m in Sources */,
 				4FE68043221035620048C7D9 /* MPCMMotionManager.m in Sources */,
 			);

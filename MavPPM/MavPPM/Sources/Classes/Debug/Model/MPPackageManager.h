@@ -11,6 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSNotificationName MPPackageManagerDidConnectedNotificationName;
+extern NSNotificationName MPPackageManagerDisconnectedNotificationName;
+
 typedef NS_ENUM(NSUInteger, MPPackageManagerResultHandingType) {
     MPPackageManagerResultHandingTypeCancel,      // 从监听列表中删除
     MPPackageManagerResultHandingTypeContinue,  // 继续/重试， 继续放入下一次事件处理
@@ -35,13 +38,22 @@ typedef void(^MPPackageManagerMessageListeningHandler)( MVMessage * _Nullable me
 @property (nonatomic, readonly) unsigned short localPort;
 @property (nonatomic, readonly) unsigned short remotePort;
 @property (nonatomic, readonly) NSString *remoteDomain;
-
+@property (nonatomic, readonly) BOOL isConnected;
 
 + (instancetype)sharedInstance;
 
+// UDP
 - (void)setupPackageManagerWithLocalPort:(unsigned short)localPort
                             remoteDomain:(NSString *)remoteDomain
                               remotePort:(unsigned short)remotePort;
+
+// TCP
+- (void)setupPackageManagerWithLocalPort:(unsigned short)localPort;
+
+- (void)setupPackageManagerWithLocalPort:(unsigned short)localPort
+                            remoteDomain:(NSString *)remoteDomain
+                              remotePort:(unsigned short)remotePort
+                                 tcpLink:(BOOL)isTCP;
 
 - (void)sendCommandMessage:(MVMessage *)aCommandMessage
               withObserver:(NSObject *)observer
