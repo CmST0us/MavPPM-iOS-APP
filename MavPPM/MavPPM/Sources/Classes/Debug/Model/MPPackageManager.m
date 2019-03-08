@@ -49,8 +49,6 @@ NSNotificationName MPPackageManagerDisconnectedNotificationName = @"MPPackageMan
 @property (nonatomic, strong) NSThread *workThread;
 // Read Queue
 @property (nonatomic, strong) NSMutableArray<MVMessage *> *receiveMessageQueue;
-// Write Queue
-@property (nonatomic, strong) NSMutableArray<MPPackageManagerCancelableTask *> *sendMesssageQueue;
 
 // Handlers
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSMutableArray<MPPackageManagerCancelableTask *> *> *listeningMessageTasks;
@@ -86,7 +84,6 @@ NSNotificationName MPPackageManagerDisconnectedNotificationName = @"MPPackageMan
         _workQueue = dispatch_queue_create("com.MavPPM.MPPackageManager.workQueue", DISPATCH_QUEUE_SERIAL);
         
         _receiveMessageQueue = [NSMutableArray array];
-        _sendMesssageQueue = [NSMutableArray array];
         _listeningMessageTasks = [NSMutableDictionary dictionary];
         _commandMessageTasks = [NSMutableDictionary dictionary];
         _ackableMessageTasks = [NSMutableDictionary dictionary];
@@ -120,15 +117,7 @@ static MPPackageManager *instance = nil;
         @autoreleasepool {
             dispatch_sync(_workQueue, ^{
                 NSTimeInterval workQueueStartTime = [[NSDate date] timeIntervalSince1970];
-                //// 遍历发送sendMessageQueue
-                for (MPPackageManagerCancelableTask *task in self.sendMesssageQueue) {
-                    if (task.message != nil) {
-                        [self.mavlink sendMessage:task.message];
-                    }
-                }
-                [self.sendMesssageQueue removeAllObjects];
-                
-                // 再处理，分发消息
+                // 处理，分发消息
                 for (MVMessage *recvMessage in self.receiveMessageQueue) {
                     // 处理监听的消息
                     NSString *recvMesssageClassString = NSStringFromClass([recvMessage class]);
@@ -215,7 +204,7 @@ static MPPackageManager *instance = nil;
                                         MVMessageCommandLong *resendMsg = [[MVMessageCommandLong alloc] initWithSystemId:msg.systemId componentId:msg.componentId targetSystem:msg.targetSystem targetComponent:msg.targetComponent command:msg.command confirmation:msg.confirmation+1 param1:msg.param1 param2:msg.param2 param3:msg.param3  param4:msg.param4 param5:msg.param5 param6:msg.param6 param7:msg.param7];
                                         task.message = resendMsg;
                                         
-                                        [self.sendMesssageQueue addObject:task];
+                                        [self.mavlink sendMessage:resendMsg];
                                     }
                                 } else {
                                     [self.commandMessageTasks removeObjectForKey:commandNumber];
@@ -295,7 +284,6 @@ static MPPackageManager *instance = nil;
 - (void)makeDisconnected {
     _isConnected = NO;
     [self.receiveMessageQueue removeAllObjects];
-    [self.sendMesssageQueue removeAllObjects];
     [[NSNotificationCenter defaultCenter] postNotificationName:MPPackageManagerDisconnectedNotificationName object:nil];
     
 }
@@ -305,7 +293,7 @@ static MPPackageManager *instance = nil;
     dispatch_async(_workQueue, ^{
         MPPackageManagerCancelableTask *task = [[MPPackageManagerCancelableTask alloc] init];
         task.message = message;
-        [self.sendMesssageQueue addObject:task];
+        [self.mavlink sendMessage:task.message];
     });
 }
 
@@ -320,7 +308,7 @@ static MPPackageManager *instance = nil;
             task.message = commandMesssage;
             task.handler = handler;
             task.observer = observer;
-            [self.sendMesssageQueue addObject:task];
+            [self.mavlink sendMessage:commandMesssage];
             [self.commandMessageTasks setObject:task forKey:commandNumber];
         }
     });
