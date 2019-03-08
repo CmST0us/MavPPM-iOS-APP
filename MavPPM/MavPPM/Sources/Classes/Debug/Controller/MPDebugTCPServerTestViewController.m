@@ -15,7 +15,6 @@
 @interface MPDebugTCPServerTestViewController ()<MPCommTCPAcceptorDelegate, MPCommDelegate>
 @property (nonatomic, strong) MPTCPAcceptor *acceptor;
 @property (nonatomic, strong) MPTCPSocket *socket;
-
 @property (nonatomic, strong) UITextView *textView;
 @end
 
@@ -73,6 +72,10 @@
         [self appendDebugString:@"[SOCKET]: Error\n"];
         [aCommunicator close];
     }
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.socket write:[@"heartbeat" dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 @end

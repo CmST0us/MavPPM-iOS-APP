@@ -23,8 +23,8 @@
     _window.rootViewController = _connectVC;
     [_window makeKeyAndVisible];
     
-    NSString *s = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:@"https://www.baidu.com"] encoding:NSUTF8StringEncoding error:nil];
-    s;
+//    NSString *s = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:@"https://www.baidu.com"] encoding:NSUTF8StringEncoding error:nil];
+//    s;
     
     return YES;
 }

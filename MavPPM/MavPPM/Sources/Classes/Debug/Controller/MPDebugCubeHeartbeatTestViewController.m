@@ -62,8 +62,10 @@
         MVMessage *message = [[MVMessageHeartbeat alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP type:MAV_TYPE_GCS autopilot:MAV_AUTOPILOT_GENERIC baseMode:MAV_MODE_FLAG_ENUM_END customMode:0 systemStatus:MAV_STATE_ACTIVE];
         [[MPPackageManager sharedInstance] sendMessageWithoutAck:message];
     }];
-    [[NSRunLoop mainRunLoop] addTimer:self.heartbeatTimer forMode:NSRunLoopCommonModes];
-    [self.heartbeatTimer fire];
+    
+    MVMessage *message = [[MVMessageManualControl alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP target:0 x:1500 y:1500 z:1500 r:1500 buttons:0];
+    [[MPPackageManager sharedInstance] sendMessageWithoutAck:message];
+
     [self appendDebugString:@"[MAVPPM]: Accept Cube, Start Heatbeat\n"];
 }
 
@@ -73,4 +75,10 @@
     });
 }
 
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    UITouch *anyTouch = [touches anyObject];
+    CGPoint p = [anyTouch locationInView:self.view];
+    MVMessage *message = [[MVMessageManualControl alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP target:0 x:p.x y:p.y z:1500 r:1500 buttons:0];
+    [[MPPackageManager sharedInstance] sendMessageWithoutAck:message];
+}
 @end
