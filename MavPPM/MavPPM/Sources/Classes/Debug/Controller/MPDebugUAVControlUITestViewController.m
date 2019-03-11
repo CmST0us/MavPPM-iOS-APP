@@ -13,11 +13,17 @@
 #import "MPDebugUAVControlUITestViewController.h"
 #import "MPGravityRollIndicateView.h"
 #import "MPGraviryPitchRollIndicateView.h"
+#import "MPThrottleControlView.h"
 
 @interface MPDebugUAVControlUITestViewController ()<MPGravityControlDelegate>
+
+@property (nonatomic, assign) CGPoint throttleBeginPoint;
+@property (nonatomic, assign) CGFloat throttleValue;
+
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) MPGravityRollIndicateView *rollIndicateView;
 @property (nonatomic, strong) MPGraviryPitchRollIndicateView *circleIndicateView;
+@property (nonatomic, strong) MPThrottleControlView *throttleControlView;
 
 @property (nonatomic, strong) MPMotionManager *motionManager;
 @property (nonatomic, strong) MPGravityDeviceMotionControl *deviceMotionControl;
@@ -29,6 +35,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor controlBgBlack];
     
+    self.throttleValue = 1000;
+    
     self.label = [[UILabel alloc] init];
     [self.view addSubview:self.label];
     [self.label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -37,6 +45,12 @@
         make.height.mas_equalTo(20);
     }];
     self.label.text = @"Hello World";
+    
+    self.throttleControlView = [[MPThrottleControlView alloc] init];
+    [self.view addSubview:self.throttleControlView];
+    [self.throttleControlView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
     
     self.rollIndicateView = [[MPGravityRollIndicateView alloc] init];
     [self.view addSubview:self.rollIndicateView];

@@ -22,6 +22,7 @@
 - (void)viewDidInit {
     [super viewDidInit];
     
+    self.userInteractionEnabled = NO;
     _currentBound = self.bounds;
 }
 

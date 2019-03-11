@@ -16,6 +16,11 @@
 
 @implementation MPGravityRollIndicateView
 
+- (void)viewDidInit {
+    [super viewDidInit];
+    self.userInteractionEnabled = NO;
+}
+
 - (CAShapeLayer *)indicateLayer {
     if (_indicateLayer) {
         return _indicateLayer;

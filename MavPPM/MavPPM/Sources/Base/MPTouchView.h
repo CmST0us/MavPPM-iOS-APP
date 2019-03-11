@@ -1,8 +1,8 @@
 //
-//  MPThrottleIndicateView.h
+//  MPTouchView.h
 //  MavPPM
 //
-//  Created by CmST0us on 2019/3/10.
+//  Created by CmST0us on 2019/3/11.
 //  Copyright © 2019 eric3u. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MPThrottleIndicateView : MPView
+@interface MPTouchView : MPView
 
 @end
 
