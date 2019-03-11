@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIColor+MavPPMColor.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MPView : UIView
+
+- (void)viewDidInit NS_REQUIRES_SUPER;
 
 @end
 

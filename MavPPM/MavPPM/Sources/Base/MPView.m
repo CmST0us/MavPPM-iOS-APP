@@ -9,5 +9,32 @@
 #import "MPView.h"
 
 @implementation MPView
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self setupView];
+        [self viewDidInit];
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setupView];
+        [self viewDidInit];
+    }
+    return self;
+}
+
+- (void)setupView {
+    [self setBackgroundColor:[UIColor clearColor]];
+}
+
+- (void)viewDidInit {
+    
+}
 
 @end

@@ -26,6 +26,7 @@
                   @[@"GravityControl", @"MPDebugGravityViewController"],
                   @[@"TCP监听，usbmuxd接入", @"MPDebugTCPServerTestViewController"],
                   @[@"MavPPM Cube, mavlink 心跳", @"MPDebugCubeHeartbeatTestViewController"],
+                  @[@"控制页UI测试", @"MPDebugUAVControlUITestViewController"],
                   ];
     
     return debugList;

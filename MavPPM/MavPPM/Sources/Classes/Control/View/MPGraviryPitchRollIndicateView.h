@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MPGraviryPitchRollIndicateView : MPView
-
+@property (nonatomic, strong) NSNumber *rollValue;
+@property (nonatomic, strong) NSNumber *pitchValue;
 @end
 
 NS_ASSUME_NONNULL_END
