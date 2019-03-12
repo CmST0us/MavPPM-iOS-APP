@@ -60,6 +60,7 @@
     
     _selectView = [[MPBindChannelSelectView alloc] init];
     [self.view addSubview:_selectView];
+    _selectView.model = self.bindModel;
     [_selectView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.view);
         make.left.equalTo(self.view).offset(80);
@@ -122,6 +123,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self bindchannel_setupUI];
+    
+    [self addObserver:self forKeyPath:@"bindModel.currentSelectChannelNumber" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath compare:@"bindModel.currentSelectChannelNumber"] == NSOrderedSame) {
+        [self channelChange];
+    }
+}
+
+- (void)dealloc {
+    [self removeObserver:self forKeyPath:@"bindModel.currentSelectChannelNumber"];
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
@@ -130,10 +143,18 @@
 
 #pragma mark - Button Event
 - (void)cancel {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)next {
+    self.bindModel.currentBindFlow++;
+    Class next = [self.bindModel nextFlowViewControllerClass];
+    MPBindChannelViewController *vc = [(MPBindChannelViewController *)[next alloc] init];
+    vc.bindModel = self.bindModel;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)channelChange {
     
 }
 

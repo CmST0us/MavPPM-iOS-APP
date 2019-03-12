@@ -9,9 +9,9 @@
 #import "MPView.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class MPBindChannelModel;
 @interface MPBindChannelSelectView : MPView
-
+@property (nonatomic, strong) MPBindChannelModel *model;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -9,14 +9,9 @@
 #import "MPView.h"
 
 @implementation MPView
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self setupView];
-        [self viewDidInit];
-    }
-    return self;
+
+- (instancetype)init {
+    return [self initWithFrame:CGRectZero];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame

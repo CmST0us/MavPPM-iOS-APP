@@ -10,6 +10,7 @@
 
 #import "MPDebugViewController.h"
 #import "NSObject+ClassDomain.h"
+#import "MPBindChannelModel.h"
 
 @interface MPDebugViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *debugListTableView;
@@ -27,7 +28,7 @@
                   @[@"TCP监听，usbmuxd接入", @"MPDebugTCPServerTestViewController"],
                   @[@"MavPPM Cube, mavlink 心跳", @"MPDebugCubeHeartbeatTestViewController"],
                   @[@"控制页UI测试", @"MPDebugUAVControlUITestViewController"],
-                  @[@"绑定页UI", @"MPBindChannelViewController"],
+                  @[@"绑定页UI", @"MPBindThrottleChannelViewController"],
                   ];
     
     return debugList;
@@ -97,6 +98,10 @@
     Class targetClass = NSClassFromString(debugClassString);
     UIViewController *vc = [[targetClass alloc] init];
     if (vc != nil) {
+        if ([debugClassString compare:@"MPBindThrottleChannelViewController"] == NSOrderedSame) {
+            MPBindChannelModel *model = [[MPBindChannelModel alloc] init];
+            [vc setValue:model forKey:@"bindModel"];
+        }
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

@@ -7,6 +7,7 @@
 //
 
 #import "MPViewController.h"
+#import "MPBindChannelModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,11 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *bindChannelTitle;
 @property (nonatomic, copy) NSString *bindInfo;
-@property (nonatomic, strong) MPBindChannelModel *logic;
+@property (nonatomic, strong) MPBindChannelModel *bindModel;
 
 - (void)cancel;
 - (void)next;
-
+- (void)channelChange;
 
 @end
 

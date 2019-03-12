@@ -27,7 +27,7 @@
 }
 
 + (UIColor *)confirmGreen {
-    return [UIColor colorWithRed:99.0 / 255.0 green:221.0 / 255.0 blue:141.0 / 255.0 alpha:1];
+    return [UIColor colorWithRed:0 green:187.0 / 255.0 blue:63.0 / 255.0 alpha:1];
 }
 
 @end
