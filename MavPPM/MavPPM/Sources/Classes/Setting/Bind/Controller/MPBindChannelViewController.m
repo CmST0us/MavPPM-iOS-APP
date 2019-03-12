@@ -9,7 +9,7 @@
 #import "MPBindChannelViewController.h"
 #import "MPBindChannelSelectView.h"
 
-@interface MPBindChannelViewController ()
+@interface MPBindChannelViewController ()<MPBindChannelSelectViewDelegate>
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *infoLabel;
 @property (nonatomic, strong) MPBindChannelSelectView *selectView;
@@ -59,6 +59,7 @@
     }];
     
     _selectView = [[MPBindChannelSelectView alloc] init];
+    _selectView.delegate = self;
     [self.view addSubview:_selectView];
     _selectView.model = self.bindModel;
     [_selectView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -123,18 +124,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self bindchannel_setupUI];
-    
-    [self addObserver:self forKeyPath:@"bindModel.currentSelectChannelNumber" options:NSKeyValueObservingOptionNew context:nil];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if ([keyPath compare:@"bindModel.currentSelectChannelNumber"] == NSOrderedSame) {
-        [self channelChange];
-    }
 }
 
 - (void)dealloc {
-    [self removeObserver:self forKeyPath:@"bindModel.currentSelectChannelNumber"];
+    
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
@@ -148,6 +141,7 @@
 
 - (void)next {
     self.bindModel.currentBindFlow++;
+    self.bindModel.currentSelectChannelNumber = [self.bindModel nextBindableChannelNumber];
     Class next = [self.bindModel nextFlowViewControllerClass];
     MPBindChannelViewController *vc = [(MPBindChannelViewController *)[next alloc] init];
     vc.bindModel = self.bindModel;
@@ -156,6 +150,12 @@
 
 - (void)channelChange {
     
+}
+
+#pragma mark - Delegate
+- (void)channelSelectView:(MPBindChannelSelectView *)view didSelectChannel:(MPChannelNumber)channelNumber {
+    self.bindModel.currentSelectChannelNumber = channelNumber;
+    [self channelChange];
 }
 
 @end

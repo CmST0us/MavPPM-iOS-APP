@@ -77,6 +77,8 @@ typedef NS_ENUM(NSInteger, MPChannelNumber) {
                      to:(MPChannelNumber)channelNumber
                   force:(BOOL)forceBind;
 
+- (MPChannelNumber)nextBindableChannelNumber;
+
 - (NSArray *)descriptionDictionArray;
 - (Class)nextFlowViewControllerClass;
 

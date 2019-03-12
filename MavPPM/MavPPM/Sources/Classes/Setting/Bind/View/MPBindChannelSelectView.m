@@ -13,7 +13,7 @@ static NSString * const kMPBindChannelSelectViewCellId = @"cell";
 
 @interface MPBindChannelSelectView () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
-
+@property (nonatomic, copy) NSArray *channelDescriptionArray;
 @end
 
 @implementation MPBindChannelSelectView
@@ -30,10 +30,16 @@ static NSString * const kMPBindChannelSelectViewCellId = @"cell";
     self.tableView.dataSource = self;
     self.tableView.showsVerticalScrollIndicator = NO;
     
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kMPBindChannelSelectViewCellId];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);
     }];
+}
+
+- (NSArray *)channelDescriptionArray {
+    if (_channelDescriptionArray) {
+        return _channelDescriptionArray;
+    }
+    return [self.model descriptionDictionArray];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -49,14 +55,19 @@ static NSString * const kMPBindChannelSelectViewCellId = @"cell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMPBindChannelSelectViewCellId forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kMPBindChannelSelectViewCellId];
+    if (cell == NULL) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kMPBindChannelSelectViewCellId];
+    }
+    
     cell.backgroundColor = UIColor.clearColor;
     cell.textLabel.textColor = [UIColor whiteColor];
+    cell.detailTextLabel.textColor = [UIColor whiteColor];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:10];
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    cell.textLabel.text = [[NSString alloc] initWithFormat:@"%@%ld", NSLocalizedString(@"mav_bind_channel_select_view_channel", @"通道"), indexPath.row];
-    cell.detailTextLabel.text = [self.model descriptionDictionArray][indexPath.row];
+    cell.textLabel.text = [[NSString alloc] initWithFormat:@"%@%d:%@", NSLocalizedString(@"mav_bind_channel_select_view_channel", @"通道"), (int)indexPath.row + 1, self.channelDescriptionArray[indexPath.row]];
     if (self.model.currentSelectChannelNumber == indexPath.row + 1) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     } else {
@@ -68,8 +79,14 @@ static NSString * const kMPBindChannelSelectViewCellId = @"cell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    self.model.currentSelectChannelNumber = indexPath.row + 1;
-    [tableView reloadData];
+    if (![self.model isChannelNumberBind:indexPath.row + 1]) {
+        self.model.currentSelectChannelNumber = indexPath.row + 1;
+        [tableView reloadData];
+        if (self.delegate &&
+            [self.delegate respondsToSelector:@selector(channelSelectView:didSelectChannel:)]) {
+            [self.delegate channelSelectView:self didSelectChannel:self.model.currentSelectChannelNumber];
+        }
+    }
 }
 
 @end

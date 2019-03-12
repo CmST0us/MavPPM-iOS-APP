@@ -51,7 +51,7 @@
 }
 
 - (void)next {
-    
+    [self.bindModel bindChannelType:MPChannelTypePitch to:self.bindModel.currentSelectChannelNumber force:YES];
     [super next];
 }
 

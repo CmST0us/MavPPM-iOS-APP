@@ -28,7 +28,7 @@
                                   };
         _channelMap = [[NSMutableDictionary alloc] initWithDictionary:bindMap];
         _currentBindFlow = MPBindChannelFlowInit;
-        _currentSelectChannelNumber = MPChannelNumberUnbind;
+        _currentSelectChannelNumber = MPChannelNumber1;
     }
     return self;
 }
@@ -138,6 +138,15 @@
         staticFlowVC = flowViewController;
     }
     return NSClassFromString(staticFlowVC[@(self.currentBindFlow)]);
+}
+
+- (MPChannelNumber)nextBindableChannelNumber {
+    for (int i = MPChannelNumber1; i < MPChannelNumberCount; ++i) {
+        if ([self canBindChannelNumber:i]) {
+            return i;
+        }
+    }
+    return MPChannelNumberUnbind;
 }
 
 #pragma mark - Description

@@ -52,7 +52,7 @@
 
 - (void)next {
     [self cancelTimer];
-    
+    [self.bindModel bindChannelType:MPChannelTypeThrottle to:self.bindModel.currentSelectChannelNumber force:YES];
     [super next];
 }
 

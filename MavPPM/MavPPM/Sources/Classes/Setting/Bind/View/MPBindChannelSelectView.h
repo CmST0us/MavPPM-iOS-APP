@@ -7,11 +7,20 @@
 //
 
 #import "MPView.h"
+#import "MPBindChannelModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class MPBindChannelSelectView;
+@protocol MPBindChannelSelectViewDelegate <NSObject>
+- (void)channelSelectView:(MPBindChannelSelectView *)view didSelectChannel:(MPChannelNumber)channelNumber;
+
+@end
+
 @class MPBindChannelModel;
 @interface MPBindChannelSelectView : MPView
 @property (nonatomic, strong) MPBindChannelModel *model;
+@property (nonatomic, weak) id<MPBindChannelSelectViewDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

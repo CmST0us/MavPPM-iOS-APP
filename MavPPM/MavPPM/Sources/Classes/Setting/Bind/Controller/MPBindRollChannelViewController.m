@@ -53,7 +53,7 @@
 }
 
 - (void)next {
-    
+    [self.bindModel bindChannelType:MPChannelTypeRoll to:self.bindModel.currentSelectChannelNumber force:YES];
     [super next];
 }
 
