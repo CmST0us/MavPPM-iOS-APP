@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIColor *)controlIndicateWhite;
 + (UIColor *)controlRollRed;
 + (UIColor *)controlThrottleGreen;
++ (UIColor *)confirmGreen;
 @end
 
 NS_ASSUME_NONNULL_END

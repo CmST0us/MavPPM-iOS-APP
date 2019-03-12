@@ -25,4 +25,9 @@
 + (UIColor *)controlThrottleGreen {
     return [UIColor colorWithRed:99.0 / 255.0 green:221.0 / 255.0 blue:141.0 / 255.0 alpha:1];
 }
+
++ (UIColor *)confirmGreen {
+    return [UIColor colorWithRed:99.0 / 255.0 green:221.0 / 255.0 blue:141.0 / 255.0 alpha:1];
+}
+
 @end

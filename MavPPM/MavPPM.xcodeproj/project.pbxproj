@@ -10,6 +10,15 @@
 		4F3FECA42236300A008BAD84 /* MPDebugUAVControlUITestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECA32236300A008BAD84 /* MPDebugUAVControlUITestViewController.m */; };
 		4F3FECA7223661BF008BAD84 /* MPThrottleControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECA6223661BF008BAD84 /* MPThrottleControlView.m */; };
 		4F3FECAA2236667C008BAD84 /* MPTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECA92236667C008BAD84 /* MPTouchView.m */; };
+		4F3FECB1223787C3008BAD84 /* MPBindChannelSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECB0223787C3008BAD84 /* MPBindChannelSelectView.m */; };
+		4F3FECB722378817008BAD84 /* MPBindChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECB622378817008BAD84 /* MPBindChannelViewController.m */; };
+		4F3FECBA2237883B008BAD84 /* MPBindThrottleChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECB92237883B008BAD84 /* MPBindThrottleChannelViewController.m */; };
+		4F3FECBD2237884E008BAD84 /* MPBindRollChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECBC2237884E008BAD84 /* MPBindRollChannelViewController.m */; };
+		4F3FECC02237885C008BAD84 /* MPBindPitchChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECBF2237885C008BAD84 /* MPBindPitchChannelViewController.m */; };
+		4F3FECC322378868008BAD84 /* MPBindYawChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECC222378868008BAD84 /* MPBindYawChannelViewController.m */; };
+		4F3FECC622378891008BAD84 /* MPBindButtonChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECC522378891008BAD84 /* MPBindButtonChannelViewController.m */; };
+		4F3FECC9223790A5008BAD84 /* MPBindChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECC8223790A5008BAD84 /* MPBindChannelModel.m */; };
+		4F3FECCF22379575008BAD84 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4F3FECD122379575008BAD84 /* Localizable.strings */; };
 		4F43EBFF2235115B00A1EBF8 /* MPMainUAVControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F43EBFE2235115B00A1EBF8 /* MPMainUAVControlViewController.m */; };
 		4F43EC02223511A600A1EBF8 /* MPGravityRollIndicateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F43EC01223511A600A1EBF8 /* MPGravityRollIndicateView.m */; };
 		4F43EC052235120E00A1EBF8 /* MPGraviryPitchRollIndicateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F43EC042235120E00A1EBF8 /* MPGraviryPitchRollIndicateView.m */; };
@@ -67,6 +76,23 @@
 		4F3FECA6223661BF008BAD84 /* MPThrottleControlView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPThrottleControlView.m; sourceTree = "<group>"; };
 		4F3FECA82236667C008BAD84 /* MPTouchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPTouchView.h; sourceTree = "<group>"; };
 		4F3FECA92236667C008BAD84 /* MPTouchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPTouchView.m; sourceTree = "<group>"; };
+		4F3FECAF223787C3008BAD84 /* MPBindChannelSelectView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPBindChannelSelectView.h; sourceTree = "<group>"; };
+		4F3FECB0223787C3008BAD84 /* MPBindChannelSelectView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPBindChannelSelectView.m; sourceTree = "<group>"; };
+		4F3FECB522378817008BAD84 /* MPBindChannelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPBindChannelViewController.h; sourceTree = "<group>"; };
+		4F3FECB622378817008BAD84 /* MPBindChannelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPBindChannelViewController.m; sourceTree = "<group>"; };
+		4F3FECB82237883B008BAD84 /* MPBindThrottleChannelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPBindThrottleChannelViewController.h; sourceTree = "<group>"; };
+		4F3FECB92237883B008BAD84 /* MPBindThrottleChannelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPBindThrottleChannelViewController.m; sourceTree = "<group>"; };
+		4F3FECBB2237884E008BAD84 /* MPBindRollChannelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPBindRollChannelViewController.h; sourceTree = "<group>"; };
+		4F3FECBC2237884E008BAD84 /* MPBindRollChannelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPBindRollChannelViewController.m; sourceTree = "<group>"; };
+		4F3FECBE2237885C008BAD84 /* MPBindPitchChannelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPBindPitchChannelViewController.h; sourceTree = "<group>"; };
+		4F3FECBF2237885C008BAD84 /* MPBindPitchChannelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPBindPitchChannelViewController.m; sourceTree = "<group>"; };
+		4F3FECC122378868008BAD84 /* MPBindYawChannelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPBindYawChannelViewController.h; sourceTree = "<group>"; };
+		4F3FECC222378868008BAD84 /* MPBindYawChannelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPBindYawChannelViewController.m; sourceTree = "<group>"; };
+		4F3FECC422378891008BAD84 /* MPBindButtonChannelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPBindButtonChannelViewController.h; sourceTree = "<group>"; };
+		4F3FECC522378891008BAD84 /* MPBindButtonChannelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPBindButtonChannelViewController.m; sourceTree = "<group>"; };
+		4F3FECC7223790A5008BAD84 /* MPBindChannelModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPBindChannelModel.h; sourceTree = "<group>"; };
+		4F3FECC8223790A5008BAD84 /* MPBindChannelModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPBindChannelModel.m; sourceTree = "<group>"; };
+		4F3FECD022379575008BAD84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4F43EBFD2235115B00A1EBF8 /* MPMainUAVControlViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPMainUAVControlViewController.h; sourceTree = "<group>"; };
 		4F43EBFE2235115B00A1EBF8 /* MPMainUAVControlViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPMainUAVControlViewController.m; sourceTree = "<group>"; };
 		4F43EC00223511A600A1EBF8 /* MPGravityRollIndicateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPGravityRollIndicateView.h; sourceTree = "<group>"; };
@@ -133,6 +159,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F3FECAB22378794008BAD84 /* Bind */ = {
+			isa = PBXGroup;
+			children = (
+				4F3FECAE223787AC008BAD84 /* View */,
+				4F3FECAD223787A7008BAD84 /* Model */,
+				4F3FECAC2237879F008BAD84 /* Controller */,
+			);
+			path = Bind;
+			sourceTree = "<group>";
+		};
+		4F3FECAC2237879F008BAD84 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4F3FECB522378817008BAD84 /* MPBindChannelViewController.h */,
+				4F3FECB622378817008BAD84 /* MPBindChannelViewController.m */,
+				4F3FECB82237883B008BAD84 /* MPBindThrottleChannelViewController.h */,
+				4F3FECB92237883B008BAD84 /* MPBindThrottleChannelViewController.m */,
+				4F3FECBB2237884E008BAD84 /* MPBindRollChannelViewController.h */,
+				4F3FECBC2237884E008BAD84 /* MPBindRollChannelViewController.m */,
+				4F3FECBE2237885C008BAD84 /* MPBindPitchChannelViewController.h */,
+				4F3FECBF2237885C008BAD84 /* MPBindPitchChannelViewController.m */,
+				4F3FECC122378868008BAD84 /* MPBindYawChannelViewController.h */,
+				4F3FECC222378868008BAD84 /* MPBindYawChannelViewController.m */,
+				4F3FECC422378891008BAD84 /* MPBindButtonChannelViewController.h */,
+				4F3FECC522378891008BAD84 /* MPBindButtonChannelViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4F3FECAD223787A7008BAD84 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4F3FECC7223790A5008BAD84 /* MPBindChannelModel.h */,
+				4F3FECC8223790A5008BAD84 /* MPBindChannelModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4F3FECAE223787AC008BAD84 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4F3FECAF223787C3008BAD84 /* MPBindChannelSelectView.h */,
+				4F3FECB0223787C3008BAD84 /* MPBindChannelSelectView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		4F43EC09223628D900A1EBF8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,6 +249,7 @@
 				4F5CBCFA21DE41850007976C /* main.m */,
 				4F5CBCF421DE41850007976C /* Assets.xcassets */,
 				4F5CBCF621DE41850007976C /* LaunchScreen.storyboard */,
+				4F3FECD122379575008BAD84 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -226,6 +300,7 @@
 		4F5CBD0F21DE49390007976C /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				4F3FECAB22378794008BAD84 /* Bind */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -389,6 +464,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F5CBCF821DE41850007976C /* LaunchScreen.storyboard in Resources */,
+				4F3FECCF22379575008BAD84 /* Localizable.strings in Resources */,
 				4F5CBCF521DE41850007976C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,18 +487,26 @@
 				4F3FECA42236300A008BAD84 /* MPDebugUAVControlUITestViewController.m in Sources */,
 				4F5CBD2921DE51780007976C /* MPDebugViewController.m in Sources */,
 				4F5CBCF021DE41840007976C /* ViewController.m in Sources */,
+				4F3FECC622378891008BAD84 /* MPBindButtonChannelViewController.m in Sources */,
+				4F3FECB722378817008BAD84 /* MPBindChannelViewController.m in Sources */,
 				4F3FECAA2236667C008BAD84 /* MPTouchView.m in Sources */,
 				4FD32B222210339C00C391E8 /* MPDebugGravityViewController.m in Sources */,
 				4F43EBFF2235115B00A1EBF8 /* MPMainUAVControlViewController.m in Sources */,
+				4F3FECBD2237884E008BAD84 /* MPBindRollChannelViewController.m in Sources */,
+				4F3FECC02237885C008BAD84 /* MPBindPitchChannelViewController.m in Sources */,
 				4F5CBD2621DE506A0007976C /* MPDebugHeartBeatViewController.m in Sources */,
 				4FBCCDF121EF904500E7BF3C /* MPDebugHeartbeatDevice.m in Sources */,
 				4FBCCE0E21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m in Sources */,
 				4F5CBCFB21DE41850007976C /* main.m in Sources */,
+				4F3FECBA2237883B008BAD84 /* MPBindThrottleChannelViewController.m in Sources */,
 				4F43EC0C22362D6900A1EBF8 /* UIColor+MavPPMColor.m in Sources */,
 				4FBCCDE921EF7F9700E7BF3C /* MPPackageManager.m in Sources */,
 				4F5CBCED21DE41840007976C /* AppDelegate.m in Sources */,
 				4FF764392230D87600D259CA /* MPDebugCubeHeartbeatTestViewController.m in Sources */,
 				4F5CBD1D21DE4E7C0007976C /* MPView.m in Sources */,
+				4F3FECC322378868008BAD84 /* MPBindYawChannelViewController.m in Sources */,
+				4F3FECC9223790A5008BAD84 /* MPBindChannelModel.m in Sources */,
+				4F3FECB1223787C3008BAD84 /* MPBindChannelSelectView.m in Sources */,
 				4FE68043221035620048C7D9 /* MPCMMotionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,6 +514,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		4F3FECD122379575008BAD84 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F3FECD022379575008BAD84 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		4F5CBCF621DE41850007976C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

@@ -27,6 +27,7 @@
                   @[@"TCP监听，usbmuxd接入", @"MPDebugTCPServerTestViewController"],
                   @[@"MavPPM Cube, mavlink 心跳", @"MPDebugCubeHeartbeatTestViewController"],
                   @[@"控制页UI测试", @"MPDebugUAVControlUITestViewController"],
+                  @[@"绑定页UI", @"MPBindChannelViewController"],
                   ];
     
     return debugList;
