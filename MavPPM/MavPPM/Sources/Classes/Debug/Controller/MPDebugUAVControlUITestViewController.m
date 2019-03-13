@@ -20,6 +20,8 @@
 
 @property (nonatomic, assign) CGPoint throttleBeginPoint;
 @property (nonatomic, assign) CGFloat throttleValue;
+@property (nonatomic, assign) CGFloat lastRoll;
+@property (nonatomic, assign) CGFloat lastPitch;
 
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) MPGravityRollIndicateView *rollIndicateView;
@@ -28,6 +30,9 @@
 @property (nonatomic, strong) MPYawControlView *yawControlView;
 @property (nonatomic, strong) MPMotionManager *motionManager;
 @property (nonatomic, strong) MPGravityDeviceMotionControl *deviceMotionControl;
+
+@property (nonatomic, strong) UIImpactFeedbackGenerator *lightFeedback;
+@property (nonatomic, strong) UIImpactFeedbackGenerator *heavyFeedback;
 @end
 
 @implementation MPDebugUAVControlUITestViewController
@@ -37,6 +42,13 @@
     self.view.backgroundColor = [UIColor controlBgBlack];
     
     self.throttleValue = 1000;
+    _lastRoll = 0;
+    _lastPitch = 0;
+    
+    self.lightFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
+    self.heavyFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
+    [self.lightFeedback prepare];
+    [self.heavyFeedback prepare];
     
     self.label = [[UILabel alloc] init];
     [self.view addSubview:self.label];
@@ -82,7 +94,29 @@
 - (void)gravityControlDidUpdateData:(MPGravityControl *)control {
     double rollValue = self.deviceMotionControl.data.attitude.pitch;
     double pitchValue = self.deviceMotionControl.data.attitude.roll;
+    double rollDeg = RADToDEG(rollValue);
+    double pitchDeg = RADToDEG(pitchValue);
+    double lastRollDeg = RADToDEG(self.lastRoll);
+    double lastPitchDeg = RADToDEG(self.lastPitch);
+    
     dispatch_async(dispatch_get_main_queue(), ^{
+        if (ABS(lastRollDeg - rollDeg) > 1) {
+            [self.lightFeedback impactOccurred];
+            self.lastRoll = rollValue;
+        }
+        if (ABS(lastPitchDeg - pitchDeg) > 1) {
+            [self.lightFeedback impactOccurred];
+            self.lastPitch = pitchValue;
+        }
+        if (ABS(lastPitchDeg - pitchDeg) > 1 &&
+            ABS(lastRollDeg - rollDeg) > 1 &&
+            ABS(rollDeg) < 1 &&
+            ABS(pitchDeg) < 1) {
+            [self.heavyFeedback impactOccurred];
+            self.lastRoll = rollValue;
+            self.lastPitch = pitchValue;
+        }
+        
         self.rollIndicateView.rollValue = @(rollValue);
         self.circleIndicateView.rollValue = @(rollValue);
         self.circleIndicateView.pitchValue = @(pitchValue);

@@ -29,6 +29,7 @@
                   @[@"MavPPM Cube, mavlink 心跳", @"MPDebugCubeHeartbeatTestViewController"],
                   @[@"控制页UI测试", @"MPDebugUAVControlUITestViewController"],
                   @[@"绑定页UI", @"MPBindThrottleChannelViewController"],
+                  @[@"震动反馈", @"MPDebugFeedbackViewController"],
                   ];
     
     return debugList;
