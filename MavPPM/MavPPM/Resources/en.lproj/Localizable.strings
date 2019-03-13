@@ -35,3 +35,4 @@
 
 // Control View
 "mavppm_control_view_attitude_info" = "翻滚: %.1f°   俯仰: %.1f°";
+"mavppm_control_view_try_unlock_message" = "请水平放置手机以解锁";

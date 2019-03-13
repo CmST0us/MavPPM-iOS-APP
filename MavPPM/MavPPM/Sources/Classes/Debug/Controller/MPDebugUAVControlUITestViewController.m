@@ -22,9 +22,12 @@
 @property (nonatomic, assign) CGFloat throttleValue;
 @property (nonatomic, assign) CGFloat lastRoll;
 @property (nonatomic, assign) CGFloat lastPitch;
+@property (nonatomic, assign) NSInteger unlockConfirmCount;
+@property (nonatomic, assign) BOOL isLock;
 
-@property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) UILabel *attitudeInfoLabel;
+@property (nonatomic, strong) UIImageView *controlLockView;
+@property (nonatomic, strong) UIAlertController *unlockAlertController;
 
 @property (nonatomic, strong) MPGravityRollIndicateView *rollIndicateView;
 @property (nonatomic, strong) MPGraviryPitchRollIndicateView *circleIndicateView;
@@ -39,27 +42,23 @@
 
 @implementation MPDebugUAVControlUITestViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor controlBgBlack];
-    
+- (void)tryUnlock {
+    self.unlockAlertController = [UIAlertController alertControllerWithTitle:@"MavPPM" message:NSLocalizedString(@"mavppm_control_view_try_unlock_message", nil) preferredStyle:UIAlertControllerStyleAlert];
+    [self presentViewController:self.unlockAlertController animated:YES completion:^{
+        [self unlock];
+    }];
+}
+
+- (void)unlock {
     self.throttleValue = 1000;
     _lastRoll = 0;
     _lastPitch = 0;
+    _unlockConfirmCount = 0;
     
     self.lightFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
     self.heavyFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
     [self.lightFeedback prepare];
     [self.heavyFeedback prepare];
-    
-    self.label = [[UILabel alloc] init];
-    [self.view addSubview:self.label];
-    [self.label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(12);
-        make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(20);
-    }];
-    self.label.text = @"Hello World";
     
     self.throttleControlView = [[MPThrottleControlView alloc] init];
     [self.view addSubview:self.throttleControlView];
@@ -102,6 +101,42 @@
     self.deviceMotionControl.delegate = self;
     [self.motionManager addControl:self.deviceMotionControl];
     [self.motionManager startUpdate];
+    
+    [self.controlLockView removeFromSuperview];
+    self.controlLockView = nil;
+}
+
+- (void)lock {
+    [self.throttleControlView removeFromSuperview];
+    self.throttleControlView = nil;
+    [self.yawControlView removeFromSuperview];
+    self.yawControlView = nil;
+    [self.rollIndicateView removeFromSuperview];
+    self.rollIndicateView = nil;
+    [self.circleIndicateView removeFromSuperview];
+    self.circleIndicateView = nil;
+    [self.attitudeInfoLabel removeFromSuperview];
+    self.attitudeInfoLabel = nil;
+    [self.motionManager stop];
+    self.motionManager = nil;
+    self.deviceMotionControl = nil;
+    
+    self.controlLockView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"control_view_lock"]];
+    [self.view addSubview:self.controlLockView];
+    [self.controlLockView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.centerY.equalTo(self.view);
+    }];
+    self.controlLockView.userInteractionEnabled = YES;
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tryUnlock)];
+    [self.controlLockView addGestureRecognizer:tap];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor controlBgBlack];
+    _isLock = YES;
+    [self lock];
 }
 
 - (void)setAttitudeInfoWithPitch:(CGFloat)pitch
@@ -118,28 +153,39 @@
     double pitchDeg = RADToDEG(pitchValue);
     double lastRollDeg = RADToDEG(self.lastRoll);
     double lastPitchDeg = RADToDEG(self.lastPitch);
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (ABS(lastRollDeg - rollDeg) > 1) {
-            [self.lightFeedback impactOccurred];
-            self.lastRoll = rollValue;
+        if (self.isLock) {
+            if (ABS(rollDeg) < 2 &&
+                ABS(pitchDeg) < 2) {
+                self.unlockConfirmCount++;
+                if (self.unlockConfirmCount > 100) {
+                    self.isLock = NO;
+                    [self.unlockAlertController dismissViewControllerAnimated:YES completion:nil];
+                    self.unlockConfirmCount = 0;
+                }
+            }
+        } else {
+            if (ABS(lastRollDeg - rollDeg) > 1) {
+                [self.lightFeedback impactOccurred];
+                self.lastRoll = rollValue;
+            }
+            if (ABS(lastPitchDeg - pitchDeg) > 1) {
+                [self.lightFeedback impactOccurred];
+                self.lastPitch = pitchValue;
+            }
+            if (ABS(lastPitchDeg - pitchDeg) > 1 &&
+                ABS(lastRollDeg - rollDeg) > 1 &&
+                ABS(rollDeg) < 1 &&
+                ABS(pitchDeg) < 1) {
+                [self.heavyFeedback impactOccurred];
+                self.lastRoll = rollValue;
+                self.lastPitch = pitchValue;
+            }
+            
+            self.rollIndicateView.rollValue = @(rollValue);
+            self.circleIndicateView.rollValue = @(rollValue);
+            self.circleIndicateView.pitchValue = @(pitchValue);
         }
-        if (ABS(lastPitchDeg - pitchDeg) > 1) {
-            [self.lightFeedback impactOccurred];
-            self.lastPitch = pitchValue;
-        }
-        if (ABS(lastPitchDeg - pitchDeg) > 1 &&
-            ABS(lastRollDeg - rollDeg) > 1 &&
-            ABS(rollDeg) < 1 &&
-            ABS(pitchDeg) < 1) {
-            [self.heavyFeedback impactOccurred];
-            self.lastRoll = rollValue;
-            self.lastPitch = pitchValue;
-        }
-        
-        self.rollIndicateView.rollValue = @(rollValue);
-        self.circleIndicateView.rollValue = @(rollValue);
-        self.circleIndicateView.pitchValue = @(pitchValue);
         [self setAttitudeInfoWithPitch:-pitchValue roll:rollValue];
     });
 }
