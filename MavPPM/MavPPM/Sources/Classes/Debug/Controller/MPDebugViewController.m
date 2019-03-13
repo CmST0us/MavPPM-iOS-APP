@@ -22,7 +22,7 @@
     static NSArray *debugList;
     if (debugList != NULL) return debugList;
     debugList = @[
-                  @[@"HeatBeat", @"MPDebugHeartBeatViewController"],
+                  @[@"HeartBeat", @"MPDebugHeartBeatViewController"],
                   @[@"PackageManager", @"MPDebugPackageManagerViewController"],
                   @[@"GravityControl", @"MPDebugGravityViewController"],
                   @[@"TCP监听，usbmuxd接入", @"MPDebugTCPServerTestViewController"],

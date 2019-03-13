@@ -10,6 +10,8 @@
 #import "MPConnectViewController.h"
 #import "MPNavigationController.h"
 #import "MPConnectingLabel.h"
+#import "MPDeviceHeartbeat.h"
+#import "MPMainUAVControlViewController.h"
 
 #if DEBUG
 #import "MPDebugViewController.h"
@@ -17,6 +19,7 @@
 
 @interface MPConnectViewController ()
 @property (nonatomic, strong) MPConnectingLabel *connectingLabel;
+@property (nonatomic, strong) MPDeviceHeartbeat *heartbeatListener;
 #if DEBUG
 @property (nonatomic, strong) UITapGestureRecognizer *debugViewControllerVCGesture;
 #endif
@@ -25,9 +28,7 @@
 
 @implementation MPConnectViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
+- (void)setupUI {
     self.view.backgroundColor = [UIColor blackColor];
     self.connectingLabel = [[MPConnectingLabel alloc] init];
     [self.view addSubview:self.connectingLabel];
@@ -45,6 +46,22 @@
 #endif
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.heartbeatListener = [[MPDeviceHeartbeat alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceConnectionNormal) name:MPDeviceHeartbeatNormalNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceConnectionLost) name:MPDeviceHeartbeatLostNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceAttach) name:MPPackageManagerDidConnectedNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDetattch) name:MPPackageManagerDisconnectedNotificationName object:nil];
+    
+    
+    [self setupUI];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 #pragma mark - Action
 
@@ -55,6 +72,27 @@
     [self presentViewController:nav animated:YES completion:nil];	
 }
 #endif
+
+#pragma mark - Notification
+- (void)deviceConnectionNormal {
+    [[NSRunLoop mainRunLoop] performBlock:^{
+        MPMainUAVControlViewController *mainControlVC = [[MPMainUAVControlViewController alloc] init];
+        mainControlVC.heartbeatListener = self.heartbeatListener;
+        [self presentViewController:mainControlVC animated:YES completion:nil];
+    }];
+}
+
+- (void)deviceConnectionLost {
+    
+}
+
+- (void)deviceAttach {
+    [self.heartbeatListener startListenAndSendHeartbeat];
+}
+
+- (void)deviceDetattch {
+    [self.heartbeatListener stop];
+}
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskLandscapeRight;

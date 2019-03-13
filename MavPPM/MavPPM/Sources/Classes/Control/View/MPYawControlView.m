@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong) CAShapeLayer *yawIndicateShapeLayer;
 @property (nonatomic, assign) CGRect currentBound;
-@property (nonatomic, strong) MPControlValueLinear *liner;
+@property (nonatomic, strong) MPControlValueLinear *linear;
 @end
 
 @implementation MPYawControlView {
@@ -28,6 +28,7 @@
     self.userInteractionEnabled = YES;
     _currentBound = self.bounds;
     _touchArea = MPYawControlViewTouchAreaRight;
+    self.yawValue = @(1500);
 }
 
 - (CAShapeLayer *)yawIndicateShapeLayer {
@@ -57,7 +58,8 @@
         _currentBound = self.bounds;
         CGPoint zeroPoint = CGPointMake(0, 1500);
         CGPoint rightMax = CGPointMake(self.bounds.size.width / 2, 2000);
-        self.liner = [[MPControlValueLinear alloc] initWithPoint:zeroPoint Point2:rightMax];
+        self.linear = [[MPControlValueLinear alloc] initWithPoint:zeroPoint Point2:rightMax];
+        self.yawValue = @([self.linear calc:_currentYawIndicateOffsetFromCenterX]);
     }
     
     CGFloat centerX = [self boundCenterX];
@@ -83,11 +85,13 @@
     CGPoint pointInView = [touch locationInView:self];
     CGFloat xOffset = pointInView.x - _startTouchPoint.x;
     _currentYawIndicateOffsetFromCenterX = xOffset;
+    self.yawValue = @([self.linear calc:_currentYawIndicateOffsetFromCenterX]);
     [self setNeedsDisplay];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     _currentYawIndicateOffsetFromCenterX = 0;
+    self.yawValue = @([self.linear calc:_currentYawIndicateOffsetFromCenterX]);
     [self setNeedsDisplay];
 }
 

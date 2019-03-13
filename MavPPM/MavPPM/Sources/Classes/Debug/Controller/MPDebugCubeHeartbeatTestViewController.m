@@ -54,7 +54,7 @@
 - (void)onDisconnected {
     [self.heartbeatTimer invalidate];
     self.heartbeatTimer = nil;
-    [self appendDebugString:@"[MAVPPM]: Cube Disconnected, Stop Hearbeat\n"];
+    [self appendDebugString:@"[MAVPPM]: Cube Disconnected, Stop Heartbeat\n"];
 }
 
 - (void)onConnected {
@@ -66,7 +66,7 @@
     MVMessage *message = [[MVMessageManualControl alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP target:0 x:1500 y:1500 z:1500 r:1500 buttons:0];
     [[MPPackageManager sharedInstance] sendMessageWithoutAck:message];
 
-    [self appendDebugString:@"[MAVPPM]: Accept Cube, Start Heatbeat\n"];
+    [self appendDebugString:@"[MAVPPM]: Accept Cube, Start Heartbeat\n"];
 }
 
 - (void)appendDebugString:(NSString *)str {

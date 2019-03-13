@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import "MPConnectViewController.h"
 #import "MPCMMotionManager.h"
+#import "MPPackageManager.h"
+
+#define kMavPPMUsbmuxdListenPort (17123)
 
 @interface AppDelegate ()
 @property (nonatomic, strong) MPConnectViewController *connectVC;
@@ -16,12 +19,18 @@
 
 @implementation AppDelegate
 
+- (void)setupPackageManager {
+    [[MPPackageManager sharedInstance] setupPackageManagerWithLocalPort:kMavPPMUsbmuxdListenPort];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _connectVC = [[MPConnectViewController alloc] init];
     _window.rootViewController = _connectVC;
     [_window makeKeyAndVisible];
+    
+    [self setupPackageManager];
     
 //    NSString *s = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:@"https://www.baidu.com"] encoding:NSUTF8StringEncoding error:nil];
 //    s;

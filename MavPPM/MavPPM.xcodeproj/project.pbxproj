@@ -44,6 +44,7 @@
 		4F6D9FBD2238BE340039E226 /* MPYawControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D9FBC2238BE340039E226 /* MPYawControlView.m */; };
 		4F6D9FC02238D7F70039E226 /* MPDebugFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D9FBF2238D7F70039E226 /* MPDebugFeedbackViewController.m */; };
 		4F9248C52238F55F00463C9C /* MPConnectingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9248C42238F55F00463C9C /* MPConnectingLabel.m */; };
+		4F9248C9223906A400463C9C /* MPDeviceHeartbeat.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9248C8223906A400463C9C /* MPDeviceHeartbeat.m */; };
 		4FBCCDE921EF7F9700E7BF3C /* MPPackageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */; };
 		4FBCCDF121EF904500E7BF3C /* MPDebugHeartbeatDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDF021EF904500E7BF3C /* MPDebugHeartbeatDevice.m */; };
 		4FBCCE0E21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCE0D21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m */; };
@@ -136,6 +137,8 @@
 		4F6D9FBF2238D7F70039E226 /* MPDebugFeedbackViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugFeedbackViewController.m; sourceTree = "<group>"; };
 		4F9248C32238F55F00463C9C /* MPConnectingLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPConnectingLabel.h; sourceTree = "<group>"; };
 		4F9248C42238F55F00463C9C /* MPConnectingLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPConnectingLabel.m; sourceTree = "<group>"; };
+		4F9248C7223906A400463C9C /* MPDeviceHeartbeat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDeviceHeartbeat.h; sourceTree = "<group>"; };
+		4F9248C8223906A400463C9C /* MPDeviceHeartbeat.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDeviceHeartbeat.m; sourceTree = "<group>"; };
 		4FBCCDE721EF7F9700E7BF3C /* MPPackageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPPackageManager.h; sourceTree = "<group>"; };
 		4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPPackageManager.m; sourceTree = "<group>"; };
 		4FBCCDEF21EF904500E7BF3C /* MPDebugHeartbeatDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugHeartbeatDevice.h; sourceTree = "<group>"; };
@@ -291,6 +294,7 @@
 		4F5CBD0D21DE48E50007976C /* Connect */ = {
 			isa = PBXGroup;
 			children = (
+				4F9248C62239068200463C9C /* Model */,
 				4F9248C22238F54E00463C9C /* View */,
 				4F5CBD1E21DE4F780007976C /* Controller */,
 			);
@@ -417,6 +421,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		4F9248C62239068200463C9C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4F9248C7223906A400463C9C /* MPDeviceHeartbeat.h */,
+				4F9248C8223906A400463C9C /* MPDeviceHeartbeat.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		4FBCCDE621EF7E7E00E7BF3C /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -505,6 +518,7 @@
 				4F6D9FBD2238BE340039E226 /* MPYawControlView.m in Sources */,
 				4F43EC02223511A600A1EBF8 /* MPGravityRollIndicateView.m in Sources */,
 				4F43EC052235120E00A1EBF8 /* MPGraviryPitchRollIndicateView.m in Sources */,
+				4F9248C9223906A400463C9C /* MPDeviceHeartbeat.m in Sources */,
 				4F5CBD1A21DE4E6F0007976C /* MPViewController.m in Sources */,
 				4F5CBD1721DE4E600007976C /* MPNavigationController.m in Sources */,
 				4F5CBD3021DE571F0007976C /* NSObject+ClassDomain.m in Sources */,

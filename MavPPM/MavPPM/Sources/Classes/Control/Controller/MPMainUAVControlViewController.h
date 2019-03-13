@@ -9,9 +9,9 @@
 #import "MPViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class MPDeviceHeartbeat;
 @interface MPMainUAVControlViewController : MPViewController
-
+@property (nonatomic, strong) MPDeviceHeartbeat *heartbeatListener;
 @end
 
 NS_ASSUME_NONNULL_END

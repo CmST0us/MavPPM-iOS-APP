@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong) CAShapeLayer *throttleShapeLayer;
 @property (nonatomic, assign) CGRect currentBound;
-@property (nonatomic, strong) MPControlValueLinear *liner;
+@property (nonatomic, strong) MPControlValueLinear *linear;
 @end
 
 @implementation MPThrottleControlView {
@@ -58,11 +58,11 @@
         _currentBound = self.bounds;
         CGPoint zeroThrottle = CGPointMake(0, 1000);
         CGPoint maxThrottle = CGPointMake(self.bounds.size.height, 2000);
-        self.liner = [[MPControlValueLinear alloc] initWithPoint:zeroThrottle Point2:maxThrottle];
+        self.linear = [[MPControlValueLinear alloc] initWithPoint:zeroThrottle Point2:maxThrottle];
     }
     
     CGFloat throttlePointY = self.bounds.size.height - self.currentThrottleIndicateRectHeight;
-    self.throttleValue = @([self.liner calc:self.currentThrottleIndicateRectHeight]);
+    self.throttleValue = @([self.linear calc:self.currentThrottleIndicateRectHeight]);
     
     CGRect throttleIndicateRect = CGRectMake(self.bounds.origin.x,
                                              throttlePointY,
