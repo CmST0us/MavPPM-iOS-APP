@@ -25,11 +25,17 @@
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return self.topViewController.supportedInterfaceOrientations;
+    if ([self.topViewController respondsToSelector:@selector(supportedInterfaceOrientations)]) {
+        return self.topViewController.supportedInterfaceOrientations;
+    }
+    return [super supportedInterfaceOrientations];
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return self.topViewController.preferredInterfaceOrientationForPresentation;
+    if ([self.topViewController respondsToSelector:@selector(preferredInterfaceOrientationForPresentation)]) {
+        return self.topViewController.preferredInterfaceOrientationForPresentation;
+    }
+    return [super preferredInterfaceOrientationForPresentation];
 }
 
 @end
