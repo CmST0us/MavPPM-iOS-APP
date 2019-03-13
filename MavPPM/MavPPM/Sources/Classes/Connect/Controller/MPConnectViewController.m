@@ -6,15 +6,17 @@
 //  Copyright © 2019 eric3u. All rights reserved.
 //
 
+#import "MPPackageManager.h"
 #import "MPConnectViewController.h"
 #import "MPNavigationController.h"
+#import "MPConnectingLabel.h"
 
 #if DEBUG
 #import "MPDebugViewController.h"
 #endif
 
 @interface MPConnectViewController ()
-
+@property (nonatomic, strong) MPConnectingLabel *connectingLabel;
 #if DEBUG
 @property (nonatomic, strong) UITapGestureRecognizer *debugViewControllerVCGesture;
 #endif
@@ -25,6 +27,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor blackColor];
+    self.connectingLabel = [[MPConnectingLabel alloc] init];
+    [self.view addSubview:self.connectingLabel];
+    [self.connectingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.right.equalTo(self).offset(-40);
+    }];
     
 #if DEBUG
     _debugViewControllerVCGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -46,14 +56,8 @@
 }
 #endif
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscapeRight;
 }
-*/
 
 @end

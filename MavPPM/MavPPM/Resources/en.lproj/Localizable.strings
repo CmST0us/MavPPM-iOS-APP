@@ -32,6 +32,8 @@
 "mavppm_bind_button2_channel_title" = "绑定按钮2通道";
 "mavppm_bind_button3_channel_title" = "绑定按钮3通道";
 
+// Connecting View
+"mavppm_connect_view_connecting_title" = "正在连接Cube";
 
 // Control View
 "mavppm_control_view_attitude_info" = "翻滚: %.1f°   俯仰: %.1f°";
