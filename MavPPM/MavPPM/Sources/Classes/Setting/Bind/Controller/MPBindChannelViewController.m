@@ -8,12 +8,14 @@
 #import <Masonry/Masonry.h>
 #import "MPBindChannelViewController.h"
 #import "MPBindChannelSelectView.h"
+#import "MPPackageManager.h"
 
 @interface MPBindChannelViewController ()<MPBindChannelSelectViewDelegate>
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *infoLabel;
 @property (nonatomic, strong) MPBindChannelSelectView *selectView;
 @property (nonatomic, strong) UIButton *cancelButton;
+@property (nonatomic, strong) UIButton *finishButton;
 @property (nonatomic, strong) UIButton *nextButton;
 @end
 
@@ -23,6 +25,7 @@
 @synthesize selectView = _selectView;
 @synthesize cancelButton = _cancelButton;
 @synthesize nextButton = _nextButton;
+@synthesize finishButton = _finishButton;
 
 - (void)bindchannel_setupUI {
     self.navigationController.navigationBarHidden = YES;
@@ -86,6 +89,22 @@
         make.right.mas_equalTo(self.view.mas_centerX).offset(-86);
     }];
     
+    _finishButton = [[UIButton alloc] init];
+    [_finishButton setBackgroundColor:[UIColor confirmGreen]];
+    [_finishButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_finishButton addTarget:self action:@selector(finish) forControlEvents:UIControlEventTouchUpInside];
+    _finishButton.layer.cornerRadius = 8;
+    _finishButton.layer.masksToBounds = YES;
+    [_finishButton setTitle:NSLocalizedString(@"mavppm_bind_channel_button_finish", @"完成") forState:UIControlStateNormal];
+    [self.view addSubview:_finishButton];
+    [_finishButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(self.cancelButton.mas_width);
+        make.height.mas_equalTo(self.cancelButton.mas_height);
+        make.bottom.equalTo(self.cancelButton.mas_bottom);
+        make.centerX.equalTo(self.view);
+    }];
+    _finishButton.hidden = YES;
+    
     _nextButton = [[UIButton alloc] init];
     [_nextButton setBackgroundColor:[UIColor confirmGreen]];
     [_nextButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -100,6 +119,8 @@
         make.bottom.equalTo(self.cancelButton.mas_bottom);
         make.left.mas_equalTo(self.view.mas_centerX).offset(86);
     }];
+    
+    [_nextButton disable];
     
 }
 
@@ -136,12 +157,23 @@
 
 #pragma mark - Button Event
 - (void)cancel {
+    
+    MVMessageCommandLong *longCommand = [[MVMessageCommandLong alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP targetSystem:MAVPPM_SYSTEM_ID_EMB targetComponent:MAVPPM_COMPONENT_ID_EMB_APP command:MAV_CMD_DO_SET_PARAMETER confirmation:1 param1:MAVPPM_DO_RESET_LAST_CHANNEL param2:NAN param3:NAN param4:NAN param5:NAN param6:NAN param7:NAN];
+    
+    [[MPPackageManager sharedInstance] sendCommandMessage:longCommand withObserver:self handler:^(MVMessageCommandAck * _Nullable ack, BOOL timeout, MPPackageManagerResultHandingType * _Nonnull handingType) {
+        if (ack.result == MAV_RESULT_ACCEPTED) {
+            *handingType = MPPackageManagerResultHandingTypeCancel;
+        } else {
+            *handingType = MPPackageManagerResultHandingTypeContinue;
+        }
+    }];
+    
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)next {
     self.bindModel.currentBindFlow++;
-    self.bindModel.currentSelectChannelNumber = [self.bindModel nextBindableChannelNumber];
+    self.bindModel.currentSelectChannelNumber = MPChannelNumberUnbind;
     Class next = [self.bindModel nextFlowViewControllerClass];
     MPBindChannelViewController *vc = [(MPBindChannelViewController *)[next alloc] init];
     vc.bindModel = self.bindModel;
@@ -149,7 +181,21 @@
 }
 
 - (void)channelChange {
+    [_nextButton enable];
+}
+
+- (void)finish {
+    MVMessageCommandLong *longCommand = [[MVMessageCommandLong alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP targetSystem:MAVPPM_SYSTEM_ID_EMB targetComponent:MAVPPM_COMPONENT_ID_EMB_APP command:MAV_CMD_DO_SET_PARAMETER confirmation:1 param1:MAVPPM_DO_SAVE_CHANNEL param2:NAN param3:NAN param4:NAN param5:NAN param6:NAN param7:NAN];
     
+    [[MPPackageManager sharedInstance] sendCommandMessage:longCommand withObserver:self handler:^(MVMessageCommandAck * _Nullable ack, BOOL timeout, MPPackageManagerResultHandingType * _Nonnull handingType) {
+        if (ack.result == MAV_RESULT_ACCEPTED) {
+            *handingType = MPPackageManagerResultHandingTypeCancel;
+        } else {
+            *handingType = MPPackageManagerResultHandingTypeContinue;
+        }
+    }];
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Delegate

@@ -58,7 +58,17 @@
 }
 
 - (void)channelChange {
+    // [TODO] change EMB channel map
+    MVMessageCommandLong *longCommand = [[MVMessageCommandLong alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP targetSystem:MAVPPM_SYSTEM_ID_EMB targetComponent:MAVPPM_COMPONENT_ID_EMB_APP command:MAV_CMD_DO_SET_PARAMETER confirmation:1 param1:MAVPPM_DO_SET_ROLL_CHANNEL param2:self.bindModel.currentSelectChannelNumber param3:NAN param4:NAN param5:NAN param6:NAN param7:NAN];
+    [[MPPackageManager sharedInstance] sendCommandMessage:longCommand withObserver:self handler:^(MVMessageCommandAck * _Nullable ack, BOOL timeout, MPPackageManagerResultHandingType * _Nonnull handingType) {
+        if (ack.result == MAV_RESULT_ACCEPTED) {
+            *handingType = MPPackageManagerResultHandingTypeCancel;
+        } else {
+            *handingType = MPPackageManagerResultHandingTypeContinue;
+        }
+    }];
     
+    [super channelChange];
 }
 
 #pragma mark - Delegate

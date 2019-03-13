@@ -45,8 +45,8 @@
     CGFloat width = self.bounds.size.width;
     CGFloat height = self.bounds.size.height;
     
-    CGFloat centerX = (x + width) / 2;
-    CGFloat centerY = (y + height) / 2;
+    CGFloat centerX = [self boundCenterX];
+    CGFloat centerY = [self boundCenterY];
     
     CGFloat halfHeight = ABS(height / 2);
     CGFloat halfWidth = ABS(width / 2);

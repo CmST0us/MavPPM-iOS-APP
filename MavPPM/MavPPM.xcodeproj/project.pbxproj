@@ -41,6 +41,7 @@
 		4F5CBD2B21DE53A40007976C /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5CBD2A21DE53A40007976C /* Masonry.framework */; };
 		4F5CBD2C21DE53A40007976C /* Masonry.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5CBD2A21DE53A40007976C /* Masonry.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F5CBD3021DE571F0007976C /* NSObject+ClassDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5CBD2F21DE571F0007976C /* NSObject+ClassDomain.m */; };
+		4F6D9FBD2238BE340039E226 /* MPYawControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D9FBC2238BE340039E226 /* MPYawControlView.m */; };
 		4FBCCDE921EF7F9700E7BF3C /* MPPackageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */; };
 		4FBCCDF121EF904500E7BF3C /* MPDebugHeartbeatDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDF021EF904500E7BF3C /* MPDebugHeartbeatDevice.m */; };
 		4FBCCE0E21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCE0D21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m */; };
@@ -127,6 +128,8 @@
 		4F5CBD2A21DE53A40007976C /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = ../../Vendor/Masonry.framework; sourceTree = "<group>"; };
 		4F5CBD2E21DE571F0007976C /* NSObject+ClassDomain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+ClassDomain.h"; sourceTree = "<group>"; };
 		4F5CBD2F21DE571F0007976C /* NSObject+ClassDomain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ClassDomain.m"; sourceTree = "<group>"; };
+		4F6D9FBB2238BE340039E226 /* MPYawControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPYawControlView.h; sourceTree = "<group>"; };
+		4F6D9FBC2238BE340039E226 /* MPYawControlView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPYawControlView.m; sourceTree = "<group>"; };
 		4FBCCDE721EF7F9700E7BF3C /* MPPackageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPPackageManager.h; sourceTree = "<group>"; };
 		4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPPackageManager.m; sourceTree = "<group>"; };
 		4FBCCDEF21EF904500E7BF3C /* MPDebugHeartbeatDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugHeartbeatDevice.h; sourceTree = "<group>"; };
@@ -314,6 +317,8 @@
 				4F43EC042235120E00A1EBF8 /* MPGraviryPitchRollIndicateView.m */,
 				4F3FECA5223661BF008BAD84 /* MPThrottleControlView.h */,
 				4F3FECA6223661BF008BAD84 /* MPThrottleControlView.m */,
+				4F6D9FBB2238BE340039E226 /* MPYawControlView.h */,
+				4F6D9FBC2238BE340039E226 /* MPYawControlView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -478,6 +483,7 @@
 			files = (
 				4FE07D2A22112F7C009DCF25 /* MPDebugTCPServerTestViewController.m in Sources */,
 				4F3FECA7223661BF008BAD84 /* MPThrottleControlView.m in Sources */,
+				4F6D9FBD2238BE340039E226 /* MPYawControlView.m in Sources */,
 				4F43EC02223511A600A1EBF8 /* MPGravityRollIndicateView.m in Sources */,
 				4F43EC052235120E00A1EBF8 /* MPGraviryPitchRollIndicateView.m in Sources */,
 				4F5CBD1A21DE4E6F0007976C /* MPViewController.m in Sources */,

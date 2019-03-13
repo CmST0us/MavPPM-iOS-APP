@@ -14,6 +14,7 @@
 #import "MPGravityRollIndicateView.h"
 #import "MPGraviryPitchRollIndicateView.h"
 #import "MPThrottleControlView.h"
+#import "MPYawControlView.h"
 
 @interface MPDebugUAVControlUITestViewController ()<MPGravityControlDelegate>
 
@@ -24,7 +25,7 @@
 @property (nonatomic, strong) MPGravityRollIndicateView *rollIndicateView;
 @property (nonatomic, strong) MPGraviryPitchRollIndicateView *circleIndicateView;
 @property (nonatomic, strong) MPThrottleControlView *throttleControlView;
-
+@property (nonatomic, strong) MPYawControlView *yawControlView;
 @property (nonatomic, strong) MPMotionManager *motionManager;
 @property (nonatomic, strong) MPGravityDeviceMotionControl *deviceMotionControl;
 @end
@@ -61,6 +62,12 @@
     self.circleIndicateView = [[MPGraviryPitchRollIndicateView alloc] init];
     [self.view addSubview:self.circleIndicateView];
     [self.circleIndicateView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
+    self.yawControlView = [[MPYawControlView alloc] init];
+    [self.view addSubview:self.yawControlView];
+    [self.yawControlView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
     

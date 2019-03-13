@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
     MPBindChannelSelectView *_selectChannelView;
     
     UIButton *_cancelButton;
+    UIButton *_finishButton;
     UIButton *_nextButton;
 }
 
@@ -30,9 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *bindInfo;
 @property (nonatomic, strong) MPBindChannelModel *bindModel;
 
-- (void)cancel;
-- (void)next;
-- (void)channelChange;
+// 子类在override最后调用super方法
+- (void)cancel NS_REQUIRES_SUPER;
+- (void)next NS_REQUIRES_SUPER;
+- (void)channelChange NS_REQUIRES_SUPER;
+- (void)finish NS_REQUIRES_SUPER;
 
 @end
 

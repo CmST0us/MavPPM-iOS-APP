@@ -28,7 +28,7 @@
                                   };
         _channelMap = [[NSMutableDictionary alloc] initWithDictionary:bindMap];
         _currentBindFlow = MPBindChannelFlowInit;
-        _currentSelectChannelNumber = MPChannelNumber1;
+        _currentSelectChannelNumber = MPChannelNumberUnbind;
     }
     return self;
 }

@@ -10,8 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, MPThrottleControlViewTouchArea) {
+    MPThrottleControlViewTouchAreaLeft,
+    MPThrottleControlViewTouchAreaRight,
+};
+
 @interface MPThrottleControlView : MPView
 @property (nonatomic, readonly) NSNumber *throttleValue;
+@property (nonatomic, assign) MPThrottleControlViewTouchArea touchArea;
 @end
 
 NS_ASSUME_NONNULL_END

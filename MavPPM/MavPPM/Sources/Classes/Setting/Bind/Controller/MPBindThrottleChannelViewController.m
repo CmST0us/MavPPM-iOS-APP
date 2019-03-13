@@ -18,6 +18,10 @@
 
 @implementation MPBindThrottleChannelViewController
 
+- (void)dealloc {
+    [self cancelTimer];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.bindChannelTitle = NSLocalizedString(@"mavppm_bind_throttle_channel_title", @"绑定油门通道");
@@ -30,6 +34,7 @@
     [self.throttleControlView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+    self.throttleControlView.touchArea = MPThrottleControlViewTouchAreaRight;
     
     self.sendThrottleValueTimer = [[NSTimer alloc] initWithFireDate:[NSDate date] interval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
         MPPackageManager *packageManager = [MPPackageManager sharedInstance];
@@ -59,16 +64,6 @@
 - (void)cancel {
     [self cancelTimer];
     
-    MVMessageCommandLong *longCommand = [[MVMessageCommandLong alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP targetSystem:MAVPPM_SYSTEM_ID_EMB targetComponent:MAVPPM_COMPONENT_ID_EMB_APP command:MAV_CMD_DO_SET_PARAMETER confirmation:1 param1:MAVPPM_DO_RESET_LAST_CHANNEL param2:NAN param3:NAN param4:NAN param5:NAN param6:NAN param7:NAN];
-    
-    [[MPPackageManager sharedInstance] sendCommandMessage:longCommand withObserver:self handler:^(MVMessageCommandAck * _Nullable ack, BOOL timeout, MPPackageManagerResultHandingType * _Nonnull handingType) {
-        if (ack.result == MAV_RESULT_ACCEPTED) {
-            *handingType = MPPackageManagerResultHandingTypeCancel;
-        } else {
-            *handingType = MPPackageManagerResultHandingTypeContinue;
-        }
-    }];
-    
     [super cancel];
 }
 
@@ -82,6 +77,8 @@
             *handingType = MPPackageManagerResultHandingTypeContinue;
         }
     }];
+    
+    [super channelChange];
 }
 
 @end

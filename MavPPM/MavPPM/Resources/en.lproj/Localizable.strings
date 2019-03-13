@@ -2,7 +2,7 @@
 "mavppm_bind_channel_default_info" = "根据操作说明绑定通道";
 "mavppm_bind_channel_button_cancel" = "取消";
 "mavppm_bind_channel_button_next" = "下一步";
-"mavppm_bind_channel_button_skip" = "跳过";
+"mavppm_bind_channel_button_finish" = "完成";
 
 "mav_bind_channel_select_view_channel" = "通道";
 

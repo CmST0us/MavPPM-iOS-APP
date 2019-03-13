@@ -28,6 +28,7 @@
     
     self.userInteractionEnabled = YES;
     _currentBound = self.bounds;
+    _touchArea = MPThrottleControlViewTouchAreaLeft;
 }
 
 - (CAShapeLayer *)throttleShapeLayer {
@@ -37,6 +38,19 @@
     _throttleShapeLayer = [[CAShapeLayer alloc] init];
     [self.layer addSublayer:_throttleShapeLayer];
     return _throttleShapeLayer;
+}
+
+- (BOOL)canRespondTouchAtPoint:(CGPoint)point withEvent:(UIEvent *)event {
+    CGPoint pointInView = [self convertPoint:point toView:self];
+    CGFloat offset = pointInView.x - [self boundCenterX];
+    if (self.touchArea == MPThrottleControlViewTouchAreaLeft &&
+        offset <= 0) {
+        return YES;
+    } else if (self.touchArea == MPThrottleControlViewTouchAreaRight &&
+               offset >= 0) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -59,39 +73,37 @@
     [self.throttleShapeLayer setFillColor:[UIColor controlThrottleGreen].CGColor];
 }
 
-- (void)updateConstraints {
-    [super updateConstraints];
-    [self setNeedsDisplay];
-}
-
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
-    if (point.x > self.bounds.size.width / 2) {
-        _touchBeginPoint = point;
-        _touchBeginThrottleRectHeight = self.currentThrottleIndicateRectHeight;
-    }
+    _touchBeginPoint = point;
+    _touchBeginThrottleRectHeight = self.currentThrottleIndicateRectHeight;
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
-    if (point.x > self.bounds.size.width / 2) {
-        CGFloat yOffset = point.y - _touchBeginPoint.y;
-        CGFloat throttleAddValue = -yOffset;
-        self.currentThrottleIndicateRectHeight = _touchBeginThrottleRectHeight + throttleAddValue;
-        if (self.currentThrottleIndicateRectHeight < 0) {
-            self.currentThrottleIndicateRectHeight = 0;
-        } else if (self.currentThrottleIndicateRectHeight > self.bounds.size.height) {
-            self.currentThrottleIndicateRectHeight = self.bounds.size.height;
-        }
-        
-        [self setNeedsDisplay];
+    CGFloat yOffset = point.y - _touchBeginPoint.y;
+    CGFloat throttleAddValue = -yOffset;
+    self.currentThrottleIndicateRectHeight = _touchBeginThrottleRectHeight + throttleAddValue;
+    if (self.currentThrottleIndicateRectHeight < 0) {
+        self.currentThrottleIndicateRectHeight = 0;
+    } else if (self.currentThrottleIndicateRectHeight > self.bounds.size.height) {
+        self.currentThrottleIndicateRectHeight = self.bounds.size.height;
     }
+    
+    [self setNeedsDisplay];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if ([self canRespondTouchAtPoint:point withEvent:event]) {
+        return self;
+    }
+    return nil;
 }
 
 @end

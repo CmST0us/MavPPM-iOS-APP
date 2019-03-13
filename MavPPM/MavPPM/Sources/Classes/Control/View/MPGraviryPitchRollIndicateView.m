@@ -55,8 +55,8 @@
     CGFloat width = self.bounds.size.width;
     CGFloat height = self.bounds.size.height;
     
-    CGFloat centerX = (x + width) / 2;
-    CGFloat centerY = (y + height) / 2;
+    CGFloat centerX = [self boundCenterX];
+    CGFloat centerY = [self boundCenterY];
     
     CGFloat halfHeight = ABS(height / 2);
     CGFloat halfWidth = ABS(width / 2);
@@ -80,7 +80,7 @@
         CGPoint centerPoint = CGPointMake(0,
                                           0);
         CGPoint topPoint = CGPointMake(DEGToRAD(30),
-                                       self.bounds.size.height / 2 + self.bounds.origin.y + kMPGraviryPitchRollIndicateViewCircleRadius
+                                       self.bounds.size.height / 2 + kMPGraviryPitchRollIndicateViewCircleRadius
                                        );
         
         self.linear = [[MPControlValueLinear alloc] initWithPoint:centerPoint Point2:topPoint];
