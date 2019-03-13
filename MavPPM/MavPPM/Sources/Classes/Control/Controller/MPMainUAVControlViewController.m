@@ -158,6 +158,10 @@
     return _sendControlMessageTimer;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor controlBgBlack];
@@ -168,6 +172,7 @@
     self.pitchLinear = [[MPControlValueLinear alloc] initWithOutputMax:2000 outputMin:1000 inputMax:M_PI_2 inputMin:-M_PI_2];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(heartbeatLost) name:MPDeviceHeartbeatLostNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDetattch) name:MPPackageManagerDisconnectedNotificationName object:nil];
 }
 
 - (void)setAttitudeInfoWithPitch:(CGFloat)pitch
@@ -231,7 +236,13 @@
         [self.sendControlMessageTimer invalidate];
         self.sendControlMessageTimer = nil;
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)deviceDetattch {
+    [self heartbeatLost];
+    [[NSRunLoop mainRunLoop] performBlock:^{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {

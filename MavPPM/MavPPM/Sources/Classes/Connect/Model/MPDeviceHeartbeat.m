@@ -77,6 +77,7 @@ NSNotificationName MPDeviceHeartbeatLostNotificationName = @"MPDeviceHeartbeatLo
 - (void)stop {
     [self.sendHeartbeatTimer invalidate];
     self.sendHeartbeatTimer = nil;
+    self.heartbeatNormal = NO;
 }
 
 @end
