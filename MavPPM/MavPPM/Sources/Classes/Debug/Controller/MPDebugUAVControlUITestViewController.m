@@ -24,6 +24,8 @@
 @property (nonatomic, assign) CGFloat lastPitch;
 
 @property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) UILabel *attitudeInfoLabel;
+
 @property (nonatomic, strong) MPGravityRollIndicateView *rollIndicateView;
 @property (nonatomic, strong) MPGraviryPitchRollIndicateView *circleIndicateView;
 @property (nonatomic, strong) MPThrottleControlView *throttleControlView;
@@ -83,12 +85,30 @@
         make.edges.equalTo(self.view);
     }];
     
+    self.attitudeInfoLabel = [[UILabel alloc] init];
+    self.attitudeInfoLabel.font = [UIFont systemFontOfSize:15];
+    self.attitudeInfoLabel.textColor = [UIColor whiteColor];
+    [self setAttitudeInfoWithPitch:self.lastPitch roll:self.lastRoll];
+    [self.attitudeInfoLabel sizeToFit];
+    [self.view addSubview:self.attitudeInfoLabel];
+    [self.attitudeInfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view).offset(-28);
+        make.left.equalTo(self.view.mas_centerX).offset(100);
+    }];
+    
     self.motionManager = [[MPMotionManager alloc] initWithCMMotionManager:[MPCMMotionManager motionManager]];
     self.motionManager.deviceMotionUpdateInterval = 1.0 / 60.0;
     self.deviceMotionControl = [[MPGravityDeviceMotionControl alloc] init];
     self.deviceMotionControl.delegate = self;
     [self.motionManager addControl:self.deviceMotionControl];
     [self.motionManager startUpdate];
+}
+
+- (void)setAttitudeInfoWithPitch:(CGFloat)pitch
+                            roll:(CGFloat)roll {
+    [[NSRunLoop mainRunLoop] performBlock:^{
+        self.attitudeInfoLabel.text = [NSString stringWithFormat:NSLocalizedString(@"mavppm_control_view_attitude_info", @"姿态信息"), RADToDEG(roll), RADToDEG(pitch)];
+    }];
 }
 
 - (void)gravityControlDidUpdateData:(MPGravityControl *)control {
@@ -120,6 +140,7 @@
         self.rollIndicateView.rollValue = @(rollValue);
         self.circleIndicateView.rollValue = @(rollValue);
         self.circleIndicateView.pitchValue = @(pitchValue);
+        [self setAttitudeInfoWithPitch:-pitchValue roll:rollValue];
     });
 }
 

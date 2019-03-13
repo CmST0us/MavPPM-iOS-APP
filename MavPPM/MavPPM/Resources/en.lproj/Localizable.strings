@@ -3,7 +3,6 @@
 "mavppm_bind_channel_button_cancel" = "取消";
 "mavppm_bind_channel_button_next" = "下一步";
 "mavppm_bind_channel_button_finish" = "完成";
-
 "mav_bind_channel_select_view_channel" = "通道";
 
 "mavppm_throttle" = "油门";
@@ -34,3 +33,5 @@
 "mavppm_bind_button3_channel_title" = "绑定按钮3通道";
 
 
+// Control View
+"mavppm_control_view_attitude_info" = "翻滚: %.1f°   俯仰: %.1f°";
