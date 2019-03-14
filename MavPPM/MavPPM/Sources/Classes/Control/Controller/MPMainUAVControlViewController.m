@@ -9,6 +9,7 @@
 #import <Masonry/Masonry.h>
 #import <MPGravityControlLogic/MPGravityControlLogic.h>
 
+#import "MPNavigationController.h"
 #import "MPCMMotionManager.h"
 #import "MPMainUAVControlViewController.h"
 #import "MPGravityRollIndicateView.h"
@@ -17,6 +18,7 @@
 #import "MPYawControlView.h"
 #import "MPPackageManager.h"
 #import "MPDeviceHeartbeat.h"
+#import "MPBindThrottleChannelViewController.h"
 
 @interface MPMainUAVControlViewController () <MPGravityControlDelegate>
 @property (nonatomic, assign) CGPoint throttleBeginPoint;
@@ -31,6 +33,7 @@
 @property (nonatomic, strong) UILabel *attitudeInfoLabel;
 @property (nonatomic, strong) UIImageView *controlLockView;
 @property (nonatomic, strong) UIAlertController *unlockAlertController;
+@property (nonatomic, strong) UIButton *bindChannelButton;
 
 @property (nonatomic, strong) MPGravityRollIndicateView *rollIndicateView;
 @property (nonatomic, strong) MPGraviryPitchRollIndicateView *circleIndicateView;
@@ -165,6 +168,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor controlBgBlack];
+    
+    self.bindChannelButton = [[UIButton alloc] init];
+    [self.view addSubview:self.bindChannelButton];
+    [self.bindChannelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.bindChannelButton setTitle:NSLocalizedString(@"mavppm_control_view_bind_channel_button_title", @"绑定通道") forState:UIControlStateNormal];
+    [self.bindChannelButton setBackgroundColor:[UIColor clearColor]];
+    [self.bindChannelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view).offset(44);
+        make.top.equalTo(self.view).offset(44);
+        make.width.mas_equalTo(90);
+        make.height.mas_equalTo(30);
+    }];
+    [self.bindChannelButton.layer setCornerRadius:4];
+    [self.bindChannelButton.layer setBorderColor:[UIColor whiteColor].CGColor];
+    [self.bindChannelButton.layer setBorderWidth:2];
+    [self.bindChannelButton.layer setMasksToBounds:YES];
+    
+    [self.bindChannelButton addTarget:self action:@selector(bindChannel) forControlEvents:UIControlEventTouchUpInside];
+    
     _isLock = YES;
     [self lock];
     
@@ -173,6 +195,16 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(heartbeatLost) name:MPDeviceHeartbeatLostNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDetattch) name:MPPackageManagerDisconnectedNotificationName object:nil];
+}
+
+- (void)bindChannel {
+    MPBindThrottleChannelViewController *v = [[MPBindThrottleChannelViewController alloc] init];
+    MPBindChannelModel *m = [[MPBindChannelModel alloc] init];
+    m.currentBindFlow = MPBindChannelFlowThrottle;
+    v.bindModel = m;
+    
+    MPNavigationController *nav = [[MPNavigationController alloc] initWithRootViewController:v];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)setAttitudeInfoWithPitch:(CGFloat)pitch
