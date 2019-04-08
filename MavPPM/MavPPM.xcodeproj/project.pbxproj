@@ -269,6 +269,7 @@
 		4F5CBD0B21DE487D0007976C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4FB4D36B225BA048000EC9B3 /* Service */,
 				4F5CBCEB21DE41840007976C /* AppDelegate.h */,
 				4F5CBCEC21DE41840007976C /* AppDelegate.m */,
 				4F43EC09223628D900A1EBF8 /* Utils */,
@@ -430,11 +431,18 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		4FBCCDE621EF7E7E00E7BF3C /* Model */ = {
+		4FB4D36B225BA048000EC9B3 /* Service */ = {
 			isa = PBXGroup;
 			children = (
 				4FBCCDE721EF7F9700E7BF3C /* MPPackageManager.h */,
 				4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		4FBCCDE621EF7E7E00E7BF3C /* Model */ = {
+			isa = PBXGroup;
+			children = (
 				4FBCCDEF21EF904500E7BF3C /* MPDebugHeartbeatDevice.h */,
 				4FBCCDF021EF904500E7BF3C /* MPDebugHeartbeatDevice.m */,
 			);
