@@ -45,6 +45,7 @@
 		4F6D9FC02238D7F70039E226 /* MPDebugFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D9FBF2238D7F70039E226 /* MPDebugFeedbackViewController.m */; };
 		4F9248C52238F55F00463C9C /* MPConnectingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9248C42238F55F00463C9C /* MPConnectingLabel.m */; };
 		4F9248C9223906A400463C9C /* MPDeviceHeartbeat.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9248C8223906A400463C9C /* MPDeviceHeartbeat.m */; };
+		4FB4D36E225BA1AA000EC9B3 /* MPDebugGravityDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB4D36D225BA1AA000EC9B3 /* MPDebugGravityDataViewController.m */; };
 		4FBCCDE921EF7F9700E7BF3C /* MPPackageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */; };
 		4FBCCDF121EF904500E7BF3C /* MPDebugHeartbeatDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDF021EF904500E7BF3C /* MPDebugHeartbeatDevice.m */; };
 		4FBCCE0E21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCE0D21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m */; };
@@ -139,6 +140,8 @@
 		4F9248C42238F55F00463C9C /* MPConnectingLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPConnectingLabel.m; sourceTree = "<group>"; };
 		4F9248C7223906A400463C9C /* MPDeviceHeartbeat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDeviceHeartbeat.h; sourceTree = "<group>"; };
 		4F9248C8223906A400463C9C /* MPDeviceHeartbeat.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDeviceHeartbeat.m; sourceTree = "<group>"; };
+		4FB4D36C225BA1AA000EC9B3 /* MPDebugGravityDataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugGravityDataViewController.h; sourceTree = "<group>"; };
+		4FB4D36D225BA1AA000EC9B3 /* MPDebugGravityDataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugGravityDataViewController.m; sourceTree = "<group>"; };
 		4FBCCDE721EF7F9700E7BF3C /* MPPackageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPPackageManager.h; sourceTree = "<group>"; };
 		4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPPackageManager.m; sourceTree = "<group>"; };
 		4FBCCDEF21EF904500E7BF3C /* MPDebugHeartbeatDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugHeartbeatDevice.h; sourceTree = "<group>"; };
@@ -407,6 +410,8 @@
 				4F3FECA32236300A008BAD84 /* MPDebugUAVControlUITestViewController.m */,
 				4F6D9FBE2238D7F70039E226 /* MPDebugFeedbackViewController.h */,
 				4F6D9FBF2238D7F70039E226 /* MPDebugFeedbackViewController.m */,
+				4FB4D36C225BA1AA000EC9B3 /* MPDebugGravityDataViewController.h */,
+				4FB4D36D225BA1AA000EC9B3 /* MPDebugGravityDataViewController.m */,
 				4F5CBD2721DE51780007976C /* MPDebugViewController.h */,
 				4F5CBD2821DE51780007976C /* MPDebugViewController.m */,
 			);
@@ -524,6 +529,7 @@
 				4F9248C52238F55F00463C9C /* MPConnectingLabel.m in Sources */,
 				4F3FECA7223661BF008BAD84 /* MPThrottleControlView.m in Sources */,
 				4F6D9FBD2238BE340039E226 /* MPYawControlView.m in Sources */,
+				4FB4D36E225BA1AA000EC9B3 /* MPDebugGravityDataViewController.m in Sources */,
 				4F43EC02223511A600A1EBF8 /* MPGravityRollIndicateView.m in Sources */,
 				4F43EC052235120E00A1EBF8 /* MPGraviryPitchRollIndicateView.m in Sources */,
 				4F9248C9223906A400463C9C /* MPDeviceHeartbeat.m in Sources */,

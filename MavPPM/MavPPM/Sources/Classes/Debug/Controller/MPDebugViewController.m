@@ -30,6 +30,7 @@
                   @[@"控制页UI测试", @"MPDebugUAVControlUITestViewController"],
                   @[@"绑定页UI", @"MPBindThrottleChannelViewController"],
                   @[@"震动反馈", @"MPDebugFeedbackViewController"],
+                  @[@"重力感应数据", @"MPDebugGravityDataViewController"]
                   ];
     
     return debugList;
