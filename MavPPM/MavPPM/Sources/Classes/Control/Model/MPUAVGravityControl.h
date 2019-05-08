@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) double rollValue;
 @property (nonatomic, assign) double pitchValue;
 
-
 - (NS_SIGNAL)onFeedback;
 @end
 
