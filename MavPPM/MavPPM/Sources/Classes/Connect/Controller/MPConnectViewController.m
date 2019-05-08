@@ -12,6 +12,8 @@
 #import "MPConnectingLabel.h"
 #import "MPDeviceHeartbeat.h"
 #import "MPMainUAVControlViewController.h"
+#import "MPControlLockViewController.h"
+#import "MPDeviceHeartbeatManager.h"
 
 #if DEBUG
 #import "MPDebugViewController.h"
@@ -19,7 +21,6 @@
 
 @interface MPConnectViewController ()
 @property (nonatomic, strong) MPConnectingLabel *connectingLabel;
-@property (nonatomic, strong) MPDeviceHeartbeat *heartbeatListener;
 #if DEBUG
 @property (nonatomic, strong) UITapGestureRecognizer *debugViewControllerVCGesture;
 #endif
@@ -49,18 +50,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.heartbeatListener = [[MPDeviceHeartbeat alloc] init];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceConnectionNormal) name:MPDeviceHeartbeatNormalNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceConnectionLost) name:MPDeviceHeartbeatLostNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceAttach) name:MPPackageManagerDidConnectedNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDetattch) name:MPPackageManagerDisconnectedNotificationName object:nil];
-    
+    [[MPPackageManager sharedInstance] connectSignal:@selector(onAttach) forObserver:self slot:@selector(deviceAttach)];
+    [[MPPackageManager sharedInstance] connectSignal:@selector(onDetattch) forObserver:self slot:@selector(deviceDetattch)];
+    [[MPDeviceHeartbeatManager sharedInstance] connectSignal:@selector(onRecvRemoteDeviceHeartbeat) forObserver:self slot:@selector(deviceConnectionNormal)];
+    [[MPDeviceHeartbeatManager sharedInstance] connectSignal:@selector(onLostRemoteDeviceHeartbeat) forObserver:self slot:@selector(deviceConnectionLost)];
     
     [self setupUI];
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 
 #pragma mark - Action
@@ -73,25 +72,32 @@
 }
 #endif
 
-#pragma mark - Notification
-- (void)deviceConnectionNormal {
+#pragma mark - Slot
+- (NS_SLOT)enterUAVControlView {
     [[NSRunLoop mainRunLoop] performBlock:^{
-        MPMainUAVControlViewController *mainControlVC = [[MPMainUAVControlViewController alloc] init];
-        mainControlVC.heartbeatListener = self.heartbeatListener;
-        [self presentViewController:mainControlVC animated:YES completion:nil];
+        MPMainUAVControlViewController *mainUAVControlView = [[MPMainUAVControlViewController alloc] init];
+        [self presentViewController:mainUAVControlView animated:NO completion:nil];
     }];
 }
 
-- (void)deviceConnectionLost {
+- (NS_SLOT)deviceConnectionNormal {
+    [[NSRunLoop mainRunLoop] performBlock:^{
+        MPControlLockViewController *controlLockVC = [[MPControlLockViewController alloc] init];
+        [controlLockVC connectSignal:@selector(onUnlock) forObserver:self slot:@selector(enterUAVControlView)];
+        [self presentViewController:controlLockVC animated:YES completion:nil];
+    }];
+}
+
+- (NS_SLOT)deviceConnectionLost {
     
 }
 
 - (void)deviceAttach {
-    [self.heartbeatListener startListenAndSendHeartbeat];
+    [[MPDeviceHeartbeatManager sharedInstance] run];
 }
 
 - (void)deviceDetattch {
-    [self.heartbeatListener stop];
+    [[MPDeviceHeartbeatManager sharedInstance] stop];
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {

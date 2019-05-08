@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F00F3B222832942003E504D /* MPUAVGravityControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00F3B122832942003E504D /* MPUAVGravityControl.m */; };
+		4F00F3B5228330BC003E504D /* MPUnlockGravityControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00F3B4228330BC003E504D /* MPUnlockGravityControl.m */; };
 		4F3B0AB3228315980024FA07 /* MPDebugSketchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3B0AB2228315980024FA07 /* MPDebugSketchViewController.m */; };
 		4F3FECA42236300A008BAD84 /* MPDebugUAVControlUITestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECA32236300A008BAD84 /* MPDebugUAVControlUITestViewController.m */; };
 		4F3FECA7223661BF008BAD84 /* MPThrottleControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECA6223661BF008BAD84 /* MPThrottleControlView.m */; };
@@ -83,8 +85,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F00F3B022832942003E504D /* MPUAVGravityControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPUAVGravityControl.h; sourceTree = "<group>"; };
+		4F00F3B122832942003E504D /* MPUAVGravityControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPUAVGravityControl.m; sourceTree = "<group>"; };
+		4F00F3B3228330BC003E504D /* MPUnlockGravityControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPUnlockGravityControl.h; sourceTree = "<group>"; };
+		4F00F3B4228330BC003E504D /* MPUnlockGravityControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPUnlockGravityControl.m; sourceTree = "<group>"; };
 		4F3B0AB1228315980024FA07 /* MPDebugSketchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugSketchViewController.h; sourceTree = "<group>"; };
 		4F3B0AB2228315980024FA07 /* MPDebugSketchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugSketchViewController.m; sourceTree = "<group>"; };
+		4F3B0AB422831D670024FA07 /* MPServiceProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPServiceProtocol.h; sourceTree = "<group>"; };
 		4F3FECA22236300A008BAD84 /* MPDebugUAVControlUITestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugUAVControlUITestViewController.h; sourceTree = "<group>"; };
 		4F3FECA32236300A008BAD84 /* MPDebugUAVControlUITestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugUAVControlUITestViewController.m; sourceTree = "<group>"; };
 		4F3FECA5223661BF008BAD84 /* MPThrottleControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPThrottleControlView.h; sourceTree = "<group>"; };
@@ -364,6 +371,10 @@
 		4F5CBD1121DE49530007976C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4F00F3B022832942003E504D /* MPUAVGravityControl.h */,
+				4F00F3B122832942003E504D /* MPUAVGravityControl.m */,
+				4F00F3B3228330BC003E504D /* MPUnlockGravityControl.h */,
+				4F00F3B4228330BC003E504D /* MPUnlockGravityControl.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -466,6 +477,7 @@
 		4FB4D36B225BA048000EC9B3 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				4F3B0AB422831D670024FA07 /* MPServiceProtocol.h */,
 				4FBCCDE721EF7F9700E7BF3C /* MPPackageManager.h */,
 				4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */,
 				4FB1569B2282FFBC00C16444 /* MPUAVControlManager.h */,
@@ -563,6 +575,7 @@
 				4F6D9FBD2238BE340039E226 /* MPYawControlView.m in Sources */,
 				4F43EC02223511A600A1EBF8 /* MPGravityRollIndicateView.m in Sources */,
 				4FB1569D2282FFBC00C16444 /* MPUAVControlManager.m in Sources */,
+				4F00F3B5228330BC003E504D /* MPUnlockGravityControl.m in Sources */,
 				4F43EC052235120E00A1EBF8 /* MPGraviryPitchRollIndicateView.m in Sources */,
 				4F9248C9223906A400463C9C /* MPDeviceHeartbeat.m in Sources */,
 				4F5CBD1A21DE4E6F0007976C /* MPViewController.m in Sources */,
@@ -587,6 +600,7 @@
 				4FBCCE0E21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m in Sources */,
 				4F5CBCFB21DE41850007976C /* main.m in Sources */,
 				4F3FECBA2237883B008BAD84 /* MPBindThrottleChannelViewController.m in Sources */,
+				4F00F3B222832942003E504D /* MPUAVGravityControl.m in Sources */,
 				4F43EC0C22362D6900A1EBF8 /* UIColor+MavPPMColor.m in Sources */,
 				4FBCCDE921EF7F9700E7BF3C /* MPPackageManager.m in Sources */,
 				4F5CBCED21DE41840007976C /* AppDelegate.m in Sources */,

@@ -8,22 +8,24 @@
 
 #import <Foundation/Foundation.h>
 #import <NSObjectSignals/NSObject+SignalsSlots.h>
-
+#import "MPServiceProtocol.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MPDeviceHeartbeatManager : NSObject
+@interface MPDeviceHeartbeatManager : NSObject<MPServiceProtocol>
 
 @property (nonatomic, assign) NSTimeInterval heartbeatInterval; // Default is 1s;
 @property (nonatomic, readonly) BOOL isHeartbeatNormal;
+
 + (instancetype)sharedInstance;
+- (void)run;
+- (void)stop;
 
 // Signals
 - (NS_SIGNAL)onRecvRemoteDeviceHeartbeat;
 - (NS_SIGNAL)onLostRemoteDeviceHeartbeat;
 
 // Slot
-- (NS_SLOT)startListenRemoteDeviceHeartbeat;
-- (NS_SLOT)startSendHeartbeatToRemote;
+- (NS_SLOT)sendHeartbeatToRemote;
 - (NS_SLOT)stopSendHeartbeatToRemote;
 
 @end

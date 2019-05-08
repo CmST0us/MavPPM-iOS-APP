@@ -1,3 +1,5 @@
+"mavppm" = "MavPPM";
+
 "mavppm_bind_channel_default_title" = "绑定通道";
 "mavppm_bind_channel_default_info" = "根据操作说明绑定通道";
 "mavppm_bind_channel_button_cancel" = "取消";

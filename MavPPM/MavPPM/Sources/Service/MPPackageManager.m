@@ -36,9 +36,6 @@
 }
 @end
 
-NSNotificationName MPPackageManagerDidConnectedNotificationName = @"MPPackageManagerDidConnectedNotificationName";
-NSNotificationName MPPackageManagerDisconnectedNotificationName = @"MPPackageManagerDisconnectedNotificationName";
-
 #pragma mark - MPPackageManager
 @interface MPPackageManager ()<MPCommTCPAcceptorDelegate, MPCommDelegate, MVMavlinkDelegate> {
     dispatch_queue_t _workQueue;
@@ -66,8 +63,8 @@ NSNotificationName MPPackageManagerDisconnectedNotificationName = @"MPPackageMan
 @end
 
 @implementation MPPackageManager
-NS_CLOSE_SIGNAL_WARN(onConnected)
-NS_CLOSE_SIGNAL_WARN(onDisconnected)
+NS_CLOSE_SIGNAL_WARN(onAttach)
+NS_CLOSE_SIGNAL_WARN(onDetattch)
 
 
 #pragma mark - Init Method
@@ -235,10 +232,10 @@ static MPPackageManager *instance = nil;
 - (void)setIsConnected:(BOOL)isConnected {
     if (isConnected) {
         _isConnected = YES;
-        [self emitSignal:@selector(onConnected) withParams:nil];
+        [self emitSignal:@selector(onAttach) withParams:nil];
     } else {
         _isConnected = NO;
-        [self emitSignal:@selector(onDisconnected) withParams:nil];
+        [self emitSignal:@selector(onDetattch) withParams:nil];
     }
 }
 
@@ -287,13 +284,13 @@ static MPPackageManager *instance = nil;
 
 - (void)makeConnected {
     self.isConnected = YES;
-    [[NSNotificationCenter defaultCenter] postNotificationName:MPPackageManagerDidConnectedNotificationName object:nil];
+    [self emitSignal:@selector(onAttach) withParams:nil];
 }
 
 - (void)makeDisconnected {
     self.isConnected = NO;
     [self.receiveMessageQueue removeAllObjects];
-    [[NSNotificationCenter defaultCenter] postNotificationName:MPPackageManagerDisconnectedNotificationName object:nil];
+    [self emitSignal:@selector(onDetattch) withParams:nil];
     
 }
 

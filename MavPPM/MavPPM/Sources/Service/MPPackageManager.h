@@ -12,9 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSNotificationName MPPackageManagerDidConnectedNotificationName;
-extern NSNotificationName MPPackageManagerDisconnectedNotificationName;
-
 typedef NS_ENUM(NSUInteger, MPPackageManagerResultHandingType) {
     MPPackageManagerResultHandingTypeCancel,      // 从监听列表中删除
     MPPackageManagerResultHandingTypeContinue,  // 继续/重试， 继续放入下一次事件处理
@@ -67,8 +64,8 @@ typedef void(^MPPackageManagerMessageListeningHandler)( MVMessage * _Nullable me
 - (void)sendMessageWithoutAck:(MVMessage *)message;
 
 // Signals
-- (NS_SIGNAL)onConnected;
-- (NS_SIGNAL)onDisconnected;
+- (NS_SIGNAL)onAttach;
+- (NS_SIGNAL)onDetattch;
 
 @end
 

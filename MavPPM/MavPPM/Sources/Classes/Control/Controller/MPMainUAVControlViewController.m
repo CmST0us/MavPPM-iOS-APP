@@ -19,6 +19,7 @@
 #import "MPPackageManager.h"
 #import "MPDeviceHeartbeat.h"
 #import "MPBindThrottleChannelViewController.h"
+#import "MPDeviceHeartbeatManager.h"
 
 @interface MPMainUAVControlViewController () <MPGravityControlDelegate>
 @property (nonatomic, assign) CGPoint throttleBeginPoint;
@@ -27,13 +28,8 @@
 @property (nonatomic, assign) CGFloat lastPitch;
 @property (nonatomic, assign) CGFloat currentRoll;
 @property (nonatomic, assign) CGFloat currentPitch;
-@property (nonatomic, assign) NSInteger unlockConfirmCount;
-@property (nonatomic, assign) BOOL isLock;
 
 @property (nonatomic, strong) UILabel *attitudeInfoLabel;
-@property (nonatomic, strong) UIImageView *controlLockView;
-@property (nonatomic, strong) UIAlertController *unlockAlertController;
-@property (nonatomic, strong) UIButton *bindChannelButton;
 
 @property (nonatomic, strong) MPGravityRollIndicateView *rollIndicateView;
 @property (nonatomic, strong) MPGraviryPitchRollIndicateView *circleIndicateView;
@@ -43,7 +39,6 @@
 @property (nonatomic, strong) MPGravityDeviceMotionControl *deviceMotionControl;
 
 @property (nonatomic, strong) UIImpactFeedbackGenerator *lightFeedback;
-//@property (nonatomic, strong) UIImpactFeedbackGenerator *heavyFeedback;
 
 @property (nonatomic, strong) NSTimer *sendControlMessageTimer;
 @property (nonatomic, strong) MPControlValueLinear *rollLinear;
@@ -52,18 +47,10 @@
 
 @implementation MPMainUAVControlViewController
 
-- (void)tryUnlock {
-    self.unlockAlertController = [UIAlertController alertControllerWithTitle:@"MavPPM" message:NSLocalizedString(@"mavppm_control_view_try_unlock_message", nil) preferredStyle:UIAlertControllerStyleAlert];
-    [self presentViewController:self.unlockAlertController animated:YES completion:^{
-        [self unlock];
-    }];
-}
-
-- (void)unlock {
+- (void)setupView {
     self.throttleValue = 1000;
     _lastRoll = 0;
     _lastPitch = 0;
-    _unlockConfirmCount = 0;
     
     self.lightFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
 //    self.heavyFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
@@ -111,35 +98,6 @@
     self.deviceMotionControl.delegate = self;
     [self.motionManager addControl:self.deviceMotionControl];
     [self.motionManager startUpdate];
-    
-    [self.controlLockView removeFromSuperview];
-    self.controlLockView = nil;
-}
-
-- (void)lock {
-    [self.throttleControlView removeFromSuperview];
-    self.throttleControlView = nil;
-    [self.yawControlView removeFromSuperview];
-    self.yawControlView = nil;
-    [self.rollIndicateView removeFromSuperview];
-    self.rollIndicateView = nil;
-    [self.circleIndicateView removeFromSuperview];
-    self.circleIndicateView = nil;
-    [self.attitudeInfoLabel removeFromSuperview];
-    self.attitudeInfoLabel = nil;
-    [self.motionManager stop];
-    self.motionManager = nil;
-    self.deviceMotionControl = nil;
-    
-    self.controlLockView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"control_view_lock"]];
-    [self.view addSubview:self.controlLockView];
-    [self.controlLockView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.centerY.equalTo(self.view);
-    }];
-    self.controlLockView.userInteractionEnabled = YES;
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tryUnlock)];
-    [self.controlLockView addGestureRecognizer:tap];
 }
 
 - (NSTimer *)sendControlMessageTimer {
@@ -169,32 +127,13 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor controlBgBlack];
     
-    self.bindChannelButton = [[UIButton alloc] init];
-    [self.view addSubview:self.bindChannelButton];
-    [self.bindChannelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.bindChannelButton setTitle:NSLocalizedString(@"mavppm_control_view_bind_channel_button_title", @"绑定通道") forState:UIControlStateNormal];
-    [self.bindChannelButton setBackgroundColor:[UIColor clearColor]];
-    [self.bindChannelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(44);
-        make.top.equalTo(self.view).offset(44);
-        make.width.mas_equalTo(90);
-        make.height.mas_equalTo(30);
-    }];
-    [self.bindChannelButton.layer setCornerRadius:4];
-    [self.bindChannelButton.layer setBorderColor:[UIColor whiteColor].CGColor];
-    [self.bindChannelButton.layer setBorderWidth:2];
-    [self.bindChannelButton.layer setMasksToBounds:YES];
-    
-    [self.bindChannelButton addTarget:self action:@selector(bindChannel) forControlEvents:UIControlEventTouchUpInside];
-    
-    _isLock = YES;
-    [self lock];
-    
+    [self setupView];
     self.rollLinear = [[MPControlValueLinear alloc] initWithOutputMax:2000 outputMin:1000 inputMax:M_PI_2 inputMin:-M_PI_2];
     self.pitchLinear = [[MPControlValueLinear alloc] initWithOutputMax:2000 outputMin:1000 inputMax:M_PI_2 inputMin:-M_PI_2];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(heartbeatLost) name:MPDeviceHeartbeatLostNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDetattch) name:MPPackageManagerDisconnectedNotificationName object:nil];
+    [[MPPackageManager sharedInstance] connectSignal:@selector(onDetattch) forObserver:self slot:@selector(deviceDetattch)];
+    [[MPDeviceHeartbeatManager sharedInstance] connectSignal:@selector(onLostRemoteDeviceHeartbeat) forObserver:self slot:@selector(heartbeatLost)];
+    
 }
 
 - (void)bindChannel {
@@ -224,53 +163,40 @@
     self.currentRoll = rollValue;
     self.currentPitch = pitchValue;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.isLock) {
-            if (ABS(rollDeg) < 2 &&
-                ABS(pitchDeg) < 2) {
-                self.unlockConfirmCount++;
-                if (self.unlockConfirmCount > 100) {
-                    self.isLock = NO;
-                    [self.unlockAlertController dismissViewControllerAnimated:YES completion:nil];
-                    self.unlockConfirmCount = 0;
-                    [self.sendControlMessageTimer fire];
-                }
-            }
-        } else {
-            if (ABS(lastRollDeg - rollDeg) > 1) {
-                [self.lightFeedback impactOccurred];
-                self.lastRoll = rollValue;
-            }
-            if (ABS(lastPitchDeg - pitchDeg) > 1) {
-                [self.lightFeedback impactOccurred];
-                self.lastPitch = pitchValue;
-            }
-            if (ABS(lastPitchDeg - pitchDeg) > 1 &&
-                ABS(lastRollDeg - rollDeg) > 1 &&
-                ABS(rollDeg) < 1 &&
-                ABS(pitchDeg) < 1) {
-//                [self.heavyFeedback impactOccurred];
-                self.lastRoll = rollValue;
-                self.lastPitch = pitchValue;
-            }
-            
-            self.rollIndicateView.rollValue = @(rollValue);
-            self.circleIndicateView.rollValue = @(rollValue);
-            self.circleIndicateView.pitchValue = @(pitchValue);
+        
+        if (ABS(lastRollDeg - rollDeg) > 1) {
+            [self.lightFeedback impactOccurred];
+            self.lastRoll = rollValue;
         }
+        if (ABS(lastPitchDeg - pitchDeg) > 1) {
+            [self.lightFeedback impactOccurred];
+            self.lastPitch = pitchValue;
+        }
+        if (ABS(lastPitchDeg - pitchDeg) > 1 &&
+            ABS(lastRollDeg - rollDeg) > 1 &&
+            ABS(rollDeg) < 1 &&
+            ABS(pitchDeg) < 1) {
+            self.lastRoll = rollValue;
+            self.lastPitch = pitchValue;
+        }
+        
+        self.rollIndicateView.rollValue = @(rollValue);
+        self.circleIndicateView.rollValue = @(rollValue);
+        self.circleIndicateView.pitchValue = @(pitchValue);
         [self setAttitudeInfoWithPitch:-pitchValue roll:rollValue];
     });
 }
 
 
 #pragma mark - Notification
-- (void)heartbeatLost {
+- (NS_SLOT)heartbeatLost {
     if (_sendControlMessageTimer) {
         [self.sendControlMessageTimer invalidate];
         self.sendControlMessageTimer = nil;
     }
 }
 
-- (void)deviceDetattch {
+- (NS_SLOT)deviceDetattch {
     [self heartbeatLost];
     [[NSRunLoop mainRunLoop] performBlock:^{
         [self dismissViewControllerAnimated:YES completion:nil];
