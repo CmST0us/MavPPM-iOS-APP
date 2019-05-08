@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MPMavlink/MPMavlink.h>
+#import <NSObjectSignals/NSObject+SignalsSlots.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -64,6 +65,10 @@ typedef void(^MPPackageManagerMessageListeningHandler)( MVMessage * _Nullable me
               handler:(MPPackageManagerMessageListeningHandler)handler;
 
 - (void)sendMessageWithoutAck:(MVMessage *)message;
+
+// Signals
+- (NS_SIGNAL)onConnected;
+- (NS_SIGNAL)onDisconnected;
 
 @end
 

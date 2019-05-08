@@ -10,4 +10,22 @@
 
 @implementation MPUAVControlManager
 
+static MPUAVControlManager *instance = nil;
+
++ (instancetype)sharedInstance {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[super allocWithZone:NULL] init];
+    });
+    return instance;
+}
+
++ (instancetype)allocWithZone:(struct _NSZone *)zone {
+    return [MPUAVControlManager sharedInstance];
+}
+
+- (id)copy {
+    return [MPUAVControlManager sharedInstance];
+}
+
 @end

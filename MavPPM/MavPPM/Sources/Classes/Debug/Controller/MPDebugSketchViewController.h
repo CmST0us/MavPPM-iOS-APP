@@ -1,18 +1,16 @@
 //
-//  MPUAVControlManager.h
+//  MPDebugSketchViewController.h
 //  MavPPM
 //
 //  Created by CmST0us on 2019/5/8.
 //  Copyright © 2019 eric3u. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "MPViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MPUAVControlManager : NSObject
-
-+ (instancetype)sharedInstance;
+@interface MPDebugSketchViewController : MPViewController
 
 @end
 

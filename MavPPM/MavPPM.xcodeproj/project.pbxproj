@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F3B0AB3228315980024FA07 /* MPDebugSketchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3B0AB2228315980024FA07 /* MPDebugSketchViewController.m */; };
 		4F3FECA42236300A008BAD84 /* MPDebugUAVControlUITestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECA32236300A008BAD84 /* MPDebugUAVControlUITestViewController.m */; };
 		4F3FECA7223661BF008BAD84 /* MPThrottleControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECA6223661BF008BAD84 /* MPThrottleControlView.m */; };
 		4F3FECAA2236667C008BAD84 /* MPTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3FECA92236667C008BAD84 /* MPTouchView.m */; };
@@ -48,6 +49,10 @@
 		4FB1569A2282FEDA00C16444 /* MPControlLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB156992282FEDA00C16444 /* MPControlLockViewController.m */; };
 		4FB1569D2282FFBC00C16444 /* MPUAVControlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB1569C2282FFBC00C16444 /* MPUAVControlManager.m */; };
 		4FB156A02283007700C16444 /* MPControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB1569F2283007700C16444 /* MPControlView.m */; };
+		4FB156A22283025500C16444 /* NSObjectSignals.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB156A12283025500C16444 /* NSObjectSignals.framework */; };
+		4FB156A32283025500C16444 /* NSObjectSignals.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB156A12283025500C16444 /* NSObjectSignals.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4FB156A62283056300C16444 /* MPDeviceHeartbeatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB156A52283056300C16444 /* MPDeviceHeartbeatManager.m */; };
+		4FB156AA2283097100C16444 /* MPWeakTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB156A92283097100C16444 /* MPWeakTimer.m */; };
 		4FBCCDE921EF7F9700E7BF3C /* MPPackageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */; };
 		4FBCCDF121EF904500E7BF3C /* MPDebugHeartbeatDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCDF021EF904500E7BF3C /* MPDebugHeartbeatDevice.m */; };
 		4FBCCE0E21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBCCE0D21F2220F00E7BF3C /* MPDebugPackageManagerViewController.m */; };
@@ -70,6 +75,7 @@
 				4FD32B0A22100CB100C391E8 /* MPGravityControlLogic.framework in Embed Frameworks */,
 				4F5CBD0821DE42120007976C /* MPCommLayer.framework in Embed Frameworks */,
 				4F5CBD2C21DE53A40007976C /* Masonry.framework in Embed Frameworks */,
+				4FB156A32283025500C16444 /* NSObjectSignals.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,6 +83,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F3B0AB1228315980024FA07 /* MPDebugSketchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugSketchViewController.h; sourceTree = "<group>"; };
+		4F3B0AB2228315980024FA07 /* MPDebugSketchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugSketchViewController.m; sourceTree = "<group>"; };
 		4F3FECA22236300A008BAD84 /* MPDebugUAVControlUITestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugUAVControlUITestViewController.h; sourceTree = "<group>"; };
 		4F3FECA32236300A008BAD84 /* MPDebugUAVControlUITestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDebugUAVControlUITestViewController.m; sourceTree = "<group>"; };
 		4F3FECA5223661BF008BAD84 /* MPThrottleControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPThrottleControlView.h; sourceTree = "<group>"; };
@@ -148,6 +156,11 @@
 		4FB1569C2282FFBC00C16444 /* MPUAVControlManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPUAVControlManager.m; sourceTree = "<group>"; };
 		4FB1569E2283007700C16444 /* MPControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPControlView.h; sourceTree = "<group>"; };
 		4FB1569F2283007700C16444 /* MPControlView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPControlView.m; sourceTree = "<group>"; };
+		4FB156A12283025500C16444 /* NSObjectSignals.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NSObjectSignals.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FB156A42283056300C16444 /* MPDeviceHeartbeatManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDeviceHeartbeatManager.h; sourceTree = "<group>"; };
+		4FB156A52283056300C16444 /* MPDeviceHeartbeatManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPDeviceHeartbeatManager.m; sourceTree = "<group>"; };
+		4FB156A82283097100C16444 /* MPWeakTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPWeakTimer.h; sourceTree = "<group>"; };
+		4FB156A92283097100C16444 /* MPWeakTimer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPWeakTimer.m; sourceTree = "<group>"; };
 		4FBCCDE721EF7F9700E7BF3C /* MPPackageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPPackageManager.h; sourceTree = "<group>"; };
 		4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPPackageManager.m; sourceTree = "<group>"; };
 		4FBCCDEF21EF904500E7BF3C /* MPDebugHeartbeatDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPDebugHeartbeatDevice.h; sourceTree = "<group>"; };
@@ -174,6 +187,7 @@
 				4FD32B0922100CB100C391E8 /* MPGravityControlLogic.framework in Frameworks */,
 				4F5CBD0721DE42120007976C /* MPCommLayer.framework in Frameworks */,
 				4F5CBD2B21DE53A40007976C /* Masonry.framework in Frameworks */,
+				4FB156A22283025500C16444 /* NSObjectSignals.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +251,7 @@
 		4F5CBCDF21DE41840007976C = {
 			isa = PBXGroup;
 			children = (
+				4FB156A12283025500C16444 /* NSObjectSignals.framework */,
 				4FD32B0822100CB100C391E8 /* MPGravityControlLogic.framework */,
 				4F5CBD2A21DE53A40007976C /* Masonry.framework */,
 				4F5CBD0621DE42120007976C /* MPCommLayer.framework */,
@@ -381,6 +396,8 @@
 				4F43EC0B22362D6900A1EBF8 /* UIColor+MavPPMColor.m */,
 				4F3FECA82236667C008BAD84 /* MPTouchView.h */,
 				4F3FECA92236667C008BAD84 /* MPTouchView.m */,
+				4FB156A82283097100C16444 /* MPWeakTimer.h */,
+				4FB156A92283097100C16444 /* MPWeakTimer.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -420,6 +437,8 @@
 				4F3FECA32236300A008BAD84 /* MPDebugUAVControlUITestViewController.m */,
 				4F6D9FBE2238D7F70039E226 /* MPDebugFeedbackViewController.h */,
 				4F6D9FBF2238D7F70039E226 /* MPDebugFeedbackViewController.m */,
+				4F3B0AB1228315980024FA07 /* MPDebugSketchViewController.h */,
+				4F3B0AB2228315980024FA07 /* MPDebugSketchViewController.m */,
 				4F5CBD2721DE51780007976C /* MPDebugViewController.h */,
 				4F5CBD2821DE51780007976C /* MPDebugViewController.m */,
 			);
@@ -451,6 +470,8 @@
 				4FBCCDE821EF7F9700E7BF3C /* MPPackageManager.m */,
 				4FB1569B2282FFBC00C16444 /* MPUAVControlManager.h */,
 				4FB1569C2282FFBC00C16444 /* MPUAVControlManager.m */,
+				4FB156A42283056300C16444 /* MPDeviceHeartbeatManager.h */,
+				4FB156A52283056300C16444 /* MPDeviceHeartbeatManager.m */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -556,6 +577,7 @@
 				4F3FECB722378817008BAD84 /* MPBindChannelViewController.m in Sources */,
 				4F3FECAA2236667C008BAD84 /* MPTouchView.m in Sources */,
 				4FD32B222210339C00C391E8 /* MPDebugGravityViewController.m in Sources */,
+				4FB156A62283056300C16444 /* MPDeviceHeartbeatManager.m in Sources */,
 				4F43EBFF2235115B00A1EBF8 /* MPMainUAVControlViewController.m in Sources */,
 				4FB1569A2282FEDA00C16444 /* MPControlLockViewController.m in Sources */,
 				4F3FECBD2237884E008BAD84 /* MPBindRollChannelViewController.m in Sources */,
@@ -574,6 +596,8 @@
 				4F3FECC9223790A5008BAD84 /* MPBindChannelModel.m in Sources */,
 				4F3FECB1223787C3008BAD84 /* MPBindChannelSelectView.m in Sources */,
 				4FE68043221035620048C7D9 /* MPCMMotionManager.m in Sources */,
+				4FB156AA2283097100C16444 /* MPWeakTimer.m in Sources */,
+				4F3B0AB3228315980024FA07 /* MPDebugSketchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
