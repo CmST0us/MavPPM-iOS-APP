@@ -44,6 +44,7 @@
     [self.manager startUpdate];
     
     self.pitchLinear = [[MPControlValueLinear alloc] initWithOutputMax:2000 outputMin:1000 inputMax:M_PI_2 inputMin:-M_PI_2];
+    [[MPUAVControlManager sharedInstance] run];
 }
 
 - (void)cancel {
