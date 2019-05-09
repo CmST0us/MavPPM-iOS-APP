@@ -100,7 +100,7 @@
     self.motionManager.deviceMotionUpdateInterval = 1.0 / 60.0;
     self.deviceMotionControl = [[MPUAVGravityControl alloc] init];
     self.deviceMotionControl.delegate = self;
-    [self.deviceMotionControl connectSignal:@selector(onFeedback) forObserver:self.lightFeedback slot:@selector(impactOccurred)];
+    [self.deviceMotionControl connectSignal:@selector(onFeedback) forObserver:self slot:@selector(deviceMotionFeedback)];
     [self.motionManager addControl:self.deviceMotionControl];
     [self.motionManager startUpdate];
     
@@ -140,6 +140,12 @@
     [self heartbeatLost];
     [[NSRunLoop mainRunLoop] performBlock:^{
         [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+}
+
+- (NS_SLOT)deviceMotionFeedback {
+    [[NSRunLoop mainRunLoop] performBlock:^{
+        [self.lightFeedback impactOccurred];
     }];
 }
 

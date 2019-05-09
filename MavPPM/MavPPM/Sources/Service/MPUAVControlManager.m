@@ -9,6 +9,7 @@
 #import "MPUAVControlManager.h"
 #import "MPWeakTimer.h"
 #import "MPPackageManager.h"
+#import "MPDeviceHeartbeatManager.h"
 
 @interface MPUAVControlManager ()
 @property (nonatomic, strong) MPWeakTimer *sendTimer;
@@ -64,7 +65,7 @@ static MPUAVControlManager *instance = nil;
 }
 
 - (void)sendControlMessage {
-    MVMessageManualControl *manualControlMessage = [[MVMessageManualControl alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_SYSTEM_ID_IOS target:MAVPPM_SYSTEM_ID_EMB x:self.pitch y:self.roll z:self.throttle r:self.yaw buttons:self.buttons];
+    MVMessageManualControl *manualControlMessage = [[MVMessageManualControl alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_SYSTEM_ID_IOS target:[[MPDeviceHeartbeatManager sharedInstance] targetSystem] x:self.pitch y:self.roll z:self.throttle r:self.yaw buttons:self.buttons];
     [[MPPackageManager sharedInstance] sendMessageWithoutAck:manualControlMessage];
 }
 

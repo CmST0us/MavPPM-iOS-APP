@@ -14,13 +14,14 @@
 #import "MPMainUAVControlViewController.h"
 #import "MPControlLockViewController.h"
 #import "MPDeviceHeartbeatManager.h"
-
+#import "MPSimulatorUAVControlViewController.h"
 #if DEBUG
 #import "MPDebugViewController.h"
 #endif
 
 @interface MPConnectViewController ()
 @property (nonatomic, strong) MPConnectingLabel *connectingLabel;
+@property (nonatomic, strong) UIButton *enterSimulatorButton;
 #if DEBUG
 @property (nonatomic, strong) UITapGestureRecognizer *debugViewControllerVCGesture;
 #endif
@@ -37,6 +38,24 @@
         make.centerY.equalTo(self);
         make.right.equalTo(self).offset(-40);
     }];
+    
+    self.enterSimulatorButton = [[UIButton alloc] init];
+    [self.view addSubview:self.enterSimulatorButton];
+    [self.enterSimulatorButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.enterSimulatorButton setTitle:NSLocalizedString(@"mavppm_connect_simulator", nil) forState:UIControlStateNormal];
+    [self.enterSimulatorButton setBackgroundColor:[UIColor clearColor]];
+    [self.enterSimulatorButton sizeToFit];
+    [self.enterSimulatorButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view).offset(44);
+        make.bottom.equalTo(self.view).offset(-44);
+        make.height.mas_equalTo(30);
+    }];
+    
+    [self.enterSimulatorButton.layer setCornerRadius:4];
+    [self.enterSimulatorButton.layer setBorderColor:[UIColor whiteColor].CGColor];
+    [self.enterSimulatorButton.layer setBorderWidth:2];
+    [self.enterSimulatorButton.layer setMasksToBounds:YES];
+    [self.enterSimulatorButton addTarget:self action:@selector(connectToSimulator) forControlEvents:UIControlEventTouchUpInside];
     
 #if DEBUG
     _debugViewControllerVCGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -71,6 +90,12 @@
     [self presentViewController:nav animated:YES completion:nil];	
 }
 #endif
+
+- (void)connectToSimulator {
+    MPSimulatorUAVControlViewController *sim = [[MPSimulatorUAVControlViewController alloc] init];
+    [self presentViewController:sim animated:YES completion:nil];
+    [[MPDeviceHeartbeatManager sharedInstance] disconnectSignal:@selector(onRecvRemoteDeviceHeartbeat)];
+}
 
 #pragma mark - Slot
 - (NS_SLOT)enterUAVControlView {

@@ -1,5 +1,12 @@
 "mavppm" = "MavPPM";
 
+"mavppm_simulator_address_placeholder" = "模拟器地址(IP:PORT)";
+"mavppm_simulator_connect" = "连接";
+"mavppm_simulator_disconnect" = "断开";
+"mavppm_simulator_disarm" = "解锁";
+"mavppm_simulator_start_manual_control" = "开始控制";
+"mavppm_connect_simulator" = "连接模拟器";
+
 "mavppm_bind_channel_default_title" = "绑定通道";
 "mavppm_bind_channel_default_info" = "根据操作说明绑定通道";
 "mavppm_bind_channel_button_cancel" = "取消";
@@ -34,10 +41,9 @@
 "mavppm_bind_button2_channel_title" = "绑定按钮2通道";
 "mavppm_bind_button3_channel_title" = "绑定按钮3通道";
 
-// Connecting View
 "mavppm_connect_view_connecting_title" = "正在连接Cube";
 
-// Control View
 "mavppm_control_view_attitude_info" = "翻滚: %.1f°   俯仰: %.1f°";
 "mavppm_control_view_try_unlock_message" = "请水平放置手机以解锁";
 "mavppm_control_view_bind_channel_button_title" = "绑定通道";
+

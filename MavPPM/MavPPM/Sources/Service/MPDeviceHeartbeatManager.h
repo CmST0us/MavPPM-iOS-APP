@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSTimeInterval heartbeatInterval; // Default is 1s;
 @property (nonatomic, readonly) BOOL isHeartbeatNormal;
 
+@property (nonatomic, assign) NSInteger targetSystem;
+@property (nonatomic, assign) NSInteger targetComponent;
+
 + (instancetype)sharedInstance;
 - (void)run;
 - (void)stop;

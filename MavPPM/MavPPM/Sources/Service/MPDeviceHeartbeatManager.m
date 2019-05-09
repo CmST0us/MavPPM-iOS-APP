@@ -33,6 +33,8 @@ static MPDeviceHeartbeatManager *instance = nil;
         _lastRemoteHeartbeatCount = 0;
         _heartbeatLostCount = 0;
         _isHeartbeatNormal = NO;
+        _targetSystem = 0;
+        _targetComponent = 0;
     }
     return self;
 }
@@ -86,6 +88,9 @@ static MPDeviceHeartbeatManager *instance = nil;
     [[MPPackageManager sharedInstance] listenMessage:[MVMessageHeartbeat class] withObserver:self handler:^(MVMessage * _Nullable message, MPPackageManagerResultHandingType * _Nonnull handingType) {
         *handingType = MPPackageManagerResultHandingTypeContinue;
         weakSelf.currentRemoteHeartbeatCount++;
+        MVMessageHeartbeat *heartbeat = (MVMessageHeartbeat *)message;
+        weakSelf.targetSystem = heartbeat.systemId;
+        weakSelf.targetComponent = heartbeat.componentId;
         if (weakSelf.isHeartbeatNormal == NO) {
             weakSelf.isHeartbeatNormal = YES;
         }
