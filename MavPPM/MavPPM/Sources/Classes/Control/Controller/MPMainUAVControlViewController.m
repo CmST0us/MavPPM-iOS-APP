@@ -19,56 +19,32 @@
 #import "MPPackageManager.h"
 #import "MPDeviceHeartbeat.h"
 #import "MPBindThrottleChannelViewController.h"
+#import "MPDeviceHeartbeatManager.h"
+#import "MPUAVGravityControl.h"
+#import "MPWeakTimer.h"
+#import "MPUAVControlManager.h"
 
 @interface MPMainUAVControlViewController () <MPGravityControlDelegate>
-@property (nonatomic, assign) CGPoint throttleBeginPoint;
-@property (nonatomic, assign) CGFloat throttleValue;
-@property (nonatomic, assign) CGFloat lastRoll;
-@property (nonatomic, assign) CGFloat lastPitch;
-@property (nonatomic, assign) CGFloat currentRoll;
-@property (nonatomic, assign) CGFloat currentPitch;
-@property (nonatomic, assign) NSInteger unlockConfirmCount;
-@property (nonatomic, assign) BOOL isLock;
 
 @property (nonatomic, strong) UILabel *attitudeInfoLabel;
-@property (nonatomic, strong) UIImageView *controlLockView;
-@property (nonatomic, strong) UIAlertController *unlockAlertController;
-@property (nonatomic, strong) UIButton *bindChannelButton;
-
 @property (nonatomic, strong) MPGravityRollIndicateView *rollIndicateView;
 @property (nonatomic, strong) MPGraviryPitchRollIndicateView *circleIndicateView;
 @property (nonatomic, strong) MPThrottleControlView *throttleControlView;
 @property (nonatomic, strong) MPYawControlView *yawControlView;
 @property (nonatomic, strong) MPMotionManager *motionManager;
-@property (nonatomic, strong) MPGravityDeviceMotionControl *deviceMotionControl;
+@property (nonatomic, strong) MPUAVGravityControl *deviceMotionControl;
 
 @property (nonatomic, strong) UIImpactFeedbackGenerator *lightFeedback;
-//@property (nonatomic, strong) UIImpactFeedbackGenerator *heavyFeedback;
 
-@property (nonatomic, strong) NSTimer *sendControlMessageTimer;
 @property (nonatomic, strong) MPControlValueLinear *rollLinear;
 @property (nonatomic, strong) MPControlValueLinear *pitchLinear;
 @end
 
 @implementation MPMainUAVControlViewController
 
-- (void)tryUnlock {
-    self.unlockAlertController = [UIAlertController alertControllerWithTitle:@"MavPPM" message:NSLocalizedString(@"mavppm_control_view_try_unlock_message", nil) preferredStyle:UIAlertControllerStyleAlert];
-    [self presentViewController:self.unlockAlertController animated:YES completion:^{
-        [self unlock];
-    }];
-}
-
-- (void)unlock {
-    self.throttleValue = 1000;
-    _lastRoll = 0;
-    _lastPitch = 0;
-    _unlockConfirmCount = 0;
-    
+- (void)setupView {
     self.lightFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
-//    self.heavyFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
     [self.lightFeedback prepare];
-//    [self.heavyFeedback prepare];
     
     self.throttleControlView = [[MPThrottleControlView alloc] init];
     [self.view addSubview:self.throttleControlView];
@@ -97,7 +73,7 @@
     self.attitudeInfoLabel = [[UILabel alloc] init];
     self.attitudeInfoLabel.font = [UIFont systemFontOfSize:15];
     self.attitudeInfoLabel.textColor = [UIColor whiteColor];
-    [self setAttitudeInfoWithPitch:self.lastPitch roll:self.lastRoll];
+    [self setAttitudeInfoWithPitch:0 roll:0];
     [self.attitudeInfoLabel sizeToFit];
     [self.view addSubview:self.attitudeInfoLabel];
     [self.attitudeInfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -105,60 +81,6 @@
         make.left.equalTo(self.view.mas_centerX).offset(100);
     }];
     
-    self.motionManager = [[MPMotionManager alloc] initWithCMMotionManager:[MPCMMotionManager motionManager]];
-    self.motionManager.deviceMotionUpdateInterval = 1.0 / 60.0;
-    self.deviceMotionControl = [[MPGravityDeviceMotionControl alloc] init];
-    self.deviceMotionControl.delegate = self;
-    [self.motionManager addControl:self.deviceMotionControl];
-    [self.motionManager startUpdate];
-    
-    [self.controlLockView removeFromSuperview];
-    self.controlLockView = nil;
-}
-
-- (void)lock {
-    [self.throttleControlView removeFromSuperview];
-    self.throttleControlView = nil;
-    [self.yawControlView removeFromSuperview];
-    self.yawControlView = nil;
-    [self.rollIndicateView removeFromSuperview];
-    self.rollIndicateView = nil;
-    [self.circleIndicateView removeFromSuperview];
-    self.circleIndicateView = nil;
-    [self.attitudeInfoLabel removeFromSuperview];
-    self.attitudeInfoLabel = nil;
-    [self.motionManager stop];
-    self.motionManager = nil;
-    self.deviceMotionControl = nil;
-    
-    self.controlLockView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"control_view_lock"]];
-    [self.view addSubview:self.controlLockView];
-    [self.controlLockView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.centerY.equalTo(self.view);
-    }];
-    self.controlLockView.userInteractionEnabled = YES;
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tryUnlock)];
-    [self.controlLockView addGestureRecognizer:tap];
-}
-
-- (NSTimer *)sendControlMessageTimer {
-    if (_sendControlMessageTimer) {
-        return _sendControlMessageTimer;
-    }
-    __weak typeof(self) weakSelf = self;
-    _sendControlMessageTimer = [[NSTimer alloc] initWithFireDate:[NSDate date] interval:1 / 10.0 repeats:YES block:^(NSTimer * _Nonnull timer) {
-        NSInteger rollControlValue = [weakSelf.rollLinear calc:weakSelf.currentRoll];
-        NSInteger pitchControlValue = [weakSelf.rollLinear calc:weakSelf.currentPitch];
-        NSInteger yawControlValue = self.yawControlView.yawValue.integerValue;
-        NSInteger throttleValue = self.throttleControlView.throttleValue.integerValue;
-        
-        MVMessageManualControl *manualControlMessage = [[MVMessageManualControl alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_SYSTEM_ID_IOS target:MAVPPM_SYSTEM_ID_EMB x:pitchControlValue y:rollControlValue z:throttleValue r:yawControlValue buttons:0];
-        
-        [[MPPackageManager sharedInstance] sendMessageWithoutAck:manualControlMessage];
-    }];
-    [[NSRunLoop mainRunLoop] addTimer:_sendControlMessageTimer forMode:NSRunLoopCommonModes];
-    return _sendControlMessageTimer;
 }
 
 - (void)dealloc {
@@ -169,42 +91,22 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor controlBgBlack];
     
-    self.bindChannelButton = [[UIButton alloc] init];
-    [self.view addSubview:self.bindChannelButton];
-    [self.bindChannelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.bindChannelButton setTitle:NSLocalizedString(@"mavppm_control_view_bind_channel_button_title", @"绑定通道") forState:UIControlStateNormal];
-    [self.bindChannelButton setBackgroundColor:[UIColor clearColor]];
-    [self.bindChannelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(44);
-        make.top.equalTo(self.view).offset(44);
-        make.width.mas_equalTo(90);
-        make.height.mas_equalTo(30);
-    }];
-    [self.bindChannelButton.layer setCornerRadius:4];
-    [self.bindChannelButton.layer setBorderColor:[UIColor whiteColor].CGColor];
-    [self.bindChannelButton.layer setBorderWidth:2];
-    [self.bindChannelButton.layer setMasksToBounds:YES];
-    
-    [self.bindChannelButton addTarget:self action:@selector(bindChannel) forControlEvents:UIControlEventTouchUpInside];
-    
-    _isLock = YES;
-    [self lock];
+    [self setupView];
     
     self.rollLinear = [[MPControlValueLinear alloc] initWithOutputMax:2000 outputMin:1000 inputMax:M_PI_2 inputMin:-M_PI_2];
     self.pitchLinear = [[MPControlValueLinear alloc] initWithOutputMax:2000 outputMin:1000 inputMax:M_PI_2 inputMin:-M_PI_2];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(heartbeatLost) name:MPDeviceHeartbeatLostNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDetattch) name:MPPackageManagerDisconnectedNotificationName object:nil];
-}
-
-- (void)bindChannel {
-    MPBindThrottleChannelViewController *v = [[MPBindThrottleChannelViewController alloc] init];
-    MPBindChannelModel *m = [[MPBindChannelModel alloc] init];
-    m.currentBindFlow = MPBindChannelFlowThrottle;
-    v.bindModel = m;
+    self.motionManager = [[MPMotionManager alloc] initWithCMMotionManager:[MPCMMotionManager motionManager]];
+    self.motionManager.deviceMotionUpdateInterval = 1.0 / 60.0;
+    self.deviceMotionControl = [[MPUAVGravityControl alloc] init];
+    self.deviceMotionControl.delegate = self;
+    [self.deviceMotionControl connectSignal:@selector(onFeedback) forObserver:self.lightFeedback slot:@selector(impactOccurred)];
+    [self.motionManager addControl:self.deviceMotionControl];
+    [self.motionManager startUpdate];
     
-    MPNavigationController *nav = [[MPNavigationController alloc] initWithRootViewController:v];
-    [self presentViewController:nav animated:YES completion:nil];
+    [[MPPackageManager sharedInstance] connectSignal:@selector(onDetattch) forObserver:self slot:@selector(deviceDetattch)];
+    [[MPDeviceHeartbeatManager sharedInstance] connectSignal:@selector(onLostRemoteDeviceHeartbeat) forObserver:self slot:@selector(heartbeatLost)];
+    [[MPUAVControlManager sharedInstance] run];
 }
 
 - (void)setAttitudeInfoWithPitch:(CGFloat)pitch
@@ -215,62 +117,26 @@
 }
 
 - (void)gravityControlDidUpdateData:(MPGravityControl *)control {
-    double rollValue = self.deviceMotionControl.data.attitude.pitch;
-    double pitchValue = self.deviceMotionControl.data.attitude.roll;
-    double rollDeg = RADToDEG(rollValue);
-    double pitchDeg = RADToDEG(pitchValue);
-    double lastRollDeg = RADToDEG(self.lastRoll);
-    double lastPitchDeg = RADToDEG(self.lastPitch);
-    self.currentRoll = rollValue;
-    self.currentPitch = pitchValue;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.isLock) {
-            if (ABS(rollDeg) < 2 &&
-                ABS(pitchDeg) < 2) {
-                self.unlockConfirmCount++;
-                if (self.unlockConfirmCount > 100) {
-                    self.isLock = NO;
-                    [self.unlockAlertController dismissViewControllerAnimated:YES completion:nil];
-                    self.unlockConfirmCount = 0;
-                    [self.sendControlMessageTimer fire];
-                }
-            }
-        } else {
-            if (ABS(lastRollDeg - rollDeg) > 1) {
-                [self.lightFeedback impactOccurred];
-                self.lastRoll = rollValue;
-            }
-            if (ABS(lastPitchDeg - pitchDeg) > 1) {
-                [self.lightFeedback impactOccurred];
-                self.lastPitch = pitchValue;
-            }
-            if (ABS(lastPitchDeg - pitchDeg) > 1 &&
-                ABS(lastRollDeg - rollDeg) > 1 &&
-                ABS(rollDeg) < 1 &&
-                ABS(pitchDeg) < 1) {
-//                [self.heavyFeedback impactOccurred];
-                self.lastRoll = rollValue;
-                self.lastPitch = pitchValue;
-            }
-            
-            self.rollIndicateView.rollValue = @(rollValue);
-            self.circleIndicateView.rollValue = @(rollValue);
-            self.circleIndicateView.pitchValue = @(pitchValue);
-        }
-        [self setAttitudeInfoWithPitch:-pitchValue roll:rollValue];
+        self.rollIndicateView.rollValue = @(self.deviceMotionControl.rollValue);
+        self.circleIndicateView.rollValue = @(self.deviceMotionControl.rollValue);
+        self.circleIndicateView.pitchValue = @(self.deviceMotionControl.pitchValue);
+        [self setAttitudeInfoWithPitch:-self.deviceMotionControl.pitchValue roll:self.deviceMotionControl.rollValue];
+        MPUAVControlManager *manager = [MPUAVControlManager sharedInstance];
+        manager.throttle = self.throttleControlView.throttleValue.integerValue;
+        manager.yaw = self.yawControlView.yawValue.integerValue;
+        manager.roll = [self.rollLinear calc:self.deviceMotionControl.rollValue];
+        manager.pitch = [self.pitchLinear calc:self.deviceMotionControl.pitchValue];
     });
 }
 
 
 #pragma mark - Notification
-- (void)heartbeatLost {
-    if (_sendControlMessageTimer) {
-        [self.sendControlMessageTimer invalidate];
-        self.sendControlMessageTimer = nil;
-    }
+- (NS_SLOT)heartbeatLost {
+    [[MPUAVControlManager sharedInstance] stop];
 }
 
-- (void)deviceDetattch {
+- (NS_SLOT)deviceDetattch {
     [self heartbeatLost];
     [[NSRunLoop mainRunLoop] performBlock:^{
         [self dismissViewControllerAnimated:YES completion:nil];

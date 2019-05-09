@@ -8,11 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <MPMavlink/MPMavlink.h>
+#import <NSObjectSignals/NSObject+SignalsSlots.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
-extern NSNotificationName MPPackageManagerDidConnectedNotificationName;
-extern NSNotificationName MPPackageManagerDisconnectedNotificationName;
 
 typedef NS_ENUM(NSUInteger, MPPackageManagerResultHandingType) {
     MPPackageManagerResultHandingTypeCancel,      // 从监听列表中删除
@@ -64,6 +62,10 @@ typedef void(^MPPackageManagerMessageListeningHandler)( MVMessage * _Nullable me
               handler:(MPPackageManagerMessageListeningHandler)handler;
 
 - (void)sendMessageWithoutAck:(MVMessage *)message;
+
+// Signals
+- (NS_SIGNAL)onAttach;
+- (NS_SIGNAL)onDetattch;
 
 @end
 

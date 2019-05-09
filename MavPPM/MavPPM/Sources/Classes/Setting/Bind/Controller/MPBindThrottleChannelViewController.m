@@ -9,11 +9,13 @@
 #import "MPPackageManager.h"
 #import "MPThrottleControlView.h"
 #import "MPBindThrottleChannelViewController.h"
+#import "MPWeakTimer.h"
+#import "MPUAVControlManager.h"
 
 @interface MPBindThrottleChannelViewController ()
 @property (nonatomic, strong) MPThrottleControlView *throttleControlView;
 
-@property (nonatomic, strong) NSTimer *sendThrottleValueTimer;
+@property (nonatomic, strong) MPWeakTimer *sendThrottleValueTimer;
 @end
 
 @implementation MPBindThrottleChannelViewController
@@ -36,18 +38,21 @@
     }];
     self.throttleControlView.touchArea = MPThrottleControlViewTouchAreaRight;
     
-    self.sendThrottleValueTimer = [[NSTimer alloc] initWithFireDate:[NSDate date] interval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
-        MPPackageManager *packageManager = [MPPackageManager sharedInstance];
-        // [TODO]: add target to package manager
-        NSInteger t = self.throttleControlView.throttleValue.integerValue;
-        t = MIN(2000, t);
-        t = MAX(1000, t);
-        
-        MVMessageManualControl *control = [[MVMessageManualControl alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP target:MAVPPM_SYSTEM_ID_EMB x:1000 y:1000 z:t r:1000 buttons:0];
-        [packageManager sendMessageWithoutAck:control];
-    }];
-    [[NSRunLoop mainRunLoop] addTimer:self.sendThrottleValueTimer forMode:NSRunLoopCommonModes];
+    self.sendThrottleValueTimer = [MPWeakTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sendThrottleValue) userInfo:nil repeats:YES];
     [self.sendThrottleValueTimer fire];
+    [[MPUAVControlManager sharedInstance] run];
+}
+
+- (void)sendThrottleValue {
+    MPUAVControlManager *manager = [MPUAVControlManager sharedInstance];
+    NSInteger t = self.throttleControlView.throttleValue.integerValue;
+    t = MIN(2000, t);
+    t = MAX(1000, t);
+    manager.throttle = t;
+    manager.yaw = 1500;
+    manager.roll = 1500;
+    manager.buttons = 0;
+    manager.pitch = 1500;
 }
 
 - (void)cancelTimer {
@@ -63,7 +68,6 @@
 
 - (void)cancel {
     [self cancelTimer];
-    
     [super cancel];
 }
 

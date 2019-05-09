@@ -43,8 +43,8 @@
         *handingType = MPPackageManagerResultHandingTypeContinue;
     }];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDisconnected) name:MPPackageManagerDisconnectedNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onConnected) name:MPPackageManagerDidConnectedNotificationName object:nil];
+    [[MPPackageManager sharedInstance] connectSignal:@selector(onDetattch) forObserver:self slot:@selector(onDisconnected)];
+    [[MPPackageManager sharedInstance] connectSignal:@selector(onAttach) forObserver:self slot:@selector(onConnected)];
 }
 
 - (void)dealloc {

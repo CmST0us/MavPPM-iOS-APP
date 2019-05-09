@@ -9,6 +9,7 @@
 #import "MPBindChannelViewController.h"
 #import "MPBindChannelSelectView.h"
 #import "MPPackageManager.h"
+#import "MPUAVControlManager.h"
 
 @interface MPBindChannelViewController ()<MPBindChannelSelectViewDelegate>
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -54,11 +55,11 @@
     _infoLabel.font = [UIFont systemFontOfSize:15];
     _infoLabel.textColor = [UIColor whiteColor];
     _infoLabel.numberOfLines = 3;
+    [_infoLabel sizeToFit];
     [_infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(12);
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(20);
     }];
     
     _selectView = [[MPBindChannelSelectView alloc] init];
@@ -168,6 +169,7 @@
         }
     }];
     
+    [[MPUAVControlManager sharedInstance] stop];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -177,6 +179,7 @@
     Class next = [self.bindModel nextFlowViewControllerClass];
     MPBindChannelViewController *vc = [(MPBindChannelViewController *)[next alloc] init];
     vc.bindModel = self.bindModel;
+    [[MPUAVControlManager sharedInstance] stop];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -194,7 +197,7 @@
             *handingType = MPPackageManagerResultHandingTypeContinue;
         }
     }];
-    
+    [[MPUAVControlManager sharedInstance] stop];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
