@@ -13,16 +13,10 @@
 #import "MPUAVControlManager.h"
 
 @interface MPBindThrottleChannelViewController ()
-@property (nonatomic, strong) MPThrottleControlView *throttleControlView;
 
-@property (nonatomic, strong) MPWeakTimer *sendThrottleValueTimer;
 @end
 
 @implementation MPBindThrottleChannelViewController
-
-- (void)dealloc {
-    [self cancelTimer];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,44 +24,15 @@
     self.bindInfo = NSLocalizedString(@"mavppm_bind_throttle_channel_info", nil);
     self.bindModel = [[MPBindChannelModel alloc] init];
     self.bindModel.currentBindFlow = MPBindChannelFlowThrottle;
-    
-    self.throttleControlView = [[MPThrottleControlView alloc] init];
-    [self.view insertSubview:self.throttleControlView atIndex:0];
-    [self.throttleControlView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
-    self.throttleControlView.touchArea = MPThrottleControlViewTouchAreaRight;
-    
-    self.sendThrottleValueTimer = [MPWeakTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sendThrottleValue) userInfo:nil repeats:YES];
-    [self.sendThrottleValueTimer fire];
-    [[MPUAVControlManager sharedInstance] run];
 }
 
-- (void)sendThrottleValue {
-    MPUAVControlManager *manager = [MPUAVControlManager sharedInstance];
-    NSInteger t = self.throttleControlView.throttleValue.integerValue;
-    t = MIN(2000, t);
-    t = MAX(1000, t);
-    manager.throttle = t;
-    manager.yaw = 1500;
-    manager.roll = 1500;
-    manager.buttons = 0;
-    manager.pitch = 1500;
-}
-
-- (void)cancelTimer {
-    [self.sendThrottleValueTimer invalidate];
-    self.sendThrottleValueTimer = nil;
-}
 
 - (void)next {
-    [self cancelTimer];
     [self.bindModel bindChannelType:MPChannelTypeThrottle to:self.bindModel.currentSelectChannelNumber force:YES];
     [super next];
 }
 
 - (void)cancel {
-    [self cancelTimer];
     [super cancel];
 }
 

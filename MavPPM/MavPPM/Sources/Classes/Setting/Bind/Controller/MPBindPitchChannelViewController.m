@@ -13,12 +13,8 @@
 #import "MPUAVControlManager.h"
 #import "MPPackageManager.h"
 
-@interface MPBindPitchChannelViewController ()<MPGravityControlDelegate>
-@property (nonatomic, strong) MPGraviryPitchRollIndicateView *pitchRollIndicateView;
-@property (nonatomic, strong) MPGravityDeviceMotionControl *deviceMotionControl;
-@property (nonatomic, strong) MPMotionManager *manager;
+@interface MPBindPitchChannelViewController ()
 
-@property (nonatomic, strong) MPControlValueLinear *pitchLinear;
 @end
 
 @implementation MPBindPitchChannelViewController
@@ -29,22 +25,7 @@
     self.bindInfo = NSLocalizedString(@"mavppm_bind_pitch_channel_info", nil);
     self.bindModel.currentBindFlow = MPBindChannelFlowPitch;
     
-    self.pitchRollIndicateView = [[MPGraviryPitchRollIndicateView alloc] init];
-    [self.view insertSubview:self.pitchRollIndicateView atIndex:0];
-    [self.pitchRollIndicateView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
     
-    self.deviceMotionControl = [[MPGravityDeviceMotionControl alloc] init];
-    self.deviceMotionControl.delegate = self;
-    
-    self.manager = [[MPMotionManager alloc] initWithCMMotionManager:[MPCMMotionManager motionManager]];
-    self.manager.deviceMotionUpdateInterval = 1 / 60.0;
-    [self.manager addControl:self.deviceMotionControl];
-    [self.manager startUpdate];
-    
-    self.pitchLinear = [[MPControlValueLinear alloc] initWithOutputMax:2000 outputMin:1000 inputMax:M_PI_2 inputMin:-M_PI_2];
-    [[MPUAVControlManager sharedInstance] run];
 }
 
 - (void)cancel {
@@ -70,21 +51,5 @@
     
     [super channelChange];
 }
-
-#pragma mark - Delegate
-- (void)gravityControlDidUpdateData:(MPGravityControl *)control {
-    CGFloat p = self.deviceMotionControl.data.attitude.roll;
-    [[NSRunLoop mainRunLoop] performBlock:^{
-        self.pitchRollIndicateView.pitchValue = @(p);
-    }];
-    
-    MPUAVControlManager *manager = [MPUAVControlManager sharedInstance];
-    manager.throttle = 1000;
-    manager.roll = [self.pitchLinear calc:p];
-    manager.pitch = 1500;
-    manager.yaw = 1500;
-    manager.buttons = 0;
-}
-
 
 @end

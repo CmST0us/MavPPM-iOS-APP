@@ -16,19 +16,19 @@
 "mavppm_button_3" = "按钮3";
 
 "mavppm_bind_throttle_channel_title" = "绑定油门通道";
-"mavppm_bind_throttle_channel_info" = "点击左侧改变通道，并在屏幕右侧上下滑动改变油门量，等控制信号正确反馈到油门控制时，即可点击下一步";
+"mavppm_bind_throttle_channel_info" = "点击左侧选择油门通道";
 
 "mavppm_bind_roll_channel_title" = "绑定翻滚通道";
-"mavppm_bind_roll_channel_info" = "点击左侧改变通道，并左右稍稍旋转手机以改变翻滚控制量， 等控制信号正确反馈到翻滚控制时，即可点击下一步";
+"mavppm_bind_roll_channel_info" = "点击左侧选择翻滚通道";
 
 "mavppm_bind_pitch_channel_title" = "绑定俯仰通道";
-"mavppm_bind_pitch_channel_info" = "点击左侧改变通道，并上下稍稍旋转手机以改变俯仰控制量， 等控制信号正确反馈到俯仰控制时，即可点击下一步";
+"mavppm_bind_pitch_channel_info" = "点击左侧选择俯仰通道";
 
 "mavppm_bind_yaw_channel_title" = "绑定偏航通道";
-"mavppm_bind_yaw_channel_info" = "点击左侧改变通道，并在屏幕右侧左右滑动以改变偏航量，等控制信号正确反馈到偏航控制时，即可点击下一步";
+"mavppm_bind_yaw_channel_info" = "点击左侧选择偏航通道";
 
 "mavppm_bind_button_channel_title" = "绑定按钮通道";
-"mavppm_bind_button_channel_info" = "点击左侧改变通道，并在屏幕右侧修改按钮配置，配置完成后即可点击下一步。或者可直接跳过此步骤。";
+"mavppm_bind_button_channel_info" = "点击左侧选择按钮通道";
 
 "mavppm_bind_button1_channel_title" = "绑定按钮1通道";
 "mavppm_bind_button2_channel_title" = "绑定按钮2通道";
