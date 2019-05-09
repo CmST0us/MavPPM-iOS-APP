@@ -7,10 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "MPServiceProtocol.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MPUAVControlManager : NSObject
+@interface MPUAVControlManager : NSObject<MPServiceProtocol>
+
+@property (nonatomic, assign) NSTimeInterval sendTimeInterval;
+
+@property (nonatomic, assign) NSInteger throttle;
+@property (nonatomic, assign) NSInteger roll;
+@property (nonatomic, assign) NSInteger pitch;
+@property (nonatomic, assign) NSInteger yaw;
+@property (nonatomic, assign) uint8_t buttons;
 
 + (instancetype)sharedInstance;
 
