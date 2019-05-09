@@ -11,7 +11,7 @@
 #import "MPGravityRollIndicateView.h"
 #import "MPCMMotionManager.h"
 #import "MPPackageManager.h"
-
+#import "MPUAVControlManager.h"
 
 @interface MPBindRollChannelViewController () <MPGravityControlDelegate>
 @property (nonatomic, strong) MPGravityRollIndicateView *rollIndicateView;
@@ -44,7 +44,7 @@
     [self.manager startUpdate];
     
     self.rollLinear = [[MPControlValueLinear alloc] initWithOutputMax:2000 outputMin:1000 inputMax:M_PI_2 inputMin:-M_PI_2];
-    
+    [[MPUAVControlManager sharedInstance] run];
 }
 
 - (void)cancel {
@@ -77,8 +77,12 @@
     [[NSRunLoop mainRunLoop] performBlock:^{
         self.rollIndicateView.rollValue = @(r);
     }];
-    MVMessageManualControl *controlMessage = [[MVMessageManualControl alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP target:MAVPPM_SYSTEM_ID_EMB x:1000 y:[self.rollLinear calc:r] z:1000 r:1000 buttons:0];
-    [[MPPackageManager sharedInstance] sendMessageWithoutAck:controlMessage];
+    MPUAVControlManager *manager = [MPUAVControlManager sharedInstance];
+    manager.throttle = 1000;
+    manager.roll = [self.rollLinear calc:r];
+    manager.pitch = 1500;
+    manager.yaw = 1500;
+    manager.buttons = 0;
 }
 
 

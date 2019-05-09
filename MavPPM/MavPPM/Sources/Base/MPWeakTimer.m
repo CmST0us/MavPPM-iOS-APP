@@ -63,14 +63,28 @@
 }
 
 + (MPWeakTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo {
+    return [self scheduledTimerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo mainQueue:NO];
+}
+
++ (MPWeakTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo mainQueue:(BOOL)addToMainQueue {
     MPWeakTimer *weakTimer = [[MPWeakTimer alloc] init];
-    weakTimer.timer = [NSTimer scheduledTimerWithTimeInterval:ti target:weakTimer selector:@selector(onFire) userInfo:userInfo repeats:yesOrNo];
+    weakTimer.timer = [NSTimer timerWithTimeInterval:ti target:weakTimer selector:@selector(onFire) userInfo:userInfo repeats:yesOrNo];
+    if (addToMainQueue) {
+        if ([NSThread isMainThread]) {
+            weakTimer.timer = [NSTimer scheduledTimerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                weakTimer.timer = [NSTimer scheduledTimerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
+            });
+        }
+    } else {
+        weakTimer.timer = [NSTimer scheduledTimerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
+    }
     weakTimer.target = aTarget;
     weakTimer.selector = aSelector;
     weakTimer.userInfo = userInfo;
     return weakTimer;
 }
-
 - (void)onFire {
     if (self.target) {
         NSMethodSignature *signature = [[self.target class] instanceMethodSignatureForSelector:self.selector];

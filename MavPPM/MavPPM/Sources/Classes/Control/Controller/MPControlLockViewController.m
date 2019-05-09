@@ -15,6 +15,7 @@
 #import "MPBindThrottleChannelViewController.h"
 #import "MPBindChannelModel.h"
 #import "MPNavigationController.h"
+#import "MPPackageManager.h"
 
 @interface MPControlLockViewController ()
 @property (nonatomic, strong) UIImageView *lockIcon;
@@ -95,6 +96,14 @@ NS_CLOSE_SIGNAL_WARN(onUnlock);
     
     self.view.backgroundColor = [UIColor controlBgBlack];
     [self setupView];
+    
+    [[MPPackageManager sharedInstance] connectSignal:@selector(onDetattch) forObserver:self slot:@selector(deviceDetattch)];
+}
+
+- (NS_SLOT)deviceDetattch {
+    [[NSRunLoop mainRunLoop] performBlock:^{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {

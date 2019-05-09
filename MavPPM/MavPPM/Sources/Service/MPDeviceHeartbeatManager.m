@@ -28,6 +28,7 @@ static MPDeviceHeartbeatManager *instance = nil;
 - (instancetype)init {
     self = [super init];
     if (self) {
+        _heartbeatInterval = 1;
         _currentRemoteHeartbeatCount = 0;
         _lastRemoteHeartbeatCount = 0;
         _heartbeatLostCount = 0;
@@ -65,7 +66,7 @@ static MPDeviceHeartbeatManager *instance = nil;
     if (_timer != nil) {
         return _timer;
     }
-    _timer = [MPWeakTimer scheduledTimerWithTimeInterval:self.heartbeatInterval target:self selector:@selector(sendHeartbeatToRemote) userInfo:nil repeats:YES];
+    _timer = [MPWeakTimer scheduledTimerWithTimeInterval:self.heartbeatInterval target:self selector:@selector(sendHeartbeatToRemote) userInfo:nil repeats:YES mainQueue:YES];
     return _timer;
 }
 

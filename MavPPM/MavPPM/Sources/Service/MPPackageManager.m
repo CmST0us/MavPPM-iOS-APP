@@ -284,14 +284,11 @@ static MPPackageManager *instance = nil;
 
 - (void)makeConnected {
     self.isConnected = YES;
-    [self emitSignal:@selector(onAttach) withParams:nil];
 }
 
 - (void)makeDisconnected {
     self.isConnected = NO;
     [self.receiveMessageQueue removeAllObjects];
-    [self emitSignal:@selector(onDetattch) withParams:nil];
-    
 }
 
 #pragma mark - Package Manager Method

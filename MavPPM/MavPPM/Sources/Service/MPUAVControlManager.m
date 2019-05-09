@@ -73,6 +73,7 @@ static MPUAVControlManager *instance = nil;
 }
 
 - (void)stop {
+    [_sendTimer invalidate];
     _sendTimer = nil;
 }
 

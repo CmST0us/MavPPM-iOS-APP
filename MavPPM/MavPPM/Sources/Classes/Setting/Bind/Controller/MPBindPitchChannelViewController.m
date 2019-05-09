@@ -10,6 +10,7 @@
 #import "MPBindPitchChannelViewController.h"
 #import "MPGraviryPitchRollIndicateView.h"
 #import "MPCMMotionManager.h"
+#import "MPUAVControlManager.h"
 #import "MPPackageManager.h"
 
 @interface MPBindPitchChannelViewController ()<MPGravityControlDelegate>
@@ -76,8 +77,12 @@
         self.pitchRollIndicateView.pitchValue = @(p);
     }];
     
-    MVMessageManualControl *controlMessage = [[MVMessageManualControl alloc] initWithSystemId:MAVPPM_SYSTEM_ID_IOS componentId:MAVPPM_COMPONENT_ID_IOS_APP target:MAVPPM_SYSTEM_ID_EMB x:[self.pitchLinear calc:p] y:1000 z:1000 r:1000 buttons:0];
-    [[MPPackageManager sharedInstance] sendMessageWithoutAck:controlMessage];
+    MPUAVControlManager *manager = [MPUAVControlManager sharedInstance];
+    manager.throttle = 1000;
+    manager.roll = [self.pitchLinear calc:p];
+    manager.pitch = 1500;
+    manager.yaw = 1500;
+    manager.buttons = 0;
 }
 
 
